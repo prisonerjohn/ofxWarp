@@ -4,7 +4,7 @@ namespace ofxWarping
 {
 	//--------------------------------------------------------------
 	WarpPerspective::WarpPerspective()
-		: Warp(TypePerspective)
+		: Warp(TYPE_PERSPECTIVE)
 	{
 		this->srcPoints[0] = ofVec2f(0.0f, 0.0f);
 		this->srcPoints[1] = ofVec2f(this->width, 0.0f);

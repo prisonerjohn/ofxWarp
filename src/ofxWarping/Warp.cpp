@@ -679,8 +679,8 @@ namespace ofxWarping
 			Type type = (Type)typeAsInt;
 			switch (type)
 			{
-			case TypePerspective:
 				warp = make_shared<WarpPerspective>();
+			case TYPE_PERSPECTIVE:
 				break;
 
 			default:

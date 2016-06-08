@@ -9,13 +9,13 @@ namespace ofxWarping
 	public:
 		typedef enum 
 		{
-			TypeUnknown,
-			TypeBilinear,
-			TypePerspective,
-			TypePerspectiveBilinear
+			TYPE_UNKNOWN,
+			TYPE_BILINEAR,
+			TYPE_PERSPECTIVE,
+			TYPE_PERSPECTIVE_BILINEAR
 		} Type;
 
-		Warp(Type type = TypeUnknown);
+		Warp(Type type = TYPE_UNKNOWN);
 		virtual ~Warp();
 
 		//! returns the type of the warp
