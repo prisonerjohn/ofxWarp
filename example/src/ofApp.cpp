@@ -19,10 +19,16 @@ void ofApp::setup()
 	this->texture.loadData(image.getPixels());
 	this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
 
-	auto warp = make_shared<ofxWarping::WarpPerspective>();
-	warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-	warp->setEdges(ofVec4f(10.0f, 0.0f, 00.0f, 0.0f));
-	this->warps.push_back(warp);
+	// Load warp settings from file if one exists.
+	this->warps = ofxWarping::Warp::loadSettings("settings.json");
+	if (this->warps.empty())
+	{
+		// Otherwise create warps from scratch.
+		auto warp = make_shared<ofxWarping::WarpPerspective>();
+		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
+		warp->setEdges(ofVec4f(10.0f, 0.0f, 00.0f, 0.0f));
+		this->warps.push_back(warp);
+	}
 
 	this->useBeginEnd = false;
 }
@@ -30,7 +36,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::exit()
 {
-
+	ofxWarping::Warp::saveSettings(this->warps, "settings.json");
 }
 
 //--------------------------------------------------------------

@@ -1,5 +1,7 @@
 #include "Warp.h"
 
+#include "WarpPerspective.h"
+
 namespace ofxWarping
 {
 	//--------------------------------------------------------------
@@ -30,6 +32,96 @@ namespace ofxWarping
 	Warp::Type Warp::getType() const
 	{
 		return this->type;
+	}
+
+	//--------------------------------------------------------------
+	void Warp::serialize(nlohmann::json & json)
+	{
+		// Main parameters.
+		json["type"] = this->type;
+		json["brightness"] = this->brightness;
+
+		// Warp parameters.
+		{
+			auto & jsonWarp = json["warp"];
+
+			jsonWarp["columns"] = this->numControlsX;
+			jsonWarp["rows"] = this->numControlsY;
+
+			vector<string> points;
+			for (auto & controlPoint : this->controlPoints)
+			{
+				ostringstream oss;
+				oss << controlPoint;
+				points.push_back(oss.str());
+			}
+			jsonWarp["control points"] = points;
+		}
+
+		// Blend parameters.
+		{
+			auto & jsonBlend = json["blend"];
+
+			jsonBlend["exponent"] = this->exponent;
+
+			ostringstream oss;
+			oss << this->edges;
+			jsonBlend["edges"] = oss.str();
+
+			oss.str("");
+			oss << this->gamma;
+			jsonBlend["gamma"] = oss.str();
+
+			oss.str("");
+			oss << this->luminance;
+			jsonBlend["luminance"] = oss.str();
+		}
+	}
+	
+	//--------------------------------------------------------------
+	void Warp::deserialize(const nlohmann::json & json)
+	{
+		// Main parameters.
+		int typeAsInt = json["type"];
+		this->type = (Type)typeAsInt;
+		this->brightness = json["brightness"];
+
+		// Warp parameters.
+		{
+			const auto & jsonWarp = json["warp"];
+
+			this->numControlsX = jsonWarp["columns"];
+			this->numControlsY = jsonWarp["rows"];
+
+			this->controlPoints.clear();
+			for (const auto & jsonPoint : jsonWarp["control points"])
+			{
+				ofVec2f controlPoint;
+				istringstream iss;
+				iss.str(jsonPoint);
+				iss >> controlPoint;
+				this->controlPoints.push_back(controlPoint);
+			}
+		}
+
+		// Blend parameters.
+		{
+			const auto & jsonBlend = json["blend"];
+
+			this->exponent = jsonBlend["exponent"];
+
+			istringstream iss;
+			iss.str(jsonBlend["edges"]);
+			iss >> this->edges;
+
+			iss.str(jsonBlend["gamma"]);
+			iss >> this->gamma;
+
+			iss.str(jsonBlend["luminance"]);
+			iss >> this->luminance;
+		}
+
+		this->dirty = true;
 	}
 
 	//--------------------------------------------------------------
@@ -563,5 +655,63 @@ namespace ofxWarping
 		}
 
 		return false;
+	}
+
+	//--------------------------------------------------------------
+	vector<shared_ptr<Warp>> Warp::loadSettings(const string & filePath)
+	{
+		vector<shared_ptr<Warp>> warps;
+
+		auto file = ofFile(filePath, ofFile::ReadOnly);
+		if (!file.exists())
+		{
+			ofLogWarning("Warp::loadSettings") << "File not found at path " << filePath;
+			return warps;
+		}
+
+		nlohmann::json json;
+		file >> json;
+		for (auto & jsonWarp : json["warps"])
+		{
+			shared_ptr<Warp> warp;
+
+			int typeAsInt = jsonWarp["type"];
+			Type type = (Type)typeAsInt;
+			switch (type)
+			{
+			case TypePerspective:
+				warp = make_shared<WarpPerspective>();
+				break;
+
+			default:
+				ofLogWarning("Warp::loadSettings") << "Unrecognized Warp type " << type;
+			}
+
+			if (warp)
+			{
+				warp->deserialize(jsonWarp);
+				warps.push_back(warp);
+			}
+		}
+
+		return warps;
+	}
+	
+	//--------------------------------------------------------------
+	void Warp::saveSettings(const vector<shared_ptr<Warp>> & warps, const string & filePath)
+	{
+		vector<nlohmann::json> jsonWarps;
+		for (auto warp : warps)
+		{
+			nlohmann::json jsonWarp;
+			warp->serialize(jsonWarp);
+			jsonWarps.push_back(jsonWarp);
+		}
+		
+		nlohmann::json json;
+		json["warps"] = jsonWarps;
+
+		auto file = ofFile(filePath, ofFile::WriteOnly);
+		file << json;
 	}
 }

@@ -21,6 +21,9 @@ namespace ofxWarping
 		//! returns the type of the warp
 		Type getType() const;
 
+		virtual void serialize(nlohmann::json & json);
+		virtual void deserialize(const nlohmann::json & json);
+
 		void setEditing(bool editing);
 		void toggleEditing();
 		bool isEditing() const;
@@ -133,6 +136,11 @@ namespace ofxWarping
 
 		//! handles windowResized events for multiple warps
 		static bool handleWindowResized(vector<shared_ptr<Warp>> & warps, int width, int height);
+
+		//! read a settings json file and pass back a vector of Warps
+		static vector<shared_ptr<Warp>> loadSettings(const string & filePath);
+		//! write a settings json file
+		static void saveSettings(const vector<shared_ptr<Warp>> & warps, const string & filePath);
 
 	protected:
 		//! draw the warp's editing interface
