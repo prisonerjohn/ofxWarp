@@ -145,6 +145,14 @@ namespace ofxWarping
 	protected:
 		//! draw the warp's editing interface
 		virtual void drawInterface(bool controls = true) = 0;
+		
+		//! draw a control point in the preset color
+		void queueControlPoint(const ofVec2f & pos, bool selected = false, bool attached = false);
+		//! draw a control point in the specified color
+		void queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale = 1.0f);
+
+		//! setup the control points batch
+		void setupControlPoints();
 		//! draw the control points
 		void drawControlPoints();
 
@@ -173,5 +181,36 @@ namespace ofxWarping
 		ofVec3f gamma;
 		float exponent;
 		ofVec4f edges;
+
+		static const int MAX_NUM_CONTROL_POINTS = 1024;
+
+	private:
+		typedef enum
+		{
+			INSTANCE_POS_SCALE_ATTRIBUTE = 5,
+			INSTANCE_COLOR_ATTRIBUTE = 6
+		} Attribute;
+
+		typedef struct ControlData
+		{
+			ofVec2f pos;
+			float scale;
+			float dummy;
+			ofFloatColor color;
+
+			ControlData() 
+			{}
+
+			ControlData(const ofVec2f & pos, const ofFloatColor & color, float scale)
+				: pos(pos)
+				, color(color)
+				, scale(scale)
+			{}
+		} ControlData;
+
+		std::vector<ControlData> controlData;
+		ofVbo controlVbo;
+		ofVboMesh controlMesh;
+		ofShader controlShader;
 	};
 }

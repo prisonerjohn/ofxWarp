@@ -417,12 +417,95 @@ namespace ofxWarping
 	}
 
 	//--------------------------------------------------------------
+	void Warp::queueControlPoint(const ofVec2f & pos, bool selected, bool attached)
+	{
+		if (selected && attached) 
+		{
+			queueControlPoint(pos, ofFloatColor(0.0f, 0.8f, 0.0f));
+		}
+		else if (selected) 
+		{
+			auto scale = 0.9f + 0.2f * sinf(6.0f * (ofGetElapsedTimef() - this->selectedTime));
+			queueControlPoint(pos, ofFloatColor(0.9f, 0.9f, 0.9f), scale);
+		}
+		else if (attached) 
+		{
+			queueControlPoint(pos, ofFloatColor(0.0f, 0.4f, 0.0f));
+		}
+		else 
+		{
+			queueControlPoint(pos, ofFloatColor(0.4f, 0.4f, 0.4f));
+		}
+	}
+	
+	//--------------------------------------------------------------
+	void Warp::queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale)
+	{
+		if (this->controlData.size() < MAX_NUM_CONTROL_POINTS)
+		{
+			this->controlData.emplace_back(ControlData(pos, color, scale));
+		}
+	}
+
+	//--------------------------------------------------------------
+	void Warp::setupControlPoints()
+	{
+		// Set up the VBO.
+		ofPolyline unitCircle;
+		unitCircle.arc(ofVec3f::zero(), 1.0f, 1.0f, 0.0f, 360.0f, 18);
+		const auto & circlePoints = unitCircle.getVertices();
+		static const auto radius = 15.0f;
+		static const auto halfVec = ofVec2f(0.5f);
+		this->controlMesh.clear();
+		this->controlMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+		this->controlMesh.setUsage(GL_STATIC_DRAW);
+		this->controlMesh.addVertex(ofVec2f::zero());
+		this->controlMesh.addTexCoord(halfVec);
+		for (auto & pt : circlePoints)
+		{
+			this->controlMesh.addVertex(pt * radius);
+			this->controlMesh.addTexCoord(pt * 0.5f + halfVec);
+		}
+		
+		// Set up per-instance data to the VBO.
+		std::vector<ControlData> instanceData;
+		instanceData.resize(MAX_NUM_CONTROL_POINTS);
+
+		this->controlMesh.getVbo().setAttributeData(INSTANCE_POS_SCALE_ATTRIBUTE, (float *)&instanceData[0].pos, 4, instanceData.size(), GL_STREAM_DRAW, sizeof(ControlData));
+		this->controlMesh.getVbo().setAttributeDivisor(INSTANCE_POS_SCALE_ATTRIBUTE, 1);
+		this->controlMesh.getVbo().setAttributeData(INSTANCE_COLOR_ATTRIBUTE, (float *)&instanceData[0].color, 4, instanceData.size(), GL_STREAM_DRAW, sizeof(ControlData));
+		this->controlMesh.getVbo().setAttributeDivisor(INSTANCE_COLOR_ATTRIBUTE, 1);
+
+		// Load the shader.
+		this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, "shaders/ofxWarping/ControlPoint.vert");
+		this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, "shaders/ofxWarping/ControlPoint.frag");
+		this->controlShader.bindAttribute(INSTANCE_POS_SCALE_ATTRIBUTE, "iPositionScale");
+		this->controlShader.bindAttribute(INSTANCE_COLOR_ATTRIBUTE, "iColor");
+		this->controlShader.bindDefaults();
+		this->controlShader.linkProgram();
+	}
+
+	//--------------------------------------------------------------
 	void Warp::drawControlPoints()
 	{
-		for (int i = 0; i < this->controlPoints.size(); ++i)
+		if (!this->controlShader.isLoaded())
 		{
-			ofDrawCircle(this->controlPoints[i] * this->windowSize, 10.0f);
+			this->setupControlPoints();
 		}
+
+		if (!this->controlData.empty())
+		{
+			this->controlMesh.getVbo().updateAttributeData(INSTANCE_POS_SCALE_ATTRIBUTE, (float *)&this->controlData[0].pos, this->controlData.size());
+			this->controlMesh.getVbo().updateAttributeData(INSTANCE_COLOR_ATTRIBUTE, (float *)&this->controlData[0].color, this->controlData.size());
+		
+			this->controlShader.begin();
+			{
+				this->controlMesh.drawInstanced(OF_MESH_FILL, this->controlData.size());
+			}
+			this->controlShader.end();
+		}
+
+		this->controlData.clear();
 	}
 
 	//--------------------------------------------------------------
