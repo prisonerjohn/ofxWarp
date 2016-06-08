@@ -48,10 +48,10 @@ namespace ofxWarping
 			jsonWarp["columns"] = this->numControlsX;
 			jsonWarp["rows"] = this->numControlsY;
 
-			vector<string> points;
+			std::vector<std::string> points;
 			for (auto & controlPoint : this->controlPoints)
 			{
-				ostringstream oss;
+				std::ostringstream oss;
 				oss << controlPoint;
 				points.push_back(oss.str());
 			}
@@ -64,7 +64,7 @@ namespace ofxWarping
 
 			jsonBlend["exponent"] = this->exponent;
 
-			ostringstream oss;
+			std::ostringstream oss;
 			oss << this->edges;
 			jsonBlend["edges"] = oss.str();
 
@@ -97,7 +97,7 @@ namespace ofxWarping
 			for (const auto & jsonPoint : jsonWarp["control points"])
 			{
 				ofVec2f controlPoint;
-				istringstream iss;
+				std::istringstream iss;
 				iss.str(jsonPoint);
 				iss >> controlPoint;
 				this->controlPoints.push_back(controlPoint);
@@ -110,7 +110,7 @@ namespace ofxWarping
 
 			this->exponent = jsonBlend["exponent"];
 
-			istringstream iss;
+			std::istringstream iss;
 			iss.str(jsonBlend["edges"]);
 			iss >> this->edges;
 
@@ -400,7 +400,7 @@ namespace ofxWarping
 	size_t Warp::findClosestControlPoint(const ofVec2f & pos, float * distance) const
 	{
 		size_t index;
-		auto minDistance = numeric_limits<float>::max();
+		auto minDistance = std::numeric_limits<float>::max();
 
 		for (auto i = 0; i < this->controlPoints.size(); ++i)
 		{
@@ -471,7 +471,7 @@ namespace ofxWarping
 		if (key == OF_KEY_TAB)
 		{
 			// Select the next of previous (+ SHIFT) control point.
-			int nextIndex;
+			size_t nextIndex;
 			if (ofGetKeyPressed(OF_KEY_SHIFT))
 			{
 				if (this->selectedIndex == 0)
@@ -547,11 +547,11 @@ namespace ofxWarping
 	}
 
 	//--------------------------------------------------------------
-	void Warp::selectClosestControlPoint(const vector<shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	void Warp::selectClosestControlPoint(const std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
 	{
 		size_t warpIdx = -1;
 		size_t pointIdx = -1;
-		auto distance = numeric_limits<float>::max();
+		auto distance = std::numeric_limits<float>::max();
 
 		// Find warp and distance to closest control point.
 		for (int i = warps.size() - 1; i >= 0; --i)
@@ -581,7 +581,7 @@ namespace ofxWarping
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::handleMouseMoved(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool Warp::handleMouseMoved(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
 	{
 		// Find and select closest control point.
 		Warp::selectClosestControlPoint(warps, pos);
@@ -590,7 +590,7 @@ namespace ofxWarping
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleMousePressed(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool Warp::handleMousePressed(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
 	{
 		// Find and select closest control point.
 		Warp::selectClosestControlPoint(warps, pos);
@@ -607,7 +607,7 @@ namespace ofxWarping
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleMouseDragged(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool Warp::handleMouseDragged(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
 	{
 		for (int i = warps.size() - 1; i >= 0; --i)
 		{
@@ -621,13 +621,13 @@ namespace ofxWarping
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleMouseReleased(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool Warp::handleMouseReleased(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::handleKeyPressed(vector<shared_ptr<Warp>> & warps, int key)
+	bool Warp::handleKeyPressed(std::vector<std::shared_ptr<Warp>> & warps, int key)
 	{
 		for (auto warp : warps)
 		{
@@ -641,13 +641,13 @@ namespace ofxWarping
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleKeyReleased(vector<shared_ptr<Warp>> & warps, int key)
+	bool Warp::handleKeyReleased(std::vector<std::shared_ptr<Warp>> & warps, int key)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::handleWindowResized(vector<shared_ptr<Warp>> & warps, int width, int height)
+	bool Warp::handleWindowResized(std::vector<std::shared_ptr<Warp>> & warps, int width, int height)
 	{
 		for (auto warp : warps)
 		{
@@ -658,9 +658,9 @@ namespace ofxWarping
 	}
 
 	//--------------------------------------------------------------
-	vector<shared_ptr<Warp>> Warp::loadSettings(const string & filePath)
+	std::vector<std::shared_ptr<Warp>> Warp::loadSettings(const std::string & filePath)
 	{
-		vector<shared_ptr<Warp>> warps;
+		std::vector<std::shared_ptr<Warp>> warps;
 
 		auto file = ofFile(filePath, ofFile::ReadOnly);
 		if (!file.exists())
@@ -673,14 +673,14 @@ namespace ofxWarping
 		file >> json;
 		for (auto & jsonWarp : json["warps"])
 		{
-			shared_ptr<Warp> warp;
+			std::shared_ptr<Warp> warp;
 
 			int typeAsInt = jsonWarp["type"];
 			Type type = (Type)typeAsInt;
 			switch (type)
 			{
-				warp = make_shared<WarpPerspective>();
 			case TYPE_PERSPECTIVE:
+				warp = std::make_shared<WarpPerspective>();
 				break;
 
 			default:
@@ -698,9 +698,9 @@ namespace ofxWarping
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::saveSettings(const vector<shared_ptr<Warp>> & warps, const string & filePath)
+	void Warp::saveSettings(const std::vector<std::shared_ptr<Warp>> & warps, const std::string & filePath)
 	{
-		vector<nlohmann::json> jsonWarps;
+		std::vector<nlohmann::json> jsonWarps;
 		for (auto warp : warps)
 		{
 			nlohmann::json jsonWarp;

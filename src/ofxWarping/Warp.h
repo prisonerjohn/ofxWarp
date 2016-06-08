@@ -118,29 +118,29 @@ namespace ofxWarping
 		virtual bool onWindowResized(int width, int height);
 
 		//! checks all warps and selects the closest control point
-		static void selectClosestControlPoint(const vector<shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static void selectClosestControlPoint(const std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
 
 		//! handles mouseMoved events for multiple warps
-		static bool handleMouseMoved(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMouseMoved(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
 		//! handles mousePressed events for multiple warps
-		static bool handleMousePressed(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMousePressed(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
 		//! handles mouseDragged events for multiple warps
-		static bool handleMouseDragged(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMouseDragged(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
 		//! handles mouseReleased events for multiple warps
-		static bool handleMouseReleased(vector<shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMouseReleased(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
 
 		//! handles keyPressed events for multiple warps
-		static bool handleKeyPressed(vector<shared_ptr<Warp>> & warps, int key);
+		static bool handleKeyPressed(std::vector<std::shared_ptr<Warp>> & warps, int key);
 		//! handles keyReleased events for multiple warps
-		static bool handleKeyReleased(vector<shared_ptr<Warp>> & warps, int key);
+		static bool handleKeyReleased(std::vector<std::shared_ptr<Warp>> & warps, int key);
 
 		//! handles windowResized events for multiple warps
-		static bool handleWindowResized(vector<shared_ptr<Warp>> & warps, int width, int height);
+		static bool handleWindowResized(std::vector<std::shared_ptr<Warp>> & warps, int width, int height);
 
 		//! read a settings json file and pass back a vector of Warps
-		static vector<shared_ptr<Warp>> loadSettings(const string & filePath);
+		static std::vector<std::shared_ptr<Warp>> loadSettings(const std::string & filePath);
 		//! write a settings json file
-		static void saveSettings(const vector<shared_ptr<Warp>> & warps, const string & filePath);
+		static void saveSettings(const std::vector<std::shared_ptr<Warp>> & warps, const std::string & filePath);
 
 	protected:
 		//! draw the warp's editing interface
@@ -163,7 +163,7 @@ namespace ofxWarping
 
 		size_t numControlsX;
 		size_t numControlsY;
-		vector<ofVec2f> controlPoints;
+		std::vector<ofVec2f> controlPoints;
 
 		size_t selectedIndex;
 		float selectedTime;
