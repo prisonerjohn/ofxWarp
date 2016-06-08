@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ofApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ofxWarping\Warp.cpp">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ofxWarping\WarpPerspective.cpp">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons">
+      <UniqueIdentifier>{069f5eeb-250d-441f-ba6b-d63ccf99dc12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarping">
+      <UniqueIdentifier>{59c146a4-bf8d-4008-b606-008b94975639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarping\src">
+      <UniqueIdentifier>{7aff29ff-cd85-4646-8ec2-b7c71b319a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarping\libs">
+      <UniqueIdentifier>{93227edd-167c-45f7-b3f4-6ea2b5e84608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarping\libs\ofxWarping">
+      <UniqueIdentifier>{c331473e-fce2-43f3-aa9e-6c6fc4f29570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarping\libs\ofxWarping\include">
+      <UniqueIdentifier>{e090764a-f4e6-4178-a015-86816891f7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarping\src\ofxWarping">
+      <UniqueIdentifier>{c49ccda4-d910-4c7e-adc8-c264baf176a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ofApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarping.h">
+      <Filter>addons\ofxWarping\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\ofxWarping\include\Gui.h">
+      <Filter>addons\ofxWarping\libs\ofxWarping\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\ofxWarping\include\Parameter.h">
+      <Filter>addons\ofxWarping\libs\ofxWarping\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\ofxWarping\include\Serializer.h">
+      <Filter>addons\ofxWarping\libs\ofxWarping\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarping\Warp.h">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarping\WarpPerspective.h">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+</Project>
