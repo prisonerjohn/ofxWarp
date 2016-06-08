@@ -205,6 +205,12 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
       <AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\data\shaders\ofxWarping\ControlPoint.frag" />
+    <None Include="bin\data\shaders\ofxWarping\ControlPoint.vert" />
+    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.frag" />
+    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>
     <VisualStudio>

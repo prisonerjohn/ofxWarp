@@ -39,6 +39,12 @@
     <Filter Include="addons\ofxWarping\src\ofxWarping">
       <UniqueIdentifier>{c49ccda4-d910-4c7e-adc8-c264baf176a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{83bcac6d-2f9c-4a89-83eb-ceac2443e7f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\ofxWarping">
+      <UniqueIdentifier>{773c4a4d-2c4f-4ffb-a9f5-686adc3044c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -65,5 +71,19 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\data\shaders\ofxWarping\ControlPoint.frag">
+      <Filter>shaders\ofxWarping</Filter>
+    </None>
+    <None Include="bin\data\shaders\ofxWarping\ControlPoint.vert">
+      <Filter>shaders\ofxWarping</Filter>
+    </None>
+    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.frag">
+      <Filter>shaders\ofxWarping</Filter>
+    </None>
+    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.vert">
+      <Filter>shaders\ofxWarping</Filter>
+    </None>
   </ItemGroup>
 </Project>
