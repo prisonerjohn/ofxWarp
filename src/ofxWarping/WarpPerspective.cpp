@@ -83,32 +83,32 @@ namespace ofxWarping
 	{
 		ofPopMatrix();
 
-		this->drawInterface();
+		this->drawControls();
 	}
 
 	//--------------------------------------------------------------
-	void WarpPerspective::draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
+	void WarpPerspective::drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
 	{
 		// Clip against bounds.
 		auto srcClip = srcBounds;
 		auto dstClip = dstBounds;
 		this->clip(srcClip, dstClip);
 
-		auto currentColor = ofGetStyle().color;
-		ofPushStyle();
+		ofPushMatrix();
 		{
-			// Adjust brightness.
-			if (this->brightness < 1.0f) 
+			ofMultMatrix(this->getTransform());
+		
+			auto currentColor = ofGetStyle().color;
+			ofPushStyle();
 			{
-				currentColor *= this->brightness;
-				ofSetColor(currentColor);
-			}
+				// Adjust brightness.
+				if (this->brightness < 1.0f)
+				{
+					currentColor *= this->brightness;
+					ofSetColor(currentColor);
+				}
 
-			// Draw texture.
-			ofPushMatrix();
-			{
-				ofMultMatrix(this->getTransform());
-				
+				// Draw texture.
 				this->shader.begin();
 				{
 					this->shader.setUniformTexture("uTexture", texture, 1);
@@ -122,29 +122,18 @@ namespace ofxWarping
 				}
 				this->shader.end();
 			}
-			ofPopMatrix();
-		}
-		ofPopStyle();
+			ofPopStyle();
 
-		this->drawInterface();
-	}
-
-	//--------------------------------------------------------------
-	void WarpPerspective::drawInterface(bool controls)
-	{
-		if (this->isEditing())
-		{
-			ofPushMatrix();
+			if (this->editing)
 			{
-				ofMultMatrix(this->getTransform());
-
+				// Draw grid lines.
 				ofPushStyle();
 				{
 					glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 					ofSetColor(ofColor::white);
 
-					for (int i = 0; i <= 1; ++i) 
+					for (int i = 0; i <= 1; ++i)
 					{
 						float s = i / 1.0f;
 						ofDrawLine(s * this->width, 0.0f, s * this->width, this->height);
@@ -156,18 +145,22 @@ namespace ofxWarping
 				}
 				ofPopStyle();
 			}
-			ofPopMatrix();
+		}
+		ofPopMatrix();
+	}
 
-			if (controls && this->selectedIndex < this->controlPoints.size()) 
+	//--------------------------------------------------------------
+	void WarpPerspective::drawControls()
+	{
+		if (this->editing && this->selectedIndex < this->controlPoints.size())
+		{
+			// Draw control points.
+			for (auto i = 0; i < 4; ++i)
 			{
-				// Draw control points.
-				for (auto i = 0; i < 4; ++i)
-				{
-					this->queueControlPoint(dstPoints[i], i == this->selectedIndex);
-				}
-
-				this->drawControlPoints();
+				this->queueControlPoint(dstPoints[i], i == this->selectedIndex);
 			}
+
+			this->drawControlPoints();
 		}
 	}
 

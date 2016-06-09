@@ -21,11 +21,11 @@ namespace ofxWarping
 		//! restore the warp after drawing
 		virtual void end() override;
 
-		//! draws a specific area of a warped texture to a specific region
-		virtual void draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
-	
 	protected:
-		virtual void drawInterface(bool controls = true) override;
+		//! draws a specific area of a warped texture to a specific region
+		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
+		//! draw the warp's controls interface
+		virtual void drawControls() override;
 
 		ofMatrix4x4 getPerspectiveTransform(const ofVec2f src[4], const ofVec2f dst[4]) const;
 		void gaussianElimination(float * input, int n) const;

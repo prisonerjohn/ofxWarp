@@ -273,6 +273,13 @@ namespace ofxWarping
 	{
 		this->draw(texture, srcBounds, this->getBounds());
 	}
+
+	//--------------------------------------------------------------
+	void Warp::draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
+	{
+		this->drawTexture(texture, srcBounds, dstBounds);
+		this->drawControls();
+	}
 	
 	//--------------------------------------------------------------
 	bool Warp::clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const

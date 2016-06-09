@@ -85,7 +85,7 @@ namespace ofxWarping
 		//! draws a specific area of a warped texture
 		void draw(const ofTexture & texture, const ofRectangle & srcBounds);
 		//! draws a specific area of a warped texture to a specific region
-		virtual void draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) = 0;
+		void draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds);
 
 		//! adjusts both the source and destination rectangles so that they are clipped against the warp's content
 		bool clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const;
@@ -143,8 +143,10 @@ namespace ofxWarping
 		static void saveSettings(const std::vector<std::shared_ptr<Warp>> & warps, const std::string & filePath);
 
 	protected:
-		//! draw the warp's editing interface
-		virtual void drawInterface(bool controls = true) = 0;
+		//! draws a specific area of a warped texture to a specific region
+		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) = 0;
+		//! draw the warp's controls interface
+		virtual void drawControls() = 0;
 		
 		//! draw a control point in the preset color
 		void queueControlPoint(const ofVec2f & pos, bool selected = false, bool attached = false);

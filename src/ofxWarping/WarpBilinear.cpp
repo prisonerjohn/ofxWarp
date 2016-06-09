@@ -106,7 +106,7 @@ namespace ofxWarping
 	}
 
 	//--------------------------------------------------------------
-	void WarpBilinear::draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
+	void WarpBilinear::drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
 	{
 		// Clip against bounds.
 		auto srcClip = srcBounds;
@@ -160,14 +160,12 @@ namespace ofxWarping
 			}
 		}
 		ofPopStyle();
-
-		this->drawInterface();
 	}
 
 	//--------------------------------------------------------------
-	void WarpBilinear::drawInterface(bool controls)
+	void WarpBilinear::drawControls()
 	{
-		if (this->editing && controls && this->selectedIndex < this->controlPoints.size())
+		if (this->editing && this->selectedIndex < this->controlPoints.size())
 		{
 			// Draw control points.
 			for (auto i = 0; i < this->controlPoints.size(); ++i)

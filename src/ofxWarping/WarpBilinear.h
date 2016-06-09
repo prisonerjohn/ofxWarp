@@ -28,9 +28,6 @@ namespace ofxWarping
 		//! restore the warp after drawing
 		virtual void end() override;
 
-		//! draws a specific area of a warped texture to a specific region
-		virtual void draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
-
 		//! set the number of horizontal control points for this warp
 		void setNumControlsX(int n);
 		//! set the number of vertical control points for this warp
@@ -41,7 +38,10 @@ namespace ofxWarping
 		virtual bool onKeyPressed(int key) override;
 
 	protected:
-		virtual void drawInterface(bool controls = true) override;
+		//! draws a specific area of a warped texture to a specific region
+		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
+		//! draw the warp's controls interface
+		virtual void drawControls() override;
 
 		//! sets up the frame buffer
 		void setupFbo();
