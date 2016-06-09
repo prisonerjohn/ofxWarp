@@ -21,6 +21,8 @@ namespace ofxWarping
 		//! restore the warp after drawing
 		virtual void end() override;
 
+		virtual bool onKeyPressed(int key) override;
+
 	protected:
 		//! draws a specific area of a warped texture to a specific region
 		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;

@@ -246,4 +246,67 @@ namespace ofxWarping
 			}
 		}
 	}
+
+	//--------------------------------------------------------------
+	bool WarpPerspective::onKeyPressed(int key)
+	{
+		if (Warp::onKeyPressed(key))
+		{
+			return true;
+		}
+
+		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
+
+		if (key == OF_KEY_F9)
+		{
+			// Rotate content CCW.
+			std::swap(this->controlPoints[1], this->controlPoints[2]);
+			std::swap(this->controlPoints[0], this->controlPoints[1]);
+			std::swap(this->controlPoints[3], this->controlPoints[0]);
+			this->selectedIndex = (this->selectedIndex + 1) % 4;
+			this->dirty = true;
+
+			return true;
+		}
+		if (key == OF_KEY_F10)
+		{
+			// Rotate content CW.
+			std::swap(this->controlPoints[3], this->controlPoints[0]);
+			std::swap(this->controlPoints[0], this->controlPoints[1]);
+			std::swap(this->controlPoints[1], this->controlPoints[2]);
+			this->selectedIndex = (this->selectedIndex + 3) % 4;
+			this->dirty = true;
+
+			return true;
+		}
+		if (key == OF_KEY_F11)
+		{
+			// Flip content horizontally.
+			std::swap(this->controlPoints[0], this->controlPoints[1]);
+			std::swap(this->controlPoints[2], this->controlPoints[3]);
+			if (this->selectedIndex % 2)
+			{
+				--this->selectedIndex;
+			}
+			else
+			{
+				++this->selectedIndex;
+			}
+			this->dirty = true;
+
+			return true;
+		}
+		if (key == OF_KEY_F12)
+		{
+			// Flip content vertically.
+			std::swap(this->controlPoints[0], this->controlPoints[3]);
+			std::swap(this->controlPoints[1], this->controlPoints[2]);
+			this->selectedIndex = (this->controlPoints.size() - 1) - this->selectedIndex;
+			this->dirty = true;
+
+			return true;
+		}
+
+		return false;
+	}
 }
