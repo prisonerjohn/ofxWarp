@@ -64,8 +64,7 @@ void ofApp::draw()
 				warp->begin();
 
 				auto bounds = warp->getBounds();
-				this->texture.drawSubsection(this->srcArea.x, this->srcArea.y, this->srcArea.width, this->srcArea.height,
-					bounds.x, bounds.y, bounds.width, bounds.height);
+				this->texture.drawSubsection(bounds.x, bounds.y, bounds.width, bounds.height, this->srcArea.x, this->srcArea.y, this->srcArea.width, this->srcArea.height);
 
 				warp->end();
 			}
