@@ -16,6 +16,9 @@
     <ClCompile Include="..\src\ofxWarping\WarpBilinear.cpp">
       <Filter>addons\ofxWarping\src\ofxWarping</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ofxWarping\WarpPerspectiveBilinear.cpp">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -54,6 +57,9 @@
       <Filter>addons\ofxWarping\src\ofxWarping</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ofxWarping\WarpBilinear.h">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarping\WarpPerspectiveBilinear.h">
       <Filter>addons\ofxWarping\src\ofxWarping</Filter>
     </ClInclude>
   </ItemGroup>

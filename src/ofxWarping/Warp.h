@@ -24,7 +24,7 @@ namespace ofxWarping
 		virtual void serialize(nlohmann::json & json);
 		virtual void deserialize(const nlohmann::json & json);
 
-		void setEditing(bool editing);
+		virtual void setEditing(bool editing);
 		void toggleEditing();
 		bool isEditing() const;
 

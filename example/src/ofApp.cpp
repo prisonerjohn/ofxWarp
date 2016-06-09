@@ -31,8 +31,13 @@ void ofApp::setup()
 
 		auto warpBilinear = make_shared<ofxWarping::WarpBilinear>();
 		warpBilinear->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warpBilinear->setEdges(ofVec4f(1.0f, 0.0f, 0.0f, 0.0f));
+		warpBilinear->setEdges(ofVec4f(1.0f, 0.0f, 0.0f, 1.0f));
 		this->warps.push_back(warpBilinear);
+
+		auto warpPerspectiveBilinear = make_shared<ofxWarping::WarpPerspectiveBilinear>();
+		warpPerspectiveBilinear->setSize(this->texture.getWidth(), this->texture.getHeight());
+		warpPerspectiveBilinear->setEdges(ofVec4f(0.0f, 1.0f, 0.0f, 0.0f));
+		this->warps.push_back(warpPerspectiveBilinear);
 	}
 	
 	this->useBeginEnd = false;

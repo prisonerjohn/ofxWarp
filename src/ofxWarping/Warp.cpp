@@ -2,6 +2,7 @@
 
 #include "WarpBilinear.h"
 #include "WarpPerspective.h"
+#include "WarpPerspectiveBilinear.h"
 
 namespace ofxWarping
 {
@@ -777,6 +778,10 @@ namespace ofxWarping
 
 			case TYPE_PERSPECTIVE:
 				warp = std::make_shared<WarpPerspective>();
+				break;
+
+			case TYPE_PERSPECTIVE_BILINEAR:
+				warp = std::make_shared<WarpPerspectiveBilinear>();
 				break;
 
 			default:
