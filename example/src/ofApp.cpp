@@ -24,12 +24,17 @@ void ofApp::setup()
 	if (this->warps.empty())
 	{
 		// Otherwise create warps from scratch.
-		auto warp = make_shared<ofxWarping::WarpPerspective>();
-		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(ofVec4f(10.0f, 0.0f, 00.0f, 0.0f));
-		this->warps.push_back(warp);
-	}
+		auto warpPerspective = make_shared<ofxWarping::WarpPerspective>();
+		warpPerspective->setSize(this->texture.getWidth(), this->texture.getHeight());
+		warpPerspective->setEdges(ofVec4f(0.0f, 0.0f, 1.0f, 0.0f));
+		this->warps.push_back(warpPerspective);
 
+		auto warpBilinear = make_shared<ofxWarping::WarpBilinear>();
+		warpBilinear->setSize(this->texture.getWidth(), this->texture.getHeight());
+		warpBilinear->setEdges(ofVec4f(1.0f, 0.0f, 0.0f, 0.0f));
+		this->warps.push_back(warpBilinear);
+	}
+	
 	this->useBeginEnd = false;
 }
 
@@ -42,7 +47,7 @@ void ofApp::exit()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-
+	ofSetWindowTitle(ofToString(ofGetFrameRate(), 2) + " FPS");
 }
 
 //--------------------------------------------------------------

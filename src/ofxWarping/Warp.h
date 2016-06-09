@@ -29,19 +29,19 @@ namespace ofxWarping
 		bool isEditing() const;
 
 		//! set the width of the content in pixels
-		void setWidth(float width);
+		virtual void setWidth(float width);
 		//! get the width of the content in pixels
 		float getWidth() const;
 
 		//! set the height of the content in pixels
-		void setHeight(float height);
+		virtual void setHeight(float height);
 		//! get the height of the content in pixels
 		float getHeight() const;
 
 		//! set the width and height of the content in pixels
-		void setSize(float width, float height);
+		virtual void setSize(float width, float height);
 		//! set the width and height of the content in pixels
-		void setSize(const ofVec2f & size);
+		virtual void setSize(const ofVec2f & size);
 		//! get the width and height of the content in pixels
 		ofVec2f getSize() const;
 		//! get the rectangle of the content in pixels
@@ -151,7 +151,7 @@ namespace ofxWarping
 		//! draw a control point in the specified color
 		void queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale = 1.0f);
 
-		//! setup the control points batch
+		//! setup the control points instanced vbo
 		void setupControlPoints();
 		//! draw the control points
 		void drawControlPoints();
@@ -209,7 +209,6 @@ namespace ofxWarping
 		} ControlData;
 
 		std::vector<ControlData> controlData;
-		ofVbo controlVbo;
 		ofVboMesh controlMesh;
 		ofShader controlShader;
 	};

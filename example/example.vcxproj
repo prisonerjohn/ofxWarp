@@ -180,16 +180,15 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ofxWarping\Warp.cpp" />
+    <ClCompile Include="..\src\ofxWarping\WarpBilinear.cpp" />
     <ClCompile Include="..\src\ofxWarping\WarpPerspective.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\libs\ofxWarping\include\Gui.h" />
-    <ClInclude Include="..\libs\ofxWarping\include\Parameter.h" />
-    <ClInclude Include="..\libs\ofxWarping\include\Serializer.h" />
     <ClInclude Include="..\src\ofxWarping.h" />
     <ClInclude Include="..\src\ofxWarping\Warp.h" />
+    <ClInclude Include="..\src\ofxWarping\WarpBilinear.h" />
     <ClInclude Include="..\src\ofxWarping\WarpPerspective.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
@@ -208,6 +207,8 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
   <ItemGroup>
     <None Include="bin\data\shaders\ofxWarping\ControlPoint.frag" />
     <None Include="bin\data\shaders\ofxWarping\ControlPoint.vert" />
+    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.frag" />
+    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.vert" />
     <None Include="bin\data\shaders\ofxWarping\WarpPerspective.frag" />
     <None Include="bin\data\shaders\ofxWarping\WarpPerspective.vert" />
   </ItemGroup>

@@ -13,6 +13,9 @@
     <ClCompile Include="..\src\ofxWarping\WarpPerspective.cpp">
       <Filter>addons\ofxWarping\src\ofxWarping</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ofxWarping\WarpBilinear.cpp">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -26,15 +29,6 @@
     </Filter>
     <Filter Include="addons\ofxWarping\src">
       <UniqueIdentifier>{7aff29ff-cd85-4646-8ec2-b7c71b319a63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxWarping\libs">
-      <UniqueIdentifier>{93227edd-167c-45f7-b3f4-6ea2b5e84608}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxWarping\libs\ofxWarping">
-      <UniqueIdentifier>{c331473e-fce2-43f3-aa9e-6c6fc4f29570}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxWarping\libs\ofxWarping\include">
-      <UniqueIdentifier>{e090764a-f4e6-4178-a015-86816891f7ae}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxWarping\src\ofxWarping">
       <UniqueIdentifier>{c49ccda4-d910-4c7e-adc8-c264baf176a8}</UniqueIdentifier>
@@ -53,19 +47,13 @@
     <ClInclude Include="..\src\ofxWarping.h">
       <Filter>addons\ofxWarping\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\libs\ofxWarping\include\Gui.h">
-      <Filter>addons\ofxWarping\libs\ofxWarping\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\ofxWarping\include\Parameter.h">
-      <Filter>addons\ofxWarping\libs\ofxWarping\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\ofxWarping\include\Serializer.h">
-      <Filter>addons\ofxWarping\libs\ofxWarping\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ofxWarping\Warp.h">
       <Filter>addons\ofxWarping\src\ofxWarping</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ofxWarping\WarpPerspective.h">
+      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarping\WarpBilinear.h">
       <Filter>addons\ofxWarping\src\ofxWarping</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,6 +71,12 @@
       <Filter>shaders\ofxWarping</Filter>
     </None>
     <None Include="bin\data\shaders\ofxWarping\WarpPerspective.vert">
+      <Filter>shaders\ofxWarping</Filter>
+    </None>
+    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.frag">
+      <Filter>shaders\ofxWarping</Filter>
+    </None>
+    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.vert">
       <Filter>shaders\ofxWarping</Filter>
     </None>
   </ItemGroup>

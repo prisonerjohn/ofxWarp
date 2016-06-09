@@ -1,5 +1,6 @@
 #include "Warp.h"
 
+#include "WarpBilinear.h"
 #include "WarpPerspective.h"
 
 namespace ofxWarping
@@ -145,8 +146,7 @@ namespace ofxWarping
 	//--------------------------------------------------------------
 	void Warp::setWidth(float width)
 	{
-		this->width = width;
-		this->dirty = true;
+		this->setSize(width, this->height);
 	}
 
 	//--------------------------------------------------------------
@@ -158,8 +158,7 @@ namespace ofxWarping
 	//--------------------------------------------------------------
 	void Warp::setHeight(float height)
 	{
-		this->height = height;
-		this->dirty = true;
+		this->setSize(this->width, height);
 	}
 
 	//--------------------------------------------------------------
@@ -171,15 +170,15 @@ namespace ofxWarping
 	//--------------------------------------------------------------
 	void Warp::setSize(float width, float height)
 	{
-		this->setWidth(width);
-		this->setHeight(height);
+		this->width = width;
+		this->height = height;
+		this->dirty = true;
 	}
 	
 	//--------------------------------------------------------------
 	void Warp::setSize(const ofVec2f & size)
 	{
-		this->setWidth(size.x);
-		this->setHeight(size.y);
+		this->setSize(size.x, size.y);
 	}
 	
 	//--------------------------------------------------------------
@@ -450,48 +449,51 @@ namespace ofxWarping
 	//--------------------------------------------------------------
 	void Warp::setupControlPoints()
 	{
-		// Set up the VBO.
-		ofPolyline unitCircle;
-		unitCircle.arc(ofVec3f::zero(), 1.0f, 1.0f, 0.0f, 360.0f, 18);
-		const auto & circlePoints = unitCircle.getVertices();
-		static const auto radius = 15.0f;
-		static const auto halfVec = ofVec2f(0.5f);
-		this->controlMesh.clear();
-		this->controlMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
-		this->controlMesh.setUsage(GL_STATIC_DRAW);
-		this->controlMesh.addVertex(ofVec2f::zero());
-		this->controlMesh.addTexCoord(halfVec);
-		for (auto & pt : circlePoints)
+		if (this->controlMesh.getVertices().empty())
 		{
-			this->controlMesh.addVertex(pt * radius);
-			this->controlMesh.addTexCoord(pt * 0.5f + halfVec);
+			// Set up the vbo mesh.
+			ofPolyline unitCircle;
+			unitCircle.arc(ofVec3f::zero(), 1.0f, 1.0f, 0.0f, 360.0f, 18);
+			const auto & circlePoints = unitCircle.getVertices();
+			static const auto radius = 15.0f;
+			static const auto halfVec = ofVec2f(0.5f);
+			this->controlMesh.clear();
+			this->controlMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+			this->controlMesh.setUsage(GL_STATIC_DRAW);
+			this->controlMesh.addVertex(ofVec2f::zero());
+			this->controlMesh.addTexCoord(halfVec);
+			for (auto & pt : circlePoints)
+			{
+				this->controlMesh.addVertex(pt * radius);
+				this->controlMesh.addTexCoord(pt * 0.5f + halfVec);
+			}
+
+			// Set up per-instance data to the vbo.
+			std::vector<ControlData> instanceData;
+			instanceData.resize(MAX_NUM_CONTROL_POINTS);
+
+			this->controlMesh.getVbo().setAttributeData(INSTANCE_POS_SCALE_ATTRIBUTE, (float *)&instanceData[0].pos, 4, instanceData.size(), GL_STREAM_DRAW, sizeof(ControlData));
+			this->controlMesh.getVbo().setAttributeDivisor(INSTANCE_POS_SCALE_ATTRIBUTE, 1);
+			this->controlMesh.getVbo().setAttributeData(INSTANCE_COLOR_ATTRIBUTE, (float *)&instanceData[0].color, 4, instanceData.size(), GL_STREAM_DRAW, sizeof(ControlData));
+			this->controlMesh.getVbo().setAttributeDivisor(INSTANCE_COLOR_ATTRIBUTE, 1);
 		}
-		
-		// Set up per-instance data to the VBO.
-		std::vector<ControlData> instanceData;
-		instanceData.resize(MAX_NUM_CONTROL_POINTS);
 
-		this->controlMesh.getVbo().setAttributeData(INSTANCE_POS_SCALE_ATTRIBUTE, (float *)&instanceData[0].pos, 4, instanceData.size(), GL_STREAM_DRAW, sizeof(ControlData));
-		this->controlMesh.getVbo().setAttributeDivisor(INSTANCE_POS_SCALE_ATTRIBUTE, 1);
-		this->controlMesh.getVbo().setAttributeData(INSTANCE_COLOR_ATTRIBUTE, (float *)&instanceData[0].color, 4, instanceData.size(), GL_STREAM_DRAW, sizeof(ControlData));
-		this->controlMesh.getVbo().setAttributeDivisor(INSTANCE_COLOR_ATTRIBUTE, 1);
-
-		// Load the shader.
-		this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, "shaders/ofxWarping/ControlPoint.vert");
-		this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, "shaders/ofxWarping/ControlPoint.frag");
-		this->controlShader.bindAttribute(INSTANCE_POS_SCALE_ATTRIBUTE, "iPositionScale");
-		this->controlShader.bindAttribute(INSTANCE_COLOR_ATTRIBUTE, "iColor");
-		this->controlShader.bindDefaults();
-		this->controlShader.linkProgram();
+		if (!this->controlShader.isLoaded())
+		{
+			// Load the shader.
+			this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, "shaders/ofxWarping/ControlPoint.vert");
+			this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, "shaders/ofxWarping/ControlPoint.frag");
+			this->controlShader.bindAttribute(INSTANCE_POS_SCALE_ATTRIBUTE, "iPositionScale");
+			this->controlShader.bindAttribute(INSTANCE_COLOR_ATTRIBUTE, "iColor");
+			this->controlShader.bindDefaults();
+			this->controlShader.linkProgram();
+		}
 	}
 
 	//--------------------------------------------------------------
 	void Warp::drawControlPoints()
 	{
-		if (!this->controlShader.isLoaded())
-		{
-			this->setupControlPoints();
-		}
+		this->setupControlPoints();
 
 		if (!this->controlData.empty())
 		{
@@ -762,6 +764,10 @@ namespace ofxWarping
 			Type type = (Type)typeAsInt;
 			switch (type)
 			{
+			case TYPE_BILINEAR:
+				warp = std::make_shared<WarpBilinear>();
+				break;
+
 			case TYPE_PERSPECTIVE:
 				warp = std::make_shared<WarpPerspective>();
 				break;

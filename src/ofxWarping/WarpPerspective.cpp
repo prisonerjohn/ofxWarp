@@ -160,7 +160,7 @@ namespace ofxWarping
 
 			if (controls && this->selectedIndex < this->controlPoints.size()) 
 			{
-				// Draw control points
+				// Draw control points.
 				for (auto i = 0; i < 4; ++i)
 				{
 					this->queueControlPoint(dstPoints[i], i == this->selectedIndex);
