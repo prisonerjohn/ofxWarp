@@ -80,37 +80,35 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	if (!ofxWarping::Warp::handleKeyPressed(this->warps, key))
+	ofxWarping::Warp::handleKeyPressed(this->warps, key);
+
+	if (key == 'f')
 	{
-		// Let the application perform its keyPressed handling here.
-		if (key == 'f')
+		ofToggleFullscreen();
+	}
+	else if (key == 'w')
+	{
+		for (auto warp : this->warps)
 		{
-			ofToggleFullscreen();
+			warp->toggleEditing();
 		}
-		else if (key == 'w')
-		{
-			for (auto warp : this->warps)
-			{
-				warp->toggleEditing();
-			}
+	}
+	else if (key == 'a')
+	{
+		// Toggle drawing a random region of the image.
+		if (this->srcArea.getWidth() != this->texture.getWidth() || this->srcArea.getHeight() != this->texture.getHeight())
+			this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
+		else {
+			auto x1 = ofRandom(0, this->texture.getWidth() - 150);
+			auto y1 = ofRandom(0, this->texture.getHeight() - 150);
+			auto x2 = ofRandom(x1 + 150, this->texture.getWidth());
+			auto y2 = ofRandom(y1 + 150, this->texture.getHeight());
+			this->srcArea = ofRectangle(x1, y1, x2 - x1, y2 - y1);
 		}
-		else if (key == 'a')
-		{
-			// Toggle drawing a random region of the image.
-			if (this->srcArea.getWidth() != this->texture.getWidth() || this->srcArea.getHeight() != this->texture.getHeight())
-				this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
-			else {
-				auto x1 = ofRandom(0, this->texture.getWidth() - 150);
-				auto y1 = ofRandom(0, this->texture.getHeight() - 150);
-				auto x2 = ofRandom(x1 + 150, this->texture.getWidth());
-				auto y2 = ofRandom(y1 + 150, this->texture.getHeight());
-				this->srcArea = ofRectangle(x1, y1, x2 - x1, y2 - y1);
-			}
-		}
-		else if (key == ' ')
-		{
-			this->useBeginEnd ^= 1;
-		}
+	}
+	else if (key == ' ')
+	{
+		this->useBeginEnd ^= 1;
 	}
 }
 
