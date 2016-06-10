@@ -19,6 +19,9 @@
     <ClCompile Include="..\src\ofxWarp\WarpBase.cpp">
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ofxWarp\Controller.cpp">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -60,6 +63,9 @@
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ofxWarp\WarpBase.h">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarp\Controller.h">
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
   </ItemGroup>

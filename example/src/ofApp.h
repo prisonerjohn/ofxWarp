@@ -26,7 +26,7 @@ public:
 	void gotMessage(ofMessage msg);
 
 	bool useBeginEnd;
-	vector<shared_ptr<ofxWarpBase>> warps;
+	ofxWarpController warpController;
 	ofTexture texture;
 	ofRectangle srcArea;
 };

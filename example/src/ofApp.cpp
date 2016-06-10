@@ -20,31 +20,27 @@ void ofApp::setup()
 	this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
 
 	// Load warp settings from file if one exists.
-	this->warps = ofxWarpBase::loadSettings("settings.json");
-	if (this->warps.empty())
+	this->warpController.loadSettings("settings.json");
+	if (this->warpController.getWarps().empty())
 	{
 		// Otherwise create warps from scratch.
-		shared_ptr<ofxWarpBase> warp;
-
-		warp = make_shared<ofxWarpPerspective>();
+		shared_ptr<ofxWarpBase> warp; 
+		
+		warp = this->warpController.buildWarp<ofxWarpPerspective>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 0.0f, 1.0f, 0.0f));
-		this->warps.push_back(warp);
-
-		warp = make_shared<ofxWarpBilinear>();
+		
+		warp = this->warpController.buildWarp<ofxWarpBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(1.0f, 0.0f, 0.0f, 1.0f));
-		this->warps.push_back(warp);
-
-		warp = make_shared<ofxWarpPerspectiveBilinear>();
+		
+		warp = this->warpController.buildWarp<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 1.0f, 0.0f, 0.0f));
-		this->warps.push_back(warp);
-
-		warp = make_shared<ofxWarpPerspectiveBilinear>();
+		
+		warp = this->warpController.buildWarp<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 1.0f, 1.0f, 0.0f));
-		this->warps.push_back(warp);
 	}
 	
 	this->useBeginEnd = false;
@@ -53,7 +49,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::exit()
 {
-	ofxWarpBase::saveSettings(this->warps, "settings.json");
+	this->warpController.saveSettings("settings.json");
 }
 
 //--------------------------------------------------------------
@@ -69,7 +65,7 @@ void ofApp::draw()
 
 	if (this->texture.isAllocated())
 	{
-		for (auto warp : this->warps)
+		for (auto warp : this->warpController.getWarps())
 		{
 			if (this->useBeginEnd)
 			{
@@ -91,18 +87,9 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	ofxWarpBase::handleKeyPressed(this->warps, key);
-
 	if (key == 'f')
 	{
 		ofToggleFullscreen();
-	}
-	else if (key == 'w')
-	{
-		for (auto warp : this->warps)
-		{
-			warp->toggleEditing();
-		}
 	}
 	else if (key == 'a')
 	{
@@ -124,48 +111,28 @@ void ofApp::keyPressed(int key)
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key)
-{
-	if (!ofxWarpBase::handleKeyReleased(this->warps, key))
-	{
-		// Let the application perform its keyReleased handling here.
-	}
+void ofApp::keyReleased(int key){
+
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y)
-{
-	if (!ofxWarpBase::handleMouseMoved(this->warps, ofVec2f(x, y))) 
-	{
-		// Let the application perform its mouseMoved handling here.
-	}
+void ofApp::mouseMoved(int x, int y){
+
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button)
-{
-	if (!ofxWarpBase::handleMouseDragged(this->warps, ofVec2f(x, y)))
-	{
-		// Let the application perform its mouseDragged handling here.
-	}
+void ofApp::mouseDragged(int x, int y, int button){
+
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button)
-{
-	if (!ofxWarpBase::handleMousePressed(this->warps, ofVec2f(x, y)))
-	{
-		// Let the application perform its mousePressed handling here.
-	}
+void ofApp::mousePressed(int x, int y, int button){
+
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button)
-{
-	if (!ofxWarpBase::handleMouseReleased(this->warps, ofVec2f(x, y)))
-	{
-		// Let the application perform its mouseReleased handling here.
-	}
+void ofApp::mouseReleased(int x, int y, int button){
+
 }
 
 //--------------------------------------------------------------
@@ -179,10 +146,8 @@ void ofApp::mouseExited(int x, int y){
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h)
-{
-	// Tell the warps our window has been resized, so they properly scale up or down.
-	ofxWarpBase::handleWindowResized(this->warps, w, h);
+void ofApp::windowResized(int w, int h){
+
 }
 
 //--------------------------------------------------------------
@@ -194,4 +159,3 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
 }
-
