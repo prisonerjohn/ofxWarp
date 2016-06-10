@@ -215,12 +215,153 @@ namespace ofxWarp
 				warp->toggleEditing();
 			}
 		}
-
-		for (auto warp : this->warps)
+		else if (this->focusedIndex < this->warps.size())
 		{
-			if (warp->onKeyPressed(args.key))
+			auto warp = this->warps[this->focusedIndex];
+
+			if (args.key == '-')
 			{
-				break;
+				warp->setBrightness(MAX(0.0f, warp->getBrightness() - 0.01f));
+			}
+			else if (args.key == '+')
+			{
+				warp->setBrightness(MIN(1.0f, warp->getBrightness() + 0.01f));
+			}
+			else if (args.key == 'r')
+			{
+				warp->reset();
+			}
+			else if (args.key == OF_KEY_TAB)
+			{
+				// Select the next of previous (+ SHIFT) control point.
+				size_t nextIndex;
+				auto selectedIndex = warp->getSelectedControlPoint();
+				if (ofGetKeyPressed(OF_KEY_SHIFT))
+				{
+					if (selectedIndex == 0)
+					{
+						nextIndex = warp->getNumControlPoints() - 1;
+					}
+					else
+					{
+						nextIndex = selectedIndex - 1;
+					}
+				}
+				else
+				{
+					nextIndex = (selectedIndex + 1) % warp->getNumControlPoints();
+				}
+				warp->selectControlPoint(nextIndex);
+			}
+			else if (args.key == OF_KEY_UP || args.key == OF_KEY_DOWN || args.key == OF_KEY_LEFT || args.key == OF_KEY_RIGHT)
+			{
+				auto step = ofGetKeyPressed(OF_KEY_SHIFT) ? 10.0f : 0.5f;
+				auto shift = ofVec2f::zero();
+				if (args.key == OF_KEY_UP)
+				{
+					shift.y = -step / (float)ofGetHeight();
+				}
+				else if (args.key == OF_KEY_DOWN)
+				{
+					shift.y = step / (float)ofGetHeight();
+				}
+				else if (args.key == OF_KEY_LEFT)
+				{
+					shift.x = -step / (float)ofGetWidth();
+				}
+				else
+				{
+					shift.x = step / (float)ofGetWidth();
+				}
+				warp->moveControlPoint(warp->getSelectedControlPoint(), shift);
+			}
+			else if (args.key == OF_KEY_F9)
+			{
+				warp->rotateCounterclockwise();
+			}
+			else if (args.key == OF_KEY_F10)
+			{
+				warp->rotateClockwise();
+			}
+			else if (args.key == OF_KEY_F11)
+			{
+				warp->flipHorizontal();
+			}
+			else if (args.key == OF_KEY_F12)
+			{
+				warp->flipVertical();
+			}
+			else if (warp->getType() == WarpBase::TYPE_BILINEAR || warp->getType() == WarpBase::TYPE_PERSPECTIVE_BILINEAR)
+			{
+				// The rest of the controls only apply to Bilinear warps.
+				auto warpBilinear = std::dynamic_pointer_cast<WarpBilinear>(warp);
+				if (warpBilinear)
+				{
+					if (args.key == OF_KEY_F1)
+					{
+						// Reduce the number of horizontal control points.
+						if (ofGetKeyPressed(OF_KEY_SHIFT))
+						{
+							warpBilinear->setNumControlsX(warpBilinear->getNumControlsX() - 1);
+						}
+						else
+						{
+							warpBilinear->setNumControlsX((warpBilinear->getNumControlsX() + 1) / 2);
+						}
+					}
+					else if (args.key == OF_KEY_F2)
+					{
+						// Increase the number of horizontal control points.
+						if (ofGetKeyPressed(OF_KEY_SHIFT))
+						{
+							warpBilinear->setNumControlsX(warpBilinear->getNumControlsX() + 1);
+						}
+						else
+						{
+							warpBilinear->setNumControlsX(warpBilinear->getNumControlsX() * 2 - 1);
+						}
+					}
+					else if (args.key == OF_KEY_F3)
+					{
+						// Reduce the number of vertical control points.
+						if (ofGetKeyPressed(OF_KEY_SHIFT))
+						{
+							warpBilinear->setNumControlsY(warpBilinear->getNumControlsY() - 1);
+						}
+						else
+						{
+							warpBilinear->setNumControlsY((warpBilinear->getNumControlsY() + 1) / 2);
+						}
+					}
+					else if (args.key == OF_KEY_F4)
+					{
+						// Increase the number of vertical control points.
+						if (ofGetKeyPressed(OF_KEY_SHIFT))
+						{
+							warpBilinear->setNumControlsY(warpBilinear->getNumControlsY() + 1);
+						}
+						else
+						{
+							warpBilinear->setNumControlsY(warpBilinear->getNumControlsY() * 2 - 1);
+						}
+					}
+					else if (args.key == OF_KEY_F5)
+					{
+						warpBilinear->decreaseResolution();
+					}
+					else if (args.key == OF_KEY_F6)
+					{
+						warpBilinear->increaseResolution();
+					}
+					else if (args.key == OF_KEY_F7)
+					{
+						warpBilinear->setAdaptive(!warpBilinear->getAdaptive());
+					}
+					else if (args.key == 'm')
+					{
+						warpBilinear->setLinear(!warpBilinear->getLinear());
+					}
+				}
 			}
 		}
 	}
