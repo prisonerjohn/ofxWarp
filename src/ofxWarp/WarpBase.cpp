@@ -513,15 +513,9 @@ namespace ofxWarp
 
 		this->controlData.clear();
 	}
-
-	//--------------------------------------------------------------
-	bool WarpBase::onMouseMoved(const ofVec2f & pos)
-	{
-		return false;
-	}
 	
 	//--------------------------------------------------------------
-	bool WarpBase::onMousePressed(const ofVec2f & pos)
+	bool WarpBase::handleCursorDown(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
@@ -533,7 +527,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool WarpBase::onMouseDragged(const ofVec2f & pos)
+	bool WarpBase::handleCursorDrag(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
@@ -544,12 +538,6 @@ namespace ofxWarp
 		this->dirty = true;
 
 		return true;
-	}
-	
-	//--------------------------------------------------------------
-	bool WarpBase::onMouseReleased(const ofVec2f & pos)
-	{
-		return false;
 	}
 
 	//--------------------------------------------------------------
@@ -627,7 +615,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool WarpBase::onWindowResized(int width, int height)
+	bool WarpBase::handleWindowResize(int width, int height)
 	{
 		this->windowSize = ofVec2f(width, height);
 		this->dirty = true;

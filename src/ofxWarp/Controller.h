@@ -57,5 +57,7 @@ namespace ofxWarp
 
 	protected:
 		std::vector<std::shared_ptr<WarpBase>> warps;
+
+		size_t focusedIndex;
 	};
 }

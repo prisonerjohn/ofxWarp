@@ -8,6 +8,7 @@ namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	Controller::Controller()
+		: focusedIndex(-1)
 	{
 		ofAddListener(ofEvents().mouseMoved, this, &Controller::onMouseMoved);
 		ofAddListener(ofEvents().mousePressed, this, &Controller::onMousePressed);
@@ -148,7 +149,7 @@ namespace ofxWarp
 		{
 			float candidate;
 			auto idx = this->warps[i]->findClosestControlPoint(pos, &candidate);
-			if (candidate < distance)
+			if (candidate < distance && this->warps[i]->isEditing())
 			{
 				distance = candidate;
 				pointIdx = idx;
@@ -156,10 +157,12 @@ namespace ofxWarp
 			}
 		}
 
+		focusedIndex = warpIdx;
+
 		// Select the closest control point and deselect all others.
 		for (int i = this->warps.size() - 1; i >= 0; --i)
 		{
-			if (i == warpIdx)
+			if (i == this->focusedIndex)
 			{
 				this->warps[i]->selectControlPoint(pointIdx);
 			}
@@ -183,24 +186,18 @@ namespace ofxWarp
 		// Find and select closest control point.
 		this->selectClosestControlPoint(args);
 
-		for (int i = this->warps.size() - 1; i >= 0; --i)
+		if (this->focusedIndex < this->warps.size())
 		{
-			if (this->warps[i]->onMousePressed(args))
-			{
-				break;
-			}
+			this->warps[this->focusedIndex]->handleCursorDown(args);
 		}
 	}
 
 	//--------------------------------------------------------------
 	void Controller::onMouseDragged(ofMouseEventArgs & args)
 	{
-		for (int i = this->warps.size() - 1; i >= 0; --i)
+		if (this->focusedIndex < this->warps.size())
 		{
-			if (this->warps[i]->onMouseDragged(args))
-			{
-				break;
-			}
+			this->warps[this->focusedIndex]->handleCursorDrag(args);
 		}
 	}
 
@@ -237,7 +234,7 @@ namespace ofxWarp
 	{
 		for (auto warp : this->warps)
 		{
-			warp->onWindowResized(args.width, args.height);
+			warp->handleWindowResize(args.width, args.height);
 		}
 	}
 }

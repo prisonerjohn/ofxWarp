@@ -30,13 +30,12 @@ namespace ofxWarp
 		//! deselect the selected control point
 		virtual void deselectControlPoint() override;
 
-		virtual bool onMouseMoved(const ofVec2f & pos) override;
-		virtual bool onMousePressed(const ofVec2f & pos) override;
-		virtual bool onMouseDragged(const ofVec2f & pos) override;
+		virtual bool handleCursorDown(const ofVec2f & pos) override;
+		virtual bool handleCursorDrag(const ofVec2f & pos) override;
 
 		virtual bool onKeyPressed(int key) override;
 
-		virtual bool onWindowResized(int width, int height) override;
+		virtual bool handleWindowResize(int width, int height) override;
 
 	protected:
 		//! draws a specific area of a warped texture to a specific region

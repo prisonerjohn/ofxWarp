@@ -150,37 +150,29 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::onMouseMoved(const ofVec2f & pos)
-	{
-		auto handled = this->warpPerspective->onMouseMoved(pos);
-		handled |= WarpBase::onMouseMoved(pos);
-		return handled;
-	}
-
-	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::onMousePressed(const ofVec2f & pos)
+	bool WarpPerspectiveBilinear::handleCursorDown(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
 		// Depending on selected control point, let perspective or bilinear warp handle it.
 		if (this->isCorner(this->selectedIndex)) 
 		{
-			return this->warpPerspective->onMousePressed(pos);
+			return this->warpPerspective->handleCursorDown(pos);
 		}
-		return WarpBase::onMousePressed(pos);
+		return WarpBase::handleCursorDown(pos);
 	}
 			
 	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::onMouseDragged(const ofVec2f & pos)
+	bool WarpPerspectiveBilinear::handleCursorDrag(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
 		// Depending on selected control point, let perspective or bilinear warp handle it.
 		if (this->isCorner(this->selectedIndex))
 		{
-			return this->warpPerspective->onMouseDragged(pos);
+			return this->warpPerspective->handleCursorDrag(pos);
 		}
-		return WarpBase::onMouseDragged(pos);
+		return WarpBase::handleCursorDrag(pos);
 	}
 
 	//--------------------------------------------------------------
@@ -222,13 +214,13 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::onWindowResized(int width, int height)
+	bool WarpPerspectiveBilinear::handleWindowResize(int width, int height)
 	{
 		// Make content size compatible with WarpBilinear's windowSize.
 		this->warpPerspective->setSize(width, height);
 
-		auto handled = this->warpPerspective->onWindowResized(width, height);
-		handled |= WarpBilinear::onWindowResized(width, height);
+		auto handled = this->warpPerspective->handleWindowResize(width, height);
+		handled |= WarpBilinear::handleWindowResize(width, height);
 
 		return handled;
 	}

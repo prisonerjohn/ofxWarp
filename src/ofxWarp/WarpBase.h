@@ -107,15 +107,13 @@ namespace ofxWarp
 		//! returns the index of the closest control point, as well as the distance in pixels
 		virtual size_t findClosestControlPoint(const ofVec2f & pos, float * distance) const;
 
-		virtual bool onMouseMoved(const ofVec2f & pos);
-		virtual bool onMousePressed(const ofVec2f & pos);
-		virtual bool onMouseDragged(const ofVec2f & pos);
-		virtual bool onMouseReleased(const ofVec2f & pos);
+		virtual bool handleCursorDown(const ofVec2f & pos);
+		virtual bool handleCursorDrag(const ofVec2f & pos);
 
 		virtual bool onKeyPressed(int key);
 		virtual bool onKeyReleased(int key);
 
-		virtual bool onWindowResized(int width, int height);
+		virtual bool handleWindowResize(int width, int height);
 
 	protected:
 		//! draws a specific area of a warped texture to a specific region
