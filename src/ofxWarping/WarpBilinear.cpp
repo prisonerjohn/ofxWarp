@@ -656,6 +656,7 @@ namespace ofxWarping
 				}
 			}
 
+			// Find new closest control point.
 			float distance;
 			this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
 		}
@@ -686,13 +687,40 @@ namespace ofxWarping
 			this->adaptive ^= 1;
 			this->dirty = true;
 		}
-		//else if (key == OF_KEY_F11 || key == OF_KEY_F12)
-		//{
-		//	if (key == OF_KEY_F11)
-		//	{
-		//		// Flip control points horizontally.
+		else if (key == OF_KEY_F11 || key == OF_KEY_F12)
+		{
+			std::vector<ofVec2f> flippedPoints;
+			if (key == OF_KEY_F11)
+			{
+				// Flip control points horizontally.
+				for (int x = this->numControlsX - 1; x >= 0; --x) 
+				{
+					for (int y = 0; y < this->numControlsY; ++y) 
+					{
+						auto i = (x * this->numControlsY + y);
+						flippedPoints.push_back(this->controlPoints[i]);
+					}
+				}
+			}
+			else
+			{
+				// Flip control points vertically.
+				for (int x = 0; x < this->numControlsX; ++x)
+				{
+					for (int y = this->numControlsY - 1; y >= 0; --y)
+					{
+						auto i = (x * this->numControlsY + y);
+						flippedPoints.push_back(this->controlPoints[i]);
+					}
+				}
+			}
+			this->controlPoints = flippedPoints;
+			this->dirty = true;
 
-		//}
+			// Find new closest control point.
+			float distance;
+			this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+		}
 
 		return true;
 	}
