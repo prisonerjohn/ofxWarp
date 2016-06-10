@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxWarping.h"
+#include "ofxWarp.h"
 
 class ofApp
 	: public ofBaseApp
@@ -26,7 +26,7 @@ public:
 	void gotMessage(ofMessage msg);
 
 	bool useBeginEnd;
-	vector<shared_ptr<ofxWarping::Warp>> warps;
+	vector<shared_ptr<ofxWarp::Warp>> warps;
 	ofTexture texture;
 	ofRectangle srcArea;
 };

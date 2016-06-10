@@ -1,6 +1,6 @@
 #include "WarpPerspectiveBilinear.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	WarpPerspectiveBilinear::WarpPerspectiveBilinear(const ofFbo::Settings & fboSettings)

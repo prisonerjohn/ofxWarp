@@ -1,6 +1,6 @@
 #include "WarpBilinear.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	WarpBilinear::WarpBilinear(const ofFbo::Settings & fboSettings)
@@ -18,7 +18,7 @@ namespace ofxWarping
 	{
 		this->reset();
 
-		this->shader.load("shaders/ofxWarping/WarpBilinear");
+		this->shader.load("shaders/ofxWarp/WarpBilinear");
 	}
 
 	//--------------------------------------------------------------

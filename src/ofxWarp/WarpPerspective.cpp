@@ -1,6 +1,6 @@
 #include "WarpPerspective.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	WarpPerspective::WarpPerspective()
@@ -13,7 +13,7 @@ namespace ofxWarping
 
 		this->reset();
 
-		this->shader.load("shaders/ofxWarping/WarpPerspective");
+		this->shader.load("shaders/ofxWarp/WarpPerspective");
 	}
 
 	//--------------------------------------------------------------

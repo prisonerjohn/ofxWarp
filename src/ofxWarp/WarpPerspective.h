@@ -2,7 +2,7 @@
 
 #include "Warp.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	class WarpPerspective
 		: public Warp

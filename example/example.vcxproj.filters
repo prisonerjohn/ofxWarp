@@ -7,17 +7,17 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxWarping\Warp.cpp">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClCompile Include="..\src\ofxWarp\Warp.cpp">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxWarping\WarpPerspective.cpp">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClCompile Include="..\src\ofxWarp\WarpBilinear.cpp">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxWarping\WarpBilinear.cpp">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClCompile Include="..\src\ofxWarp\WarpPerspective.cpp">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxWarping\WarpPerspectiveBilinear.cpp">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClCompile Include="..\src\ofxWarp\WarpPerspectiveBilinear.cpp">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,19 +27,19 @@
     <Filter Include="addons">
       <UniqueIdentifier>{069f5eeb-250d-441f-ba6b-d63ccf99dc12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="addons\ofxWarping">
-      <UniqueIdentifier>{59c146a4-bf8d-4008-b606-008b94975639}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxWarping\src">
-      <UniqueIdentifier>{7aff29ff-cd85-4646-8ec2-b7c71b319a63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxWarping\src\ofxWarping">
-      <UniqueIdentifier>{c49ccda4-d910-4c7e-adc8-c264baf176a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{83bcac6d-2f9c-4a89-83eb-ceac2443e7f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders\ofxWarping">
+    <Filter Include="addons\ofxWarp">
+      <UniqueIdentifier>{59c146a4-bf8d-4008-b606-008b94975639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarp\src">
+      <UniqueIdentifier>{7aff29ff-cd85-4646-8ec2-b7c71b319a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxWarp\src\ofxWarp">
+      <UniqueIdentifier>{c49ccda4-d910-4c7e-adc8-c264baf176a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders\ofxWarp">
       <UniqueIdentifier>{773c4a4d-2c4f-4ffb-a9f5-686adc3044c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -47,43 +47,43 @@
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxWarping.h">
-      <Filter>addons\ofxWarping\src</Filter>
+    <ClInclude Include="..\src\ofxWarp.h">
+      <Filter>addons\ofxWarp\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxWarping\Warp.h">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClInclude Include="..\src\ofxWarp\Warp.h">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxWarping\WarpPerspective.h">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClInclude Include="..\src\ofxWarp\WarpBilinear.h">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxWarping\WarpBilinear.h">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClInclude Include="..\src\ofxWarp\WarpPerspective.h">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxWarping\WarpPerspectiveBilinear.h">
-      <Filter>addons\ofxWarping\src\ofxWarping</Filter>
+    <ClInclude Include="..\src\ofxWarp\WarpPerspectiveBilinear.h">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\data\shaders\ofxWarping\ControlPoint.frag">
-      <Filter>shaders\ofxWarping</Filter>
+    <None Include="bin\data\shaders\ofxWarp\ControlPoint.frag">
+      <Filter>shaders\ofxWarp</Filter>
     </None>
-    <None Include="bin\data\shaders\ofxWarping\ControlPoint.vert">
-      <Filter>shaders\ofxWarping</Filter>
+    <None Include="bin\data\shaders\ofxWarp\ControlPoint.vert">
+      <Filter>shaders\ofxWarp</Filter>
     </None>
-    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.frag">
-      <Filter>shaders\ofxWarping</Filter>
+    <None Include="bin\data\shaders\ofxWarp\WarpBilinear.frag">
+      <Filter>shaders\ofxWarp</Filter>
     </None>
-    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.vert">
-      <Filter>shaders\ofxWarping</Filter>
+    <None Include="bin\data\shaders\ofxWarp\WarpBilinear.vert">
+      <Filter>shaders\ofxWarp</Filter>
     </None>
-    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.frag">
-      <Filter>shaders\ofxWarping</Filter>
+    <None Include="bin\data\shaders\ofxWarp\WarpPerspective.frag">
+      <Filter>shaders\ofxWarp</Filter>
     </None>
-    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.vert">
-      <Filter>shaders\ofxWarping</Filter>
+    <None Include="bin\data\shaders\ofxWarp\WarpPerspective.vert">
+      <Filter>shaders\ofxWarp</Filter>
     </None>
   </ItemGroup>
 </Project>

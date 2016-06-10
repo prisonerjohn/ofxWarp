@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	class Warp
 	{

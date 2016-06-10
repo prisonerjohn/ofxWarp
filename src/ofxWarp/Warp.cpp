@@ -4,7 +4,7 @@
 #include "WarpPerspective.h"
 #include "WarpPerspectiveBilinear.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	Warp::Warp(Type type)
@@ -489,8 +489,8 @@ namespace ofxWarping
 		if (!this->controlShader.isLoaded())
 		{
 			// Load the shader.
-			this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, "shaders/ofxWarping/ControlPoint.vert");
-			this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, "shaders/ofxWarping/ControlPoint.frag");
+			this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, "shaders/ofxWarp/ControlPoint.vert");
+			this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, "shaders/ofxWarp/ControlPoint.frag");
 			this->controlShader.bindAttribute(INSTANCE_POS_SCALE_ATTRIBUTE, "iPositionScale");
 			this->controlShader.bindAttribute(INSTANCE_COLOR_ATTRIBUTE, "iColor");
 			this->controlShader.bindDefaults();

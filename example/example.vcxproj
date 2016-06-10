@@ -95,9 +95,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\addons\ofxPreset\src;..\..\..\addons\ofxPreset\src\libs;..\..\..\addons\ofxPreset\src\libs\ofxPreset;..\..\..\addons\ofxPreset\src\libs\ofxPreset\include;..\..\..\addons\ofxPreset\src\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\addons\ofxWarp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -118,9 +116,7 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
       <WarningLevel>Level3</WarningLevel>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\addons\ofxWarp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -137,9 +133,7 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\addons\ofxPreset\src;..\..\..\addons\ofxPreset\src\libs;..\..\..\addons\ofxPreset\src\libs\ofxPreset;..\..\..\addons\ofxPreset\src\libs\ofxPreset\include;..\..\..\addons\ofxPreset\src\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\addons\ofxWarp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -161,9 +155,7 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\addons\ofxPreset\src;..\..\..\addons\ofxPreset\src\libs;..\..\..\addons\ofxPreset\src\libs\ofxPreset;..\..\..\addons\ofxPreset\src\libs\ofxPreset\include;..\..\..\addons\ofxPreset\src\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\src;
-C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\addons\ofxWarp\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
     <Link>
@@ -179,19 +171,19 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\ofxWarping\Warp.cpp" />
-    <ClCompile Include="..\src\ofxWarping\WarpBilinear.cpp" />
-    <ClCompile Include="..\src\ofxWarping\WarpPerspective.cpp" />
-    <ClCompile Include="..\src\ofxWarping\WarpPerspectiveBilinear.cpp" />
+    <ClCompile Include="..\src\ofxWarp\Warp.cpp" />
+    <ClCompile Include="..\src\ofxWarp\WarpBilinear.cpp" />
+    <ClCompile Include="..\src\ofxWarp\WarpPerspective.cpp" />
+    <ClCompile Include="..\src\ofxWarp\WarpPerspectiveBilinear.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\ofxWarping.h" />
-    <ClInclude Include="..\src\ofxWarping\Warp.h" />
-    <ClInclude Include="..\src\ofxWarping\WarpBilinear.h" />
-    <ClInclude Include="..\src\ofxWarping\WarpPerspective.h" />
-    <ClInclude Include="..\src\ofxWarping\WarpPerspectiveBilinear.h" />
+    <ClInclude Include="..\src\ofxWarp.h" />
+    <ClInclude Include="..\src\ofxWarp\Warp.h" />
+    <ClInclude Include="..\src\ofxWarp\WarpBilinear.h" />
+    <ClInclude Include="..\src\ofxWarp\WarpPerspective.h" />
+    <ClInclude Include="..\src\ofxWarp\WarpPerspectiveBilinear.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>
@@ -207,12 +199,12 @@ C:\Users\priso\Workspace\openFrameworks\addons\ofxWarping\libs\ofxWarping\includ
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\data\shaders\ofxWarping\ControlPoint.frag" />
-    <None Include="bin\data\shaders\ofxWarping\ControlPoint.vert" />
-    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.frag" />
-    <None Include="bin\data\shaders\ofxWarping\WarpBilinear.vert" />
-    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.frag" />
-    <None Include="bin\data\shaders\ofxWarping\WarpPerspective.vert" />
+    <None Include="bin\data\shaders\ofxWarp\ControlPoint.frag" />
+    <None Include="bin\data\shaders\ofxWarp\ControlPoint.vert" />
+    <None Include="bin\data\shaders\ofxWarp\WarpBilinear.frag" />
+    <None Include="bin\data\shaders\ofxWarp\WarpBilinear.vert" />
+    <None Include="bin\data\shaders\ofxWarp\WarpPerspective.frag" />
+    <None Include="bin\data\shaders\ofxWarp\WarpPerspective.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>

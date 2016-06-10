@@ -3,7 +3,7 @@
 #include "WarpBilinear.h"
 #include "WarpPerspective.h"
 
-namespace ofxWarping
+namespace ofxWarp
 {
 	class WarpPerspectiveBilinear
 		: public WarpBilinear
