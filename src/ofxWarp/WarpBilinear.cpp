@@ -4,7 +4,7 @@ namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	WarpBilinear::WarpBilinear(const ofFbo::Settings & fboSettings)
-		: Warp(TYPE_BILINEAR)
+		: WarpBase(TYPE_BILINEAR)
 		, fboSettings(fboSettings)
 		, linear(false)
 		, adaptive(true)
@@ -28,7 +28,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBilinear::serialize(nlohmann::json & json)
 	{
-		Warp::serialize(json);
+		WarpBase::serialize(json);
 
 		json["resolution"] = this->resolution;
 		json["linear"] = this->linear;
@@ -38,7 +38,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBilinear::deserialize(const nlohmann::json & json)
 	{
-		Warp::deserialize(json);
+		WarpBase::deserialize(json);
 
 		this->resolution = json["resolution"];
 		this->linear = json["linear"];
@@ -48,7 +48,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBilinear::setSize(float width, float height)
 	{
-		Warp::setSize(width, height);
+		WarpBase::setSize(width, height);
 		this->fbo.clear();
 	}
 
@@ -599,7 +599,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	bool WarpBilinear::onKeyPressed(int key)
 	{
-		if (Warp::onKeyPressed(key))
+		if (WarpBase::onKeyPressed(key))
 		{
 			return true;
 		}

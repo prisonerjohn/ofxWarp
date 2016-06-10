@@ -7,9 +7,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ofxWarp\Warp.cpp">
-      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ofxWarp\WarpBilinear.cpp">
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
@@ -17,6 +14,9 @@
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ofxWarp\WarpPerspectiveBilinear.cpp">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ofxWarp\WarpBase.cpp">
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +50,6 @@
     <ClInclude Include="..\src\ofxWarp.h">
       <Filter>addons\ofxWarp\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ofxWarp\Warp.h">
-      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\ofxWarp\WarpBilinear.h">
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
@@ -60,6 +57,9 @@
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ofxWarp\WarpPerspectiveBilinear.h">
+      <Filter>addons\ofxWarp\src\ofxWarp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ofxWarp\WarpBase.h">
       <Filter>addons\ofxWarp\src\ofxWarp</Filter>
     </ClInclude>
   </ItemGroup>

@@ -171,7 +171,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\ofxWarp\Warp.cpp" />
+    <ClCompile Include="..\src\ofxWarp\WarpBase.cpp" />
     <ClCompile Include="..\src\ofxWarp\WarpBilinear.cpp" />
     <ClCompile Include="..\src\ofxWarp\WarpPerspective.cpp" />
     <ClCompile Include="..\src\ofxWarp\WarpPerspectiveBilinear.cpp" />
@@ -180,7 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ofxWarp.h" />
-    <ClInclude Include="..\src\ofxWarp\Warp.h" />
+    <ClInclude Include="..\src\ofxWarp\WarpBase.h" />
     <ClInclude Include="..\src\ofxWarp\WarpBilinear.h" />
     <ClInclude Include="..\src\ofxWarp\WarpPerspective.h" />
     <ClInclude Include="..\src\ofxWarp\WarpPerspectiveBilinear.h" />

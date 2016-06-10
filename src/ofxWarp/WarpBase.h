@@ -4,7 +4,7 @@
 
 namespace ofxWarp
 {
-	class Warp
+	class WarpBase
 	{
 	public:
 		typedef enum 
@@ -15,8 +15,8 @@ namespace ofxWarp
 			TYPE_PERSPECTIVE_BILINEAR
 		} Type;
 
-		Warp(Type type = TYPE_UNKNOWN);
-		virtual ~Warp();
+		WarpBase(Type type = TYPE_UNKNOWN);
+		virtual ~WarpBase();
 
 		//! returns the type of the warp
 		Type getType() const;
@@ -118,29 +118,29 @@ namespace ofxWarp
 		virtual bool onWindowResized(int width, int height);
 
 		//! checks all warps and selects the closest control point
-		static void selectClosestControlPoint(const std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static void selectClosestControlPoint(const std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos);
 
 		//! handles mouseMoved events for multiple warps
-		static bool handleMouseMoved(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMouseMoved(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos);
 		//! handles mousePressed events for multiple warps
-		static bool handleMousePressed(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMousePressed(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos);
 		//! handles mouseDragged events for multiple warps
-		static bool handleMouseDragged(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMouseDragged(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos);
 		//! handles mouseReleased events for multiple warps
-		static bool handleMouseReleased(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos);
+		static bool handleMouseReleased(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos);
 
 		//! handles keyPressed events for multiple warps
-		static bool handleKeyPressed(std::vector<std::shared_ptr<Warp>> & warps, int key);
+		static bool handleKeyPressed(std::vector<std::shared_ptr<WarpBase>> & warps, int key);
 		//! handles keyReleased events for multiple warps
-		static bool handleKeyReleased(std::vector<std::shared_ptr<Warp>> & warps, int key);
+		static bool handleKeyReleased(std::vector<std::shared_ptr<WarpBase>> & warps, int key);
 
 		//! handles windowResized events for multiple warps
-		static bool handleWindowResized(std::vector<std::shared_ptr<Warp>> & warps, int width, int height);
+		static bool handleWindowResized(std::vector<std::shared_ptr<WarpBase>> & warps, int width, int height);
 
 		//! read a settings json file and pass back a vector of Warps
-		static std::vector<std::shared_ptr<Warp>> loadSettings(const std::string & filePath);
+		static std::vector<std::shared_ptr<WarpBase>> loadSettings(const std::string & filePath);
 		//! write a settings json file
-		static void saveSettings(const std::vector<std::shared_ptr<Warp>> & warps, const std::string & filePath);
+		static void saveSettings(const std::vector<std::shared_ptr<WarpBase>> & warps, const std::string & filePath);
 
 	protected:
 		//! draws a specific area of a warped texture to a specific region

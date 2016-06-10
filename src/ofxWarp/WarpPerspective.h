@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Warp.h"
+#include "WarpBase.h"
 
 namespace ofxWarp
 {
 	class WarpPerspective
-		: public Warp
+		: public WarpBase
 	{
 	public:
 		WarpPerspective();

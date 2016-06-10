@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Warp.h"
+#include "WarpBase.h"
 
 namespace ofxWarp
 {
 	class WarpBilinear
-		: public Warp
+		: public WarpBase
 	{
 	public:
 		WarpBilinear(const ofFbo::Settings & fboSettings = ofFbo::Settings());

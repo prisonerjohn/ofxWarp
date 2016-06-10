@@ -1,4 +1,4 @@
-#include "Warp.h"
+#include "WarpBase.h"
 
 #include "WarpBilinear.h"
 #include "WarpPerspective.h"
@@ -7,7 +7,7 @@
 namespace ofxWarp
 {
 	//--------------------------------------------------------------
-	Warp::Warp(Type type)
+	WarpBase::WarpBase(Type type)
 		: type(type)
 		, editing(false)
 		, dirty(true)
@@ -27,17 +27,17 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	Warp::~Warp()
+	WarpBase::~WarpBase()
 	{}
 
 	//--------------------------------------------------------------
-	Warp::Type Warp::getType() const
+	WarpBase::Type WarpBase::getType() const
 	{
 		return this->type;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::serialize(nlohmann::json & json)
+	void WarpBase::serialize(nlohmann::json & json)
 	{
 		// Main parameters.
 		json["type"] = this->type;
@@ -81,7 +81,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::deserialize(const nlohmann::json & json)
+	void WarpBase::deserialize(const nlohmann::json & json)
 	{
 		// Main parameters.
 		int typeAsInt = json["type"];
@@ -127,49 +127,49 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setEditing(bool editing)
+	void WarpBase::setEditing(bool editing)
 	{
 		this->editing = editing;
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::toggleEditing()
+	void WarpBase::toggleEditing()
 	{
 		this->setEditing(!this->editing);
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::isEditing() const
+	bool WarpBase::isEditing() const
 	{
 		return this->editing;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setWidth(float width)
+	void WarpBase::setWidth(float width)
 	{
 		this->setSize(width, this->height);
 	}
 
 	//--------------------------------------------------------------
-	float Warp::getWidth() const
+	float WarpBase::getWidth() const
 	{
 		return this->width;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setHeight(float height)
+	void WarpBase::setHeight(float height)
 	{
 		this->setSize(this->width, height);
 	}
 
 	//--------------------------------------------------------------
-	float Warp::getHeight() const
+	float WarpBase::getHeight() const
 	{
 		return this->height;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setSize(float width, float height)
+	void WarpBase::setSize(float width, float height)
 	{
 		this->width = width;
 		this->height = height;
@@ -177,79 +177,79 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::setSize(const ofVec2f & size)
+	void WarpBase::setSize(const ofVec2f & size)
 	{
 		this->setSize(size.x, size.y);
 	}
 	
 	//--------------------------------------------------------------
-	ofVec2f Warp::getSize() const
+	ofVec2f WarpBase::getSize() const
 	{
 		return ofVec2f(this->width, this->height);
 	}
 
 	//--------------------------------------------------------------
-	ofRectangle Warp::getBounds() const
+	ofRectangle WarpBase::getBounds() const
 	{
 		return ofRectangle(0, 0, this->width, this->height);
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setLuminance(float luminance)
+	void WarpBase::setLuminance(float luminance)
 	{
 		this->luminance = ofVec3f(luminance);
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::setLuminance(float red, float green, float blue)
+	void WarpBase::setLuminance(float red, float green, float blue)
 	{
 		this->luminance = ofVec3f(red, green, blue);
 	}
 	
 	//--------------------------------------------------------------
-	const ofVec3f & Warp::getLuminance() const
+	const ofVec3f & WarpBase::getLuminance() const
 	{
 		return this->luminance;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setGamma(float gamma)
+	void WarpBase::setGamma(float gamma)
 	{
 		this->gamma = ofVec3f(gamma);
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::setGamma(float red, float green, float blue)
+	void WarpBase::setGamma(float red, float green, float blue)
 	{
 		this->gamma = ofVec3f(red, green, blue);
 	}
 	
 	//--------------------------------------------------------------
-	const ofVec3f & Warp::getGamma() const
+	const ofVec3f & WarpBase::getGamma() const
 	{
 		return this->gamma;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setExponent(float exponent)
+	void WarpBase::setExponent(float exponent)
 	{
 		this->exponent = exponent;
 	}
 	
 	//--------------------------------------------------------------
-	float Warp::getExponent() const
+	float WarpBase::getExponent() const
 	{
 		return this->exponent;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setEdges(float left, float top, float right, float bottom)
+	void WarpBase::setEdges(float left, float top, float right, float bottom)
 	{
 		this->setEdges(ofVec4f(left, top, right, bottom));
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::setEdges(const ofVec4f & edges)
+	void WarpBase::setEdges(const ofVec4f & edges)
 	{
 		this->edges.x = ofClamp(edges.x * 0.5f, 0.0f, 1.0f);
 		this->edges.y = ofClamp(edges.y * 0.5f, 0.0f, 1.0f);
@@ -258,32 +258,32 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	ofVec4f Warp::getEdges() const
+	ofVec4f WarpBase::getEdges() const
 	{
 		return this->edges * 2.0f;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::draw(const ofTexture & texture)
+	void WarpBase::draw(const ofTexture & texture)
 	{
 		this->draw(texture, ofRectangle(0, 0, texture.getWidth(), texture.getHeight()), this->getBounds());
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::draw(const ofTexture & texture, const ofRectangle & srcBounds)
+	void WarpBase::draw(const ofTexture & texture, const ofRectangle & srcBounds)
 	{
 		this->draw(texture, srcBounds, this->getBounds());
 	}
 
 	//--------------------------------------------------------------
-	void Warp::draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
+	void WarpBase::draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds)
 	{
 		this->drawTexture(texture, srcBounds, dstBounds);
 		this->drawControls();
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const
+	bool WarpBase::clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const
 	{
 		bool clipped = false;
 
@@ -351,7 +351,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	const ofVec2f & Warp::getControlPoint(size_t index) const
+	const ofVec2f & WarpBase::getControlPoint(size_t index) const
 	{
 		if (index >= this->controlPoints.size()) return ofVec2f::zero();
 
@@ -359,7 +359,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setControlPoint(size_t index, const ofVec2f & pos)
+	void WarpBase::setControlPoint(size_t index, const ofVec2f & pos)
 	{
 		if (index >= this->controlPoints.size()) return;
 
@@ -368,7 +368,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::moveControlPoint(size_t index, const ofVec2f & shift)
+	void WarpBase::moveControlPoint(size_t index, const ofVec2f & shift)
 	{
 		if (index >= this->controlPoints.size()) return;
 
@@ -377,19 +377,19 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	size_t Warp::getNumControlPoints() const
+	size_t WarpBase::getNumControlPoints() const
 	{
 		return this->controlPoints.size();
 	}
 
 	//--------------------------------------------------------------
-	size_t Warp::getSelectedControlPoint() const
+	size_t WarpBase::getSelectedControlPoint() const
 	{
 		return this->selectedIndex;
 	}
 
 	//--------------------------------------------------------------
-	void Warp::selectControlPoint(size_t index)
+	void WarpBase::selectControlPoint(size_t index)
 	{
 		if (index >= this->controlPoints.size() || index == this->selectedIndex) return;
 
@@ -398,13 +398,13 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::deselectControlPoint()
+	void WarpBase::deselectControlPoint()
 	{
 		this->selectedIndex = -1;
 	}
 
 	//--------------------------------------------------------------
-	size_t Warp::findClosestControlPoint(const ofVec2f & pos, float * distance) const
+	size_t WarpBase::findClosestControlPoint(const ofVec2f & pos, float * distance) const
 	{
 		size_t index;
 		auto minDistance = std::numeric_limits<float>::max();
@@ -424,7 +424,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::queueControlPoint(const ofVec2f & pos, bool selected, bool attached)
+	void WarpBase::queueControlPoint(const ofVec2f & pos, bool selected, bool attached)
 	{
 		if (selected && attached) 
 		{
@@ -446,7 +446,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale)
+	void WarpBase::queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale)
 	{
 		if (this->controlData.size() < MAX_NUM_CONTROL_POINTS)
 		{
@@ -455,7 +455,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::setupControlPoints()
+	void WarpBase::setupControlPoints()
 	{
 		if (this->controlMesh.getVertices().empty())
 		{
@@ -499,7 +499,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::drawControlPoints()
+	void WarpBase::drawControlPoints()
 	{
 		this->setupControlPoints();
 
@@ -519,13 +519,13 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::onMouseMoved(const ofVec2f & pos)
+	bool WarpBase::onMouseMoved(const ofVec2f & pos)
 	{
 		return false;
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::onMousePressed(const ofVec2f & pos)
+	bool WarpBase::onMousePressed(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
@@ -537,7 +537,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::onMouseDragged(const ofVec2f & pos)
+	bool WarpBase::onMouseDragged(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
@@ -551,13 +551,13 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::onMouseReleased(const ofVec2f & pos)
+	bool WarpBase::onMouseReleased(const ofVec2f & pos)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::onKeyPressed(int key)
+	bool WarpBase::onKeyPressed(int key)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
@@ -625,13 +625,13 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::onKeyReleased(int key)
+	bool WarpBase::onKeyReleased(int key)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::onWindowResized(int width, int height)
+	bool WarpBase::onWindowResized(int width, int height)
 	{
 		this->windowSize = ofVec2f(width, height);
 		this->dirty = true;
@@ -640,7 +640,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Warp::selectClosestControlPoint(const std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	void WarpBase::selectClosestControlPoint(const std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos)
 	{
 		size_t warpIdx = -1;
 		size_t pointIdx = -1;
@@ -674,19 +674,19 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::handleMouseMoved(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool WarpBase::handleMouseMoved(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos)
 	{
 		// Find and select closest control point.
-		Warp::selectClosestControlPoint(warps, pos);
+		WarpBase::selectClosestControlPoint(warps, pos);
 
 		return false;
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleMousePressed(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool WarpBase::handleMousePressed(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos)
 	{
 		// Find and select closest control point.
-		Warp::selectClosestControlPoint(warps, pos);
+		WarpBase::selectClosestControlPoint(warps, pos);
 
 		for (int i = warps.size() - 1; i >= 0; --i)
 		{
@@ -700,7 +700,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleMouseDragged(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool WarpBase::handleMouseDragged(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos)
 	{
 		for (int i = warps.size() - 1; i >= 0; --i)
 		{
@@ -714,13 +714,13 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleMouseReleased(std::vector<std::shared_ptr<Warp>> & warps, const ofVec2f & pos)
+	bool WarpBase::handleMouseReleased(std::vector<std::shared_ptr<WarpBase>> & warps, const ofVec2f & pos)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::handleKeyPressed(std::vector<std::shared_ptr<Warp>> & warps, int key)
+	bool WarpBase::handleKeyPressed(std::vector<std::shared_ptr<WarpBase>> & warps, int key)
 	{
 		for (auto warp : warps)
 		{
@@ -734,13 +734,13 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool Warp::handleKeyReleased(std::vector<std::shared_ptr<Warp>> & warps, int key)
+	bool WarpBase::handleKeyReleased(std::vector<std::shared_ptr<WarpBase>> & warps, int key)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------------
-	bool Warp::handleWindowResized(std::vector<std::shared_ptr<Warp>> & warps, int width, int height)
+	bool WarpBase::handleWindowResized(std::vector<std::shared_ptr<WarpBase>> & warps, int width, int height)
 	{
 		for (auto warp : warps)
 		{
@@ -751,9 +751,9 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	std::vector<std::shared_ptr<Warp>> Warp::loadSettings(const std::string & filePath)
+	std::vector<std::shared_ptr<WarpBase>> WarpBase::loadSettings(const std::string & filePath)
 	{
-		std::vector<std::shared_ptr<Warp>> warps;
+		std::vector<std::shared_ptr<WarpBase>> warps;
 
 		auto file = ofFile(filePath, ofFile::ReadOnly);
 		if (!file.exists())
@@ -766,7 +766,7 @@ namespace ofxWarp
 		file >> json;
 		for (auto & jsonWarp : json["warps"])
 		{
-			std::shared_ptr<Warp> warp;
+			std::shared_ptr<WarpBase> warp;
 
 			int typeAsInt = jsonWarp["type"];
 			Type type = (Type)typeAsInt;
@@ -799,7 +799,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	void Warp::saveSettings(const std::vector<std::shared_ptr<Warp>> & warps, const std::string & filePath)
+	void WarpBase::saveSettings(const std::vector<std::shared_ptr<WarpBase>> & warps, const std::string & filePath)
 	{
 		std::vector<nlohmann::json> jsonWarps;
 		for (auto warp : warps)

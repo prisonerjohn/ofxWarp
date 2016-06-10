@@ -53,7 +53,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpPerspectiveBilinear::setEditing(bool editing)
 	{
-		Warp::setEditing(editing);
+		WarpBase::setEditing(editing);
 		this->warpPerspective->setEditing(this->editing);
 	}
 
@@ -77,7 +77,7 @@ namespace ofxWarp
 		else 
 		{
 			// Bilinear: transform control point from warped space to normalized screen space.
-			auto cp = Warp::getControlPoint(index) * this->warpPerspective->getSize();
+			auto cp = WarpBase::getControlPoint(index) * this->warpPerspective->getSize();
 			auto pt = ofVec4f(cp.x, cp.y, 0.0f, 1.0f) * this->warpPerspective->getTransform();
 
 			if (pt.w != 0) pt.w = 1.0f / pt.w;
@@ -105,7 +105,7 @@ namespace ofxWarp
 			if (pt.w != 0) pt.w = 1.0f / pt.w;
 			pt *= pt.w;
 
-			Warp::setControlPoint(index, ofVec2f(pt.x, pt.y) / this->warpPerspective->getSize());
+			WarpBase::setControlPoint(index, ofVec2f(pt.x, pt.y) / this->warpPerspective->getSize());
 		}
 	}
 
@@ -139,21 +139,21 @@ namespace ofxWarp
 		}
 
 		// Always select bilinear control point, which we use to keep track of editing.
-		Warp::selectControlPoint(index);
+		WarpBase::selectControlPoint(index);
 	}
 
 	//--------------------------------------------------------------
 	void WarpPerspectiveBilinear::deselectControlPoint()
 	{
 		this->warpPerspective->deselectControlPoint();
-		Warp::deselectControlPoint();
+		WarpBase::deselectControlPoint();
 	}
 
 	//--------------------------------------------------------------
 	bool WarpPerspectiveBilinear::onMouseMoved(const ofVec2f & pos)
 	{
 		auto handled = this->warpPerspective->onMouseMoved(pos);
-		handled |= Warp::onMouseMoved(pos);
+		handled |= WarpBase::onMouseMoved(pos);
 		return handled;
 	}
 
@@ -167,7 +167,7 @@ namespace ofxWarp
 		{
 			return this->warpPerspective->onMousePressed(pos);
 		}
-		return Warp::onMousePressed(pos);
+		return WarpBase::onMousePressed(pos);
 	}
 			
 	//--------------------------------------------------------------
@@ -180,7 +180,7 @@ namespace ofxWarp
 		{
 			return this->warpPerspective->onMouseDragged(pos);
 		}
-		return Warp::onMouseDragged(pos);
+		return WarpBase::onMouseDragged(pos);
 	}
 
 	//--------------------------------------------------------------

@@ -20,28 +20,28 @@ void ofApp::setup()
 	this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
 
 	// Load warp settings from file if one exists.
-	this->warps = ofxWarp::Warp::loadSettings("settings.json");
+	this->warps = ofxWarpBase::loadSettings("settings.json");
 	if (this->warps.empty())
 	{
 		// Otherwise create warps from scratch.
-		shared_ptr<ofxWarp::Warp> warp;
+		shared_ptr<ofxWarpBase> warp;
 
-		warp = make_shared<ofxWarp::WarpPerspective>();
+		warp = make_shared<ofxWarpPerspective>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 0.0f, 1.0f, 0.0f));
 		this->warps.push_back(warp);
 
-		warp = make_shared<ofxWarp::WarpBilinear>();
+		warp = make_shared<ofxWarpBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(1.0f, 0.0f, 0.0f, 1.0f));
 		this->warps.push_back(warp);
 
-		warp = make_shared<ofxWarp::WarpPerspectiveBilinear>();
+		warp = make_shared<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 1.0f, 0.0f, 0.0f));
 		this->warps.push_back(warp);
 
-		warp = make_shared<ofxWarp::WarpPerspectiveBilinear>();
+		warp = make_shared<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 1.0f, 1.0f, 0.0f));
 		this->warps.push_back(warp);
@@ -53,7 +53,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::exit()
 {
-	ofxWarp::Warp::saveSettings(this->warps, "settings.json");
+	ofxWarpBase::saveSettings(this->warps, "settings.json");
 }
 
 //--------------------------------------------------------------
@@ -91,7 +91,7 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	ofxWarp::Warp::handleKeyPressed(this->warps, key);
+	ofxWarpBase::handleKeyPressed(this->warps, key);
 
 	if (key == 'f')
 	{
@@ -126,7 +126,7 @@ void ofApp::keyPressed(int key)
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
-	if (!ofxWarp::Warp::handleKeyReleased(this->warps, key))
+	if (!ofxWarpBase::handleKeyReleased(this->warps, key))
 	{
 		// Let the application perform its keyReleased handling here.
 	}
@@ -135,7 +135,7 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y)
 {
-	if (!ofxWarp::Warp::handleMouseMoved(this->warps, ofVec2f(x, y))) 
+	if (!ofxWarpBase::handleMouseMoved(this->warps, ofVec2f(x, y))) 
 	{
 		// Let the application perform its mouseMoved handling here.
 	}
@@ -144,7 +144,7 @@ void ofApp::mouseMoved(int x, int y)
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
 {
-	if (!ofxWarp::Warp::handleMouseDragged(this->warps, ofVec2f(x, y)))
+	if (!ofxWarpBase::handleMouseDragged(this->warps, ofVec2f(x, y)))
 	{
 		// Let the application perform its mouseDragged handling here.
 	}
@@ -153,7 +153,7 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-	if (!ofxWarp::Warp::handleMousePressed(this->warps, ofVec2f(x, y)))
+	if (!ofxWarpBase::handleMousePressed(this->warps, ofVec2f(x, y)))
 	{
 		// Let the application perform its mousePressed handling here.
 	}
@@ -162,7 +162,7 @@ void ofApp::mousePressed(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
 {
-	if (!ofxWarp::Warp::handleMouseReleased(this->warps, ofVec2f(x, y)))
+	if (!ofxWarpBase::handleMouseReleased(this->warps, ofVec2f(x, y)))
 	{
 		// Let the application perform its mouseReleased handling here.
 	}
@@ -182,7 +182,7 @@ void ofApp::mouseExited(int x, int y){
 void ofApp::windowResized(int w, int h)
 {
 	// Tell the warps our window has been resized, so they properly scale up or down.
-	ofxWarp::Warp::handleWindowResized(this->warps, w, h);
+	ofxWarpBase::handleWindowResized(this->warps, w, h);
 }
 
 //--------------------------------------------------------------

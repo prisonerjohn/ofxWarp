@@ -4,7 +4,7 @@ namespace ofxWarp
 {
 	//--------------------------------------------------------------
 	WarpPerspective::WarpPerspective()
-		: Warp(TYPE_PERSPECTIVE)
+		: WarpBase(TYPE_PERSPECTIVE)
 	{
 		this->srcPoints[0] = ofVec2f(0.0f, 0.0f);
 		this->srcPoints[1] = ofVec2f(this->width, 0.0f);
@@ -250,7 +250,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	bool WarpPerspective::onKeyPressed(int key)
 	{
-		if (Warp::onKeyPressed(key))
+		if (WarpBase::onKeyPressed(key))
 		{
 			return true;
 		}
