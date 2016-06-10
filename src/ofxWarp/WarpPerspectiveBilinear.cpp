@@ -150,6 +150,18 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	void WarpPerspectiveBilinear::rotateClockwise()
+	{
+		this->warpPerspective->rotateClockwise();
+	}
+
+	//--------------------------------------------------------------
+	void WarpPerspectiveBilinear::rotateCounterclockwise()
+	{
+		this->warpPerspective->rotateCounterclockwise();
+	}
+
+	//--------------------------------------------------------------
 	bool WarpPerspectiveBilinear::handleCursorDown(const ofVec2f & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
@@ -173,44 +185,6 @@ namespace ofxWarp
 			return this->warpPerspective->handleCursorDrag(pos);
 		}
 		return WarpBase::handleCursorDrag(pos);
-	}
-
-	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::onKeyPressed(int key)
-	{
-		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
-
-		if (key == OF_KEY_UP || key == OF_KEY_DOWN || key == OF_KEY_LEFT || key == OF_KEY_RIGHT)
-		{
-			// Make sure cursor keys are handled by one warp only.
-			if (!this->isCorner(this->selectedIndex))
-			{
-				if (this->warpPerspective->onKeyPressed(key))
-				{
-					return true;
-				}
-			}
-			return WarpBilinear::onKeyPressed(key);
-		}
-		
-		if (key == OF_KEY_F9 || key == OF_KEY_F10)
-		{
-			// Only let Perspective handle rotation.
-			return this->warpPerspective->onKeyPressed(key);
-		}
-		
-		if (key == OF_KEY_F11 || key == OF_KEY_F12)
-		{
-			// Only let Bilinear handle flipping.
-			return WarpBilinear::onKeyPressed(key);
-		}
-		
-		// Let both warps handle the other keys, giving priority to Perspective.
-		if (this->warpPerspective->onKeyPressed(key))
-		{
-			return true;
-		}
-		return WarpBilinear::onKeyPressed(key);
 	}
 
 	//--------------------------------------------------------------

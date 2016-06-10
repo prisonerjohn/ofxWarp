@@ -18,8 +18,20 @@ namespace ofxWarp
 
 		void setFboSettings(const ofFbo::Settings & fboSettings);
 		
-		void setLinear(bool linear = true);
-		void setCurved(bool curved = true);
+		//! set whether the mesh is linear (or curved)
+		void setLinear(bool linear);
+		//! return whether the mesh is linear (or curved)
+		bool getLinear() const;
+
+		//! set whether the mesh resolution is adaptive to the window size
+		void setAdaptive(bool adaptive);
+		//! return whether the mesh resolution is adaptive to the window size
+		bool getAdaptive() const;
+
+		//! increase the mesh resolution
+		void increaseResolution();
+		//! decrease the mesh resolution
+		void decreaseResolution();
 
 		//! reset control points to undistorted image
 		virtual void reset() override;
@@ -32,10 +44,14 @@ namespace ofxWarp
 		void setNumControlsX(int n);
 		//! set the number of vertical control points for this warp
 		void setNumControlsY(int n);
-		//!
+
 		void setTexCoords(float x1, float y1, float x2, float y2);
 
-		virtual bool onKeyPressed(int key) override;
+		virtual void rotateClockwise() override;
+		virtual void rotateCounterclockwise() override;
+
+		virtual void flipHorizontal() override;
+		virtual void flipVertical() override;
 
 	protected:
 		//! draw a specific area of a warped texture to a specific region

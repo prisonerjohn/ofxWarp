@@ -191,6 +191,18 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	void WarpBase::setBrightness(float brightness)
+	{
+		this->brightness = brightness;
+	}
+	
+	//--------------------------------------------------------------
+	float WarpBase::getBrightness() const
+	{
+		return this->brightness;
+	}
+
+	//--------------------------------------------------------------
 	void WarpBase::setLuminance(float luminance)
 	{
 		this->luminance = ofVec3f(luminance);
@@ -420,6 +432,18 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	size_t WarpBase::getNumControlsX() const
+	{
+		return this->numControlsX;
+	}
+	
+	//--------------------------------------------------------------
+	size_t WarpBase::getNumControlsY() const
+	{
+		return this->numControlsY;
+	}
+
+	//--------------------------------------------------------------
 	void WarpBase::queueControlPoint(const ofVec2f & pos, bool selected, bool attached)
 	{
 		if (selected && attached) 
@@ -538,80 +562,6 @@ namespace ofxWarp
 		this->dirty = true;
 
 		return true;
-	}
-
-	//--------------------------------------------------------------
-	bool WarpBase::onKeyPressed(int key)
-	{
-		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
-
-		if (key == OF_KEY_TAB)
-		{
-			// Select the next of previous (+ SHIFT) control point.
-			size_t nextIndex;
-			if (ofGetKeyPressed(OF_KEY_SHIFT))
-			{
-				if (this->selectedIndex == 0)
-				{
-					nextIndex = this->controlPoints.size() - 1;
-				}
-				else
-				{
-					nextIndex = this->selectedIndex - 1;
-				}
-			}
-			else
-			{
-				nextIndex = (this->selectedIndex + 1) % this->controlPoints.size();
-			}
-			this->selectControlPoint(nextIndex);
-		}
-		else if (key == OF_KEY_UP || key == OF_KEY_DOWN || key == OF_KEY_LEFT || key == OF_KEY_RIGHT)
-		{
-			auto step = ofGetKeyPressed(OF_KEY_SHIFT) ? 10.0f : 0.5f;
-			auto shift = ofVec2f::zero();
-			if (key == OF_KEY_UP)
-			{
-				shift.y = -step / this->windowSize.y;
-			}
-			if (key == OF_KEY_DOWN)
-			{
-				shift.y = step / this->windowSize.y;
-			}
-			if (key == OF_KEY_LEFT)
-			{
-				shift.x = -step / this->windowSize.x;
-			}
-			else
-			{
-				shift.x = step / this->windowSize.x;
-			}
-			this->moveControlPoint(this->selectedIndex, shift);
-		}
-		else if (key == '-')
-		{
-			this->brightness = MAX(0.0f, this->brightness - 0.01f);
-		}
-		else if (key == '+')
-		{
-			this->brightness = MIN(1.0f, this->brightness + 0.01f);
-		}
-		else if (key == 'r')
-		{
-			this->reset();
-		}
-		else
-		{
-			return false;
-		}
-
-		return true;
-	}
-	
-	//--------------------------------------------------------------
-	bool WarpBase::onKeyReleased(int key)
-	{
-		return false;
 	}
 
 	//--------------------------------------------------------------

@@ -30,10 +30,11 @@ namespace ofxWarp
 		//! deselect the selected control point
 		virtual void deselectControlPoint() override;
 
+		virtual void rotateClockwise() override;
+		virtual void rotateCounterclockwise() override;
+
 		virtual bool handleCursorDown(const ofVec2f & pos) override;
 		virtual bool handleCursorDrag(const ofVec2f & pos) override;
-
-		virtual bool onKeyPressed(int key) override;
 
 		virtual bool handleWindowResize(int width, int height) override;
 

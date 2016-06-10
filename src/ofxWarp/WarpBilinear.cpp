@@ -67,9 +67,42 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void WarpBilinear::setCurved(bool curved)
+	bool WarpBilinear::getLinear() const
 	{
-		this->setLinear(!curved);
+		return this->linear;
+	}
+
+	//--------------------------------------------------------------
+	void WarpBilinear::setAdaptive(bool adaptive)
+	{
+		this->adaptive = adaptive;
+		this->dirty = true;
+	}
+
+	//--------------------------------------------------------------
+	void WarpBilinear::increaseResolution()
+	{
+		if (this->resolution < 64)
+		{
+			this->resolution += 4;
+			this->dirty = true;
+		}
+	}
+
+	//--------------------------------------------------------------
+	void WarpBilinear::decreaseResolution()
+	{
+		if (this->resolution > 4)
+		{
+			this->resolution -= 4;
+			this->dirty = true;
+		}
+	}
+
+	//--------------------------------------------------------------
+	bool WarpBilinear::getAdaptive() const
+	{
+		return this->adaptive;
 	}
 
 	//--------------------------------------------------------------
@@ -483,6 +516,10 @@ namespace ofxWarp
 		this->controlPoints = tempPoints;
 		this->numControlsX = n;
 
+		// Find new closest control point.
+		float distance;
+		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+
 		this->dirty = true;
 	}
 
@@ -564,6 +601,10 @@ namespace ofxWarp
 		this->controlPoints = tempPoints;
 		this->numControlsY = n;
 
+		// Find new closest control point.
+		float distance;
+		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+
 		this->dirty = true;
 	}
 
@@ -597,132 +638,54 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool WarpBilinear::onKeyPressed(int key)
+	void WarpBilinear::rotateClockwise()
 	{
-		if (WarpBase::onKeyPressed(key))
-		{
-			return true;
-		}
+		ofLogWarning("WarpBilinear::rotateClockwise") << "Not implemented!";
+	}
 
-		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
+	//--------------------------------------------------------------
+	void WarpBilinear::rotateCounterclockwise()
+	{
+		ofLogWarning("WarpBilinear::rotateCounterclockwise") << "Not implemented!";
+	}
 
-		if (key == OF_KEY_F1 || key == OF_KEY_F2 || key == OF_KEY_F3 || key == OF_KEY_F4)
+	//--------------------------------------------------------------
+	void WarpBilinear::flipHorizontal()
+	{
+		std::vector<ofVec2f> flippedPoints;
+		for (int x = this->numControlsX - 1; x >= 0; --x)
 		{
-			if (key == OF_KEY_F1)
+			for (int y = 0; y < this->numControlsY; ++y)
 			{
-				// Reduce the number of horizontal control points.
-				if (ofGetKeyPressed(OF_KEY_SHIFT))
-				{
-					this->setNumControlsX(this->numControlsX - 1);
-				}
-				else
-				{
-					this->setNumControlsX((this->numControlsX + 1) / 2);
-				}
+				auto i = (x * this->numControlsY + y);
+				flippedPoints.push_back(this->controlPoints[i]);
 			}
-			else if (key == OF_KEY_F2)
-			{
-				// Increase the number of horizontal control points.
-				if (ofGetKeyPressed(OF_KEY_SHIFT))
-				{
-					this->setNumControlsX(this->numControlsX + 1);
-				}
-				else
-				{
-					this->setNumControlsX(this->numControlsX * 2 - 1);
-				}
-			}
-			else if (key == OF_KEY_F3)
-			{
-				// Reduce the number of vertical control points.
-				if (ofGetKeyPressed(OF_KEY_SHIFT))
-				{
-					this->setNumControlsY(this->numControlsY - 1);
-				}
-				else
-				{
-					this->setNumControlsY((this->numControlsY + 1) / 2);
-				}
-			}
-			else if (key == OF_KEY_F4)
-			{
-				// Increase the number of vertical control points.
-				if (ofGetKeyPressed(OF_KEY_SHIFT))
-				{
-					this->setNumControlsY(this->numControlsY + 1);
-				}
-				else
-				{
-					this->setNumControlsY(this->numControlsY * 2 - 1);
-				}
-			}
+		}
+		this->controlPoints = flippedPoints;
+		this->dirty = true;
 
-			// Find new closest control point.
-			float distance;
-			this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
-		}
-		else if (key == 'm')
-		{
-			this->setLinear(!this->linear);
-		}
-		else if (key == OF_KEY_F5)
-		{
-			// Decrease the mesh resolution.
-			if (this->resolution > 4)
-			{
-				this->resolution -= 4;
-				this->dirty = true;
-			}
-		}
-		else if (key == OF_KEY_F6)
-		{
-			// Increase the mesh resolution.
-			if (this->resolution < 64)
-			{
-				this->resolution += 4;
-				this->dirty = true;
-			}
-		}
-		else if (key == OF_KEY_F7)
-		{
-			this->adaptive ^= 1;
-			this->dirty = true;
-		}
-		else if (key == OF_KEY_F11 || key == OF_KEY_F12)
-		{
-			std::vector<ofVec2f> flippedPoints;
-			if (key == OF_KEY_F11)
-			{
-				// Flip control points horizontally.
-				for (int x = this->numControlsX - 1; x >= 0; --x) 
-				{
-					for (int y = 0; y < this->numControlsY; ++y) 
-					{
-						auto i = (x * this->numControlsY + y);
-						flippedPoints.push_back(this->controlPoints[i]);
-					}
-				}
-			}
-			else
-			{
-				// Flip control points vertically.
-				for (int x = 0; x < this->numControlsX; ++x)
-				{
-					for (int y = this->numControlsY - 1; y >= 0; --y)
-					{
-						auto i = (x * this->numControlsY + y);
-						flippedPoints.push_back(this->controlPoints[i]);
-					}
-				}
-			}
-			this->controlPoints = flippedPoints;
-			this->dirty = true;
+		// Find new closest control point.
+		float distance;
+		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+	}
 
-			// Find new closest control point.
-			float distance;
-			this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+	//--------------------------------------------------------------
+	void WarpBilinear::flipVertical()
+	{
+		std::vector<ofVec2f> flippedPoints;
+		for (int x = 0; x < this->numControlsX; ++x)
+		{
+			for (int y = this->numControlsY - 1; y >= 0; --y)
+			{
+				auto i = (x * this->numControlsY + y);
+				flippedPoints.push_back(this->controlPoints[i]);
+			}
 		}
+		this->controlPoints = flippedPoints;
+		this->dirty = true;
 
-		return true;
+		// Find new closest control point.
+		float distance;
+		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
 	}
 }

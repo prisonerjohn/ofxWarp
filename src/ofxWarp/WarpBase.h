@@ -47,6 +47,11 @@ namespace ofxWarp
 		//! get the rectangle of the content in pixels
 		ofRectangle getBounds() const;
 
+		//! set the brightness value of the texture (values between 0 and 1)
+		void setBrightness(float brightness);
+		//! return the brightness value of the texture (values between 0 and 1)
+		float getBrightness() const;
+
 		//! set the luminance value for all color channels, used for edge blending (0.5 = linear)
 		void setLuminance(float luminance);
 		//! set the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
@@ -107,11 +112,19 @@ namespace ofxWarp
 		//! return the index of the closest control point, as well as the distance in pixels
 		virtual size_t findClosestControlPoint(const ofVec2f & pos, float * distance) const;
 
+		//! return the number of control points columns
+		size_t getNumControlsX() const;
+		//! return the number of control points rows
+		size_t getNumControlsY() const;
+
+		virtual void rotateClockwise() = 0;
+		virtual void rotateCounterclockwise() = 0;
+
+		virtual void flipHorizontal() = 0;
+		virtual void flipVertical() = 0;
+
 		virtual bool handleCursorDown(const ofVec2f & pos);
 		virtual bool handleCursorDrag(const ofVec2f & pos);
-
-		virtual bool onKeyPressed(int key);
-		virtual bool onKeyReleased(int key);
 
 		virtual bool handleWindowResize(int width, int height);
 

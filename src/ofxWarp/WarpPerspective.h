@@ -21,7 +21,11 @@ namespace ofxWarp
 		//! restore the warp after drawing
 		virtual void end() override;
 
-		virtual bool onKeyPressed(int key) override;
+		virtual void rotateClockwise() override;
+		virtual void rotateCounterclockwise() override;
+
+		virtual void flipHorizontal() override;
+		virtual void flipVertical() override;
 
 	protected:
 		//! draw a specific area of a warped texture to a specific region
