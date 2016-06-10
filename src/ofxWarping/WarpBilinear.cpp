@@ -291,7 +291,7 @@ namespace ofxWarping
 	}
 
 	// Mapped buffer seems to be a *tiny* bit faster.
-//#define USE_MAPPED_BUFFER 1
+#define USE_MAPPED_BUFFER 1
 
 	//--------------------------------------------------------------
 	void WarpBilinear::updateMesh()
@@ -305,7 +305,8 @@ namespace ofxWarping
 		std::vector<ofVec2f> cols, rows;
 
 #if USE_MAPPED_BUFFER
-		auto mappedMesh = mVboMesh->mapAttrib3f(geom::POSITION, false);
+		auto vertexBuffer = this->vbo.getVertexBuffer();
+		auto mappedMesh = (ofVec3f *)vertexBuffer.map(GL_WRITE_ONLY);
 #else
 		std::vector<ofVec3f> positions(this->resolutionX * this->resolutionY);
 		auto index = 0;
@@ -350,7 +351,7 @@ namespace ofxWarping
 				}
 
 #if USE_MAPPED_BUFFER
-				*mappedMesh++ = vec3(p.x, p.y, 0);
+				*mappedMesh++ = ofVec3f(pt.x, pt.y, 0.0f);
 #else
 				positions[index++] = ofVec3f(pt.x, pt.y, 0.0f);
 #endif
@@ -358,7 +359,7 @@ namespace ofxWarping
 		}
 
 #if USE_MAPPED_BUFFER
-		mappedMesh.unmap();
+		vertexBuffer.unmap();
 #else
 		this->vbo.updateVertexData(positions.data(), positions.size());
 #endif
