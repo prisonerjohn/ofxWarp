@@ -19,11 +19,11 @@ namespace ofxWarp
 
 		virtual void setSize(float width, float height) override;
 
-		//! returns the coordinates of the specified control point
+		//! return the coordinates of the specified control point
 		virtual const ofVec2f & getControlPoint(size_t index) const override;
-		//! sets the coordinates of the specified control point
+		//! set the coordinates of the specified control point
 		virtual void setControlPoint(size_t index, const ofVec2f & pos) override;
-		//! moves the specified control point
+		//! move the specified control point
 		virtual void moveControlPoint(size_t index, const ofVec2f & shift) override;
 		//! select one of the control points
 		virtual void selectControlPoint(size_t index) override;
@@ -38,12 +38,12 @@ namespace ofxWarp
 		virtual bool handleWindowResize(int width, int height) override;
 
 	protected:
-		//! draws a specific area of a warped texture to a specific region
+		//! draw a specific area of a warped texture to a specific region
 		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
 
-		//! returns whether or not the control point is one of the 4 corners and should be treated as a perspective control point
+		//! return whether or not the control point is one of the 4 corners and should be treated as a perspective control point
 		bool isCorner(size_t index) const;
-		//! converts the control point index to the appropriate perspective warp index
+		//! convert the control point index to the appropriate perspective warp index
 		size_t convertIndex(size_t index) const;
 
 	protected:

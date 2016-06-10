@@ -58,19 +58,19 @@ namespace ofxWarp
 		void setGamma(float gamma);
 		//! set the gamma curve value for the red, green and blue channels
 		void setGamma(float red, float green, float blue);
-		//! returns the gamma curve value for the red, green and blue channels
+		//! return the gamma curve value for the red, green and blue channels
 		const ofVec3f & getGamma() const;
 
 		//! set the edge blending curve exponent  (1.0 = linear, 2.0 = quadratic)
 		void setExponent(float exponent);
-		//! returns the edge blending curve exponent (1.0 = linear, 2.0 = quadratic)
+		//! return the edge blending curve exponent (1.0 = linear, 2.0 = quadratic)
 		float getExponent() const;
 
 		//! set the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
 		void setEdges(float left, float top, float right, float bottom);
 		//! set the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
 		void setEdges(const ofVec4f & edges);
-		//! returns the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
+		//! return the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
 		ofVec4f getEdges() const;
 
 		//! reset control points to undistorted image
@@ -80,21 +80,21 @@ namespace ofxWarp
 		//! restore the warp after drawing
 		virtual void end() = 0;
 
-		//! draws a warped texture
+		//! draw a warped texture
 		void draw(const ofTexture & texture);
-		//! draws a specific area of a warped texture
+		//! draw a specific area of a warped texture
 		void draw(const ofTexture & texture, const ofRectangle & srcBounds);
-		//! draws a specific area of a warped texture to a specific region
+		//! draw a specific area of a warped texture to a specific region
 		void draw(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds);
 
-		//! adjusts both the source and destination rectangles so that they are clipped against the warp's content
+		//! adjust both the source and destination rectangles so that they are clipped against the warp's content
 		bool clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const;
 
-		//! returns the coordinates of the specified control point
+		//! return the coordinates of the specified control point
 		virtual const ofVec2f & getControlPoint(size_t index) const;
-		//! sets the coordinates of the specified control point
+		//! set the coordinates of the specified control point
 		virtual void setControlPoint(size_t index, const ofVec2f & pos);
-		//! moves the specified control point
+		//! move the specified control point
 		virtual void moveControlPoint(size_t index, const ofVec2f & shift);
 		//! get the number of control points
 		virtual size_t getNumControlPoints() const;
@@ -104,7 +104,7 @@ namespace ofxWarp
 		virtual void selectControlPoint(size_t index);
 		//! deselect the selected control point
 		virtual void deselectControlPoint();
-		//! returns the index of the closest control point, as well as the distance in pixels
+		//! return the index of the closest control point, as well as the distance in pixels
 		virtual size_t findClosestControlPoint(const ofVec2f & pos, float * distance) const;
 
 		virtual bool handleCursorDown(const ofVec2f & pos);
@@ -116,7 +116,7 @@ namespace ofxWarp
 		virtual bool handleWindowResize(int width, int height);
 
 	protected:
-		//! draws a specific area of a warped texture to a specific region
+		//! draw a specific area of a warped texture to a specific region
 		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) = 0;
 		//! draw the warp's controls interface
 		virtual void drawControls() = 0;

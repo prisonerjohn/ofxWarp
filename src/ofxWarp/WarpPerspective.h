@@ -24,7 +24,7 @@ namespace ofxWarp
 		virtual bool onKeyPressed(int key) override;
 
 	protected:
-		//! draws a specific area of a warped texture to a specific region
+		//! draw a specific area of a warped texture to a specific region
 		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
 		//! draw the warp's controls interface
 		virtual void drawControls() override;

@@ -38,22 +38,22 @@ namespace ofxWarp
 		virtual bool onKeyPressed(int key) override;
 
 	protected:
-		//! draws a specific area of a warped texture to a specific region
+		//! draw a specific area of a warped texture to a specific region
 		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) override;
 		//! draw the warp's controls interface
 		virtual void drawControls() override;
 
-		//! sets up the frame buffer
+		//! set up the frame buffer
 		void setupFbo();
-		//! sets up the shader and vertex buffer
+		//! set up the shader and vertex buffer
 		void setupVbo();
-		//! sets up the vbo mesh
+		//! set up the vbo mesh
 		void setupMesh(int resolutionX = 36, int resolutionY = 36);
-		//! updates the vbo mesh based on the control points
+		//! update the vbo mesh based on the control points
 		void updateMesh();
-		//!	returns the specified control point. Values for col and row are clamped to prevent errors.
+		//!	return the specified control point, values for col and row are clamped to prevent errors.
 		ofVec2f getPoint(int col, int row) const;
-		//! Performs fast Catmull-Rom interpolation, returns the interpolated value at t
+		//! perform fast Catmull-Rom interpolation, and return the interpolated value at t
 		ofVec2f cubicInterpolate(const std::vector<ofVec2f> & knots, float t) const;
 		//!
 		ofRectangle getMeshBounds() const;
@@ -66,13 +66,13 @@ namespace ofxWarp
 
 		//! linear or curved interpolation
 		bool linear;
-		//!
+
 		bool adaptive;
 
 		//! texture coordinates of corners
 		float x1, y1, x2, y2;
 
-		//! determines the detail of the generated mesh (multiples of 5 seem to work best)
+		//! detail of the generated mesh (multiples of 5 seem to work best)
 		int resolution;
 
 		//! number of horizontal quads
