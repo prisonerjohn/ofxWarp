@@ -319,7 +319,7 @@ namespace ofxWarp
 		if (x2 < 0.0f) 
 		{
 			dstVec.z = 0.0f;
-			srcVec.z -= static_cast<int32_t>(x2 * srcBounds.getWidth());
+			srcVec.z -= (x2 * srcBounds.getWidth());
 			clipped = true;
 		}
 		else if (x2 > 1.0f) {
@@ -337,7 +337,7 @@ namespace ofxWarp
 		else if (y1 > 1.0f) 
 		{
 			dstVec.y = this->height;
-			srcVec.y -= static_cast<int32_t>((1.0f / y1) * srcBounds.getHeight());
+			srcVec.y -= ((1.0f / y1) * srcBounds.getHeight());
 			clipped = true;
 		}
 
