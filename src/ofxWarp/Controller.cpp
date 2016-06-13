@@ -138,6 +138,22 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	std::shared_ptr<WarpBase> Controller::getWarp(size_t index) const
+	{
+		if (index < this->warps.size())
+		{
+			return this->warps[index];
+		}
+		return nullptr;
+	}
+	
+	//--------------------------------------------------------------
+	size_t Controller::getNumWarps() const
+	{
+		return this->warps.size();
+	}
+
+	//--------------------------------------------------------------
 	void Controller::selectClosestControlPoint(const ofVec2f & pos)
 	{
 		size_t warpIdx = -1;

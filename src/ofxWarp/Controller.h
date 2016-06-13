@@ -33,6 +33,10 @@ namespace ofxWarp
 
 		//! return the list of warps
 		std::vector<std::shared_ptr<WarpBase>> & getWarps();
+		//! return the warp at the specified index
+		std::shared_ptr<WarpBase> getWarp(size_t index) const;
+		//! return the number of warps
+		size_t getNumWarps() const;
 
 		//! handle mouseMoved events for multiple warps
 		void onMouseMoved(ofMouseEventArgs & args);
