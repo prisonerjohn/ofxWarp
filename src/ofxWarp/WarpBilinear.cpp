@@ -8,10 +8,7 @@ namespace ofxWarp
 		, fboSettings(fboSettings)
 		, linear(false)
 		, adaptive(true)
-		, x1(0.0f)
-		, y1(0.0f)
-		, x2(1.0f)
-		, y2(1.0f)
+		, corners(0.0f, 0.0f, 1.0f, 1.0f)
 		, resolutionX(0)
 		, resolutionY(0)
 		, resolution(16)  // higher value is coarser mesh
@@ -146,14 +143,14 @@ namespace ofxWarp
 		auto dstClip = dstBounds;
 		this->clip(srcClip, dstClip);
 
-		// Set texture coordinates.
+		// Set corner texture coordinates.
 		if (texture.getTextureData().textureTarget == GL_TEXTURE_RECTANGLE_ARB)
 		{
-			this->setTexCoords(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+			this->setCorners(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
 		}
 		else
 		{
-			this->setTexCoords(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+			this->setCorners(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
 		}
 
 		this->setupVbo();
@@ -180,6 +177,7 @@ namespace ofxWarp
 				this->shader.setUniform3f("uLuminance", this->luminance);
 				this->shader.setUniform3f("uGamma", this->gamma);
 				this->shader.setUniform4f("uEdges", this->edges);
+				this->shader.setUniform4f("uCorners", this->corners);
 				this->shader.setUniform1f("uExponent", this->exponent);
 				this->shader.setUniform1i("uEditing", this->editing);
 
@@ -305,8 +303,8 @@ namespace ofxWarp
 				}
 
 				// Tex Coord.
-				float tx = ofLerp(this->x1, this->x2, x / (float)(this->resolutionX - 1));
-				float ty = ofLerp(this->y1, this->y2, y / (float)(this->resolutionY - 1));
+				float tx = ofLerp(this->corners.x, this->corners.z, x / (float)(this->resolutionX - 1));
+				float ty = ofLerp(this->corners.y, this->corners.w, y / (float)(this->resolutionY - 1));
 				texCoords[j++] = ofVec2f(tx, ty);
 			}
 		}
@@ -626,15 +624,12 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void WarpBilinear::setTexCoords(float x1, float y1, float x2, float y2)
+	void WarpBilinear::setCorners(float left, float top, float right, float bottom)
 	{
-		this->dirty |= (x1 != this->x1 || y1 != this->y1 || x2 != this->x2 || y2 != this->y2);
+		this->dirty |= (left != this->corners.x || top != this->corners.y || right != this->corners.z || bottom != this->corners.w);
 		if (!this->dirty) return;
 
-		this->x1 = x1;
-		this->y1 = y1;
-		this->x2 = x2;
-		this->y2 = y2;
+		this->corners = ofVec4f(left, top, right, bottom);
 	}
 
 	//--------------------------------------------------------------

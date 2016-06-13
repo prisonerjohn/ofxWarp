@@ -94,6 +94,17 @@ namespace ofxWarp
 		auto dstClip = dstBounds;
 		this->clip(srcClip, dstClip);
 
+		// Set corner texture coordinates.
+		ofVec4f corners;
+		if (texture.getTextureData().textureTarget == GL_TEXTURE_RECTANGLE_ARB)
+		{
+			corners = ofVec4f(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+		}
+		else
+		{
+			corners = ofVec4f(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+		}
+		
 		ofPushMatrix();
 		{
 			ofMultMatrix(this->getTransform());
@@ -115,6 +126,7 @@ namespace ofxWarp
 					this->shader.setUniform3f("uLuminance", this->luminance);
 					this->shader.setUniform3f("uGamma", this->gamma);
 					this->shader.setUniform4f("uEdges", this->edges);
+					this->shader.setUniform4f("uCorners", corners);
 					this->shader.setUniform1f("uExponent", this->exponent);
 
 					const auto mesh = texture.getMeshForSubsection(dstClip.x, dstClip.y, 0.0f, dstClip.width, dstClip.height, srcClip.x, srcClip.y, srcClip.width, srcClip.height, ofIsVFlipped(), OF_RECTMODE_CORNER);

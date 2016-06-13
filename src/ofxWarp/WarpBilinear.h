@@ -45,7 +45,7 @@ namespace ofxWarp
 		//! set the number of vertical control points for this warp
 		void setNumControlsY(int n);
 
-		void setTexCoords(float x1, float y1, float x2, float y2);
+		void setCorners(float left, float top, float right, float bottom);
 
 		virtual void rotateClockwise() override;
 		virtual void rotateCounterclockwise() override;
@@ -86,7 +86,7 @@ namespace ofxWarp
 		bool adaptive;
 
 		//! texture coordinates of corners
-		float x1, y1, x2, y2;
+		ofVec4f corners;
 
 		//! detail of the generated mesh (multiples of 5 seem to work best)
 		int resolution;
