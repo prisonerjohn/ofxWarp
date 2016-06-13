@@ -17,7 +17,6 @@ void ofApp::setup()
 
 	this->texture.enableMipmap();
 	this->texture.loadData(image.getPixels());
-	this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
 
 	// Load warp settings from file if one exists.
 	this->warpController.loadSettings("settings.json");
@@ -28,7 +27,7 @@ void ofApp::setup()
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspective>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(ofVec4f(0.0f, 0.0f, 1.0f, 0.0f));
+		warp->setEdges(ofVec4f(0.0f, 0.0f, 1.0f, 1.0f));
 		
 		warp = this->warpController.buildWarp<ofxWarpBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
@@ -42,6 +41,12 @@ void ofApp::setup()
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(ofVec4f(0.0f, 1.0f, 1.0f, 0.0f));
 	}
+
+	this->srcAreas.resize(this->warpController.getNumWarps());
+
+	// Start with full area mode.
+	this->areaMode = -1;
+	this->keyPressed('a');
 	
 	this->useBeginEnd = false;
 }
@@ -55,7 +60,7 @@ void ofApp::exit()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	ofSetWindowTitle(ofToString(ofGetFrameRate(), 2) + " FPS");
+	ofSetWindowTitle(ofToString(ofGetFrameRate(), 2) + " FPS :: " + areaName + " :: " + (this->useBeginEnd ? "begin()/end()" : "draw()"));
 }
 
 //--------------------------------------------------------------
@@ -65,23 +70,32 @@ void ofApp::draw()
 
 	if (this->texture.isAllocated())
 	{
-		for (auto warp : this->warpController.getWarps())
+		for (auto i = 0; i < this->warpController.getNumWarps(); ++i)
 		{
+			auto warp = this->warpController.getWarp(i);
 			if (this->useBeginEnd)
 			{
 				warp->begin();
 
 				auto bounds = warp->getBounds();
-				this->texture.drawSubsection(bounds.x, bounds.y, bounds.width, bounds.height, this->srcArea.x, this->srcArea.y, this->srcArea.width, this->srcArea.height);
+				this->texture.drawSubsection(bounds.x, bounds.y, bounds.width, bounds.height, this->srcAreas[i].x, this->srcAreas[i].y, this->srcAreas[i].width, this->srcAreas[i].height);
 
 				warp->end();
 			}
 			else
 			{
-				warp->draw(this->texture, this->srcArea);
+				warp->draw(this->texture, this->srcAreas[i]);
 			}
 		}
 	}
+
+	ostringstream oss;
+	oss << ofToString(ofGetFrameRate(), 2) << " fps" << endl;
+	oss << "[a]rea mode: " << areaName << endl;
+	oss << "[d]raw mode: " << (this->useBeginEnd ? "begin()/end()" : "draw()") << endl;
+	oss << "[w]arp edit: " << (this->warpController.getWarp(0)->isEditing() ? "on" : "off");
+	ofSetColor(ofColor::white);
+	ofDrawBitmapStringHighlight(oss.str(), 10, 20);
 }
 
 //--------------------------------------------------------------
@@ -93,18 +107,65 @@ void ofApp::keyPressed(int key)
 	}
 	else if (key == 'a')
 	{
-		// Toggle drawing a random region of the image.
-		if (this->srcArea.getWidth() != this->texture.getWidth() || this->srcArea.getHeight() != this->texture.getHeight())
-			this->srcArea = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
-		else {
+		this->areaMode = (this->areaMode + 1) % 3;
+		if (this->areaMode == 0)
+		{
+			// Draw the full image for each warp.
+			auto area = ofRectangle(0, 0, this->texture.getWidth(), this->texture.getHeight());
+			for (auto i = 0; i < this->warpController.getNumWarps(); ++i)
+			{
+				this->srcAreas[i] = area;
+			}
+
+			this->areaName = "full";
+		}
+		else if (this->areaMode == 1)
+		{			
+			// Draw a corner region of the image so that all warps make up the entire image.
+			for (auto i = 0; i < this->warpController.getNumWarps(); ++i)
+			{
+				static const auto overlap = 0;
+				if (i == 0)
+				{
+					// Top-left.
+					this->srcAreas[i] = ofRectangle(0, 0, this->texture.getWidth() * 0.5f + overlap, this->texture.getHeight() * 0.5f + overlap);
+				}
+				else if (i == 1)
+				{
+					// Top-right.
+					this->srcAreas[i] = ofRectangle(this->texture.getWidth() * 0.5f - overlap, 0, this->texture.getWidth() * 0.5f + overlap, this->texture.getHeight() * 0.5f + overlap);
+				}
+				else if (i == 2)
+				{
+					// Bottom-right.
+					this->srcAreas[i] = ofRectangle(this->texture.getWidth() * 0.5f - overlap, this->texture.getHeight() * 0.5f - overlap, this->texture.getWidth() * 0.5f + overlap, this->texture.getHeight() * 0.5f + overlap);
+				}
+				else
+				{
+					// Bottom-left.
+					this->srcAreas[i] = ofRectangle(0, this->texture.getHeight() * 0.5f - overlap, this->texture.getWidth() * 0.5f + overlap, this->texture.getHeight() * 0.5f + overlap);
+				}
+			}
+
+			this->areaName = "corners";
+		}
+		else
+		{			
+			// Draw a random region of the image for each warp.
 			auto x1 = ofRandom(0, this->texture.getWidth() - 150);
 			auto y1 = ofRandom(0, this->texture.getHeight() - 150);
 			auto x2 = ofRandom(x1 + 150, this->texture.getWidth());
 			auto y2 = ofRandom(y1 + 150, this->texture.getHeight());
-			this->srcArea = ofRectangle(x1, y1, x2 - x1, y2 - y1);
+			auto area = ofRectangle(x1, y1, x2 - x1, y2 - y1);
+			for (auto i = 0; i < this->warpController.getNumWarps(); ++i)
+			{
+				this->srcAreas[i] = area;
+			}
+
+			this->areaName = "random";
 		}
 	}
-	else if (key == ' ')
+	else if (key == 'd')
 	{
 		this->useBeginEnd ^= 1;
 	}

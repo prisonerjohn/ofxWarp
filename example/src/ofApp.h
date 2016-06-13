@@ -28,5 +28,7 @@ public:
 	bool useBeginEnd;
 	ofxWarpController warpController;
 	ofTexture texture;
-	ofRectangle srcArea;
+	vector<ofRectangle> srcAreas;
+	int areaMode;
+	string areaName;
 };
