@@ -368,7 +368,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	const ofVec2f & WarpBase::getControlPoint(size_t index) const
+	ofVec2f WarpBase::getControlPoint(size_t index) const
 	{
 		if (index >= this->controlPoints.size()) return ofVec2f::zero();
 

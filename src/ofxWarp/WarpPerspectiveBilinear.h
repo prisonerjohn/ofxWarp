@@ -20,7 +20,7 @@ namespace ofxWarp
 		virtual void setSize(float width, float height) override;
 
 		//! return the coordinates of the specified control point
-		virtual const ofVec2f & getControlPoint(size_t index) const override;
+		virtual ofVec2f getControlPoint(size_t index) const override;
 		//! set the coordinates of the specified control point
 		virtual void setControlPoint(size_t index, const ofVec2f & pos) override;
 		//! move the specified control point

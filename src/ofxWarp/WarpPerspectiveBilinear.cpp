@@ -66,7 +66,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	const ofVec2f & WarpPerspectiveBilinear::getControlPoint(size_t index) const
+	ofVec2f WarpPerspectiveBilinear::getControlPoint(size_t index) const
 	{
 		// Depending on index, return perspective or bilinear control point.
 		if (this->isCorner(index)) 

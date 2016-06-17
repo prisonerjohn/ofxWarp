@@ -96,7 +96,7 @@ namespace ofxWarp
 		bool clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const;
 
 		//! return the coordinates of the specified control point
-		virtual const ofVec2f & getControlPoint(size_t index) const;
+		virtual ofVec2f getControlPoint(size_t index) const;
 		//! set the coordinates of the specified control point
 		virtual void setControlPoint(size_t index, const ofVec2f & pos);
 		//! move the specified control point
