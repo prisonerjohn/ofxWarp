@@ -128,6 +128,8 @@ namespace ofxWarp
 
 		virtual bool handleWindowResize(int width, int height);
 
+		static void setShaderPath(const std::string shaderPath);
+
 	protected:
 		//! draw a specific area of a warped texture to a specific region
 		virtual void drawTexture(const ofTexture & texture, const ofRectangle & srcBounds, const ofRectangle & dstBounds) = 0;
@@ -171,6 +173,8 @@ namespace ofxWarp
 		ofVec4f edges;
 
 		static const int MAX_NUM_CONTROL_POINTS = 1024;
+
+		static std::string shaderPath;
 
 	private:
 		typedef enum

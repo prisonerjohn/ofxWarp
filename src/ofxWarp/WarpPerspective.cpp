@@ -13,7 +13,7 @@ namespace ofxWarp
 
 		this->reset();
 
-		this->shader.load("shaders/ofxWarp/WarpPerspective");
+		this->shader.load(WarpBase::shaderPath + "WarpPerspective");
 	}
 
 	//--------------------------------------------------------------

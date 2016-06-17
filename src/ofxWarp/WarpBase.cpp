@@ -3,6 +3,15 @@
 namespace ofxWarp
 {
 	//--------------------------------------------------------------
+	std::string WarpBase::shaderPath = ofFilePath::addTrailingSlash("shaders/ofxWarp");
+
+	//--------------------------------------------------------------
+	void WarpBase::setShaderPath(const std::string shaderPath)
+	{
+		WarpBase::shaderPath = shaderPath;
+	}
+
+	//--------------------------------------------------------------
 	WarpBase::WarpBase(Type type)
 		: type(type)
 		, editing(false)
@@ -509,8 +518,8 @@ namespace ofxWarp
 		if (!this->controlShader.isLoaded())
 		{
 			// Load the shader.
-			this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, "shaders/ofxWarp/ControlPoint.vert");
-			this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, "shaders/ofxWarp/ControlPoint.frag");
+			this->controlShader.setupShaderFromFile(GL_VERTEX_SHADER, WarpBase::shaderPath + "ControlPoint.vert");
+			this->controlShader.setupShaderFromFile(GL_FRAGMENT_SHADER, WarpBase::shaderPath + "ControlPoint.frag");
 			this->controlShader.bindAttribute(INSTANCE_POS_SCALE_ATTRIBUTE, "iPositionScale");
 			this->controlShader.bindAttribute(INSTANCE_COLOR_ATTRIBUTE, "iColor");
 			this->controlShader.bindDefaults();

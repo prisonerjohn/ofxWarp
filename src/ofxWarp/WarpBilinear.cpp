@@ -15,7 +15,7 @@ namespace ofxWarp
 	{
 		this->reset();
 
-		this->shader.load("shaders/ofxWarp/WarpBilinear");
+		this->shader.load(WarpBase::shaderPath + "WarpBilinear");
 	}
 
 	//--------------------------------------------------------------
