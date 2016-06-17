@@ -32,6 +32,8 @@ namespace ofxWarp
 		void increaseResolution();
 		//! decrease the mesh resolution
 		void decreaseResolution();
+		//! return the mesh resolution
+		int getResolution() const;
 
 		//! reset control points to undistorted image
 		virtual void reset() override;

@@ -77,6 +77,12 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	bool WarpBilinear::getAdaptive() const
+	{
+		return this->adaptive;
+	}
+
+	//--------------------------------------------------------------
 	void WarpBilinear::increaseResolution()
 	{
 		if (this->resolution < 64)
@@ -97,9 +103,9 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool WarpBilinear::getAdaptive() const
+	int WarpBilinear::getResolution() const
 	{
-		return this->adaptive;
+		return this->resolution;
 	}
 
 	//--------------------------------------------------------------
