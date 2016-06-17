@@ -38,6 +38,18 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	bool Controller::saveSettings(const std::string & filePath)
+	{
+		nlohmann::json json;
+		this->serialize(json);
+
+		auto file = ofFile(filePath, ofFile::WriteOnly);
+		file << json;
+
+		return true;
+	}
+
+	//--------------------------------------------------------------
 	bool Controller::loadSettings(const std::string & filePath)
 	{
 		auto file = ofFile(filePath, ofFile::ReadOnly);
@@ -47,10 +59,31 @@ namespace ofxWarp
 			return false;
 		}
 
-		this->warps.clear();
-
 		nlohmann::json json;
 		file >> json;
+
+		this->deserialize(json);
+
+		return true;
+	}
+
+	//--------------------------------------------------------------
+	void Controller::serialize(nlohmann::json & json)
+	{
+		std::vector<nlohmann::json> jsonWarps;
+		for (auto warp : this->warps)
+		{
+			nlohmann::json jsonWarp;
+			warp->serialize(jsonWarp);
+			jsonWarps.push_back(jsonWarp);
+		}
+		json["warps"] = jsonWarps;
+	}
+	
+	//--------------------------------------------------------------
+	void Controller::deserialize(const nlohmann::json & json)
+	{
+		this->warps.clear();
 		for (auto & jsonWarp : json["warps"])
 		{
 			std::shared_ptr<WarpBase> warp;
@@ -81,28 +114,6 @@ namespace ofxWarp
 				this->warps.push_back(warp);
 			}
 		}
-
-		return true;
-	}
-
-	//--------------------------------------------------------------
-	bool Controller::saveSettings(const std::string & filePath)
-	{
-		std::vector<nlohmann::json> jsonWarps;
-		for (auto warp : this->warps)
-		{
-			nlohmann::json jsonWarp;
-			warp->serialize(jsonWarp);
-			jsonWarps.push_back(jsonWarp);
-		}
-
-		nlohmann::json json;
-		json["warps"] = jsonWarps;
-
-		auto file = ofFile(filePath, ofFile::WriteOnly);
-		file << json;
-
-		return true;
 	}
 
 	//--------------------------------------------------------------

@@ -11,10 +11,15 @@ namespace ofxWarp
 		Controller();
 		~Controller();
 
-		//! read a settings json file and pass back a vector of Warps
-		bool loadSettings(const std::string & filePath);
 		//! write a settings json file
 		bool saveSettings(const std::string & filePath);
+		//! read a settings json file
+		bool loadSettings(const std::string & filePath);
+		
+		//! serialize the list of warps to a json file
+		void serialize(nlohmann::json & json);
+		//! deserialize the list of warps from a json file
+		void deserialize(const nlohmann::json & json);
 
 		//! build and add a new warp of the specified type
 		template<class Type>
