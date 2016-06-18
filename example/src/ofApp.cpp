@@ -124,7 +124,7 @@ void ofApp::keyPressed(int key)
 			// Draw a corner region of the image so that all warps make up the entire image.
 			for (auto i = 0; i < this->warpController.getNumWarps(); ++i)
 			{
-				static const auto overlap = 0;
+				static const auto overlap = 10.0f;
 				if (i == 0)
 				{
 					// Top-left.
