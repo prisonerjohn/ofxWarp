@@ -56,6 +56,8 @@ namespace ofxWarp
 		void setLuminance(float luminance);
 		//! set the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
 		void setLuminance(float red, float green, float blue);
+		//! set the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
+		void setLuminance(const ofVec3f & rgb);
 		//! returns the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
 		const ofVec3f & getLuminance() const;
 
@@ -63,6 +65,8 @@ namespace ofxWarp
 		void setGamma(float gamma);
 		//! set the gamma curve value for the red, green and blue channels
 		void setGamma(float red, float green, float blue);
+		//! set the gamma curve value for the red, green and blue channels
+		void setGamma(const ofVec3f & rgb);
 		//! return the gamma curve value for the red, green and blue channels
 		const ofVec3f & getGamma() const;
 

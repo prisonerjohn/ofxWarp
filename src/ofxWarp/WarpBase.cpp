@@ -222,6 +222,12 @@ namespace ofxWarp
 	{
 		this->luminance = ofVec3f(red, green, blue);
 	}
+
+	//--------------------------------------------------------------
+	void WarpBase::setLuminance(const ofVec3f & rgb)
+	{
+		this->luminance = rgb;
+	}
 	
 	//--------------------------------------------------------------
 	const ofVec3f & WarpBase::getLuminance() const
@@ -239,6 +245,12 @@ namespace ofxWarp
 	void WarpBase::setGamma(float red, float green, float blue)
 	{
 		this->gamma = ofVec3f(red, green, blue);
+	}
+
+	//--------------------------------------------------------------
+	void WarpBase::setGamma(const ofVec3f & rgb)
+	{
+		this->gamma = rgb;
 	}
 	
 	//--------------------------------------------------------------
