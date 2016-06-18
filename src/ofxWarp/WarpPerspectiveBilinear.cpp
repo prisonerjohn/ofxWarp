@@ -61,7 +61,8 @@ namespace ofxWarp
 	void WarpPerspectiveBilinear::setSize(float width, float height)
 	{
 		// Make content size compatible with WarpBilinear's windowSize.
-		this->warpPerspective->setSize(width, height);
+		this->warpPerspective->setSize(this->windowSize);
+
 		WarpBilinear::setSize(width, height);
 	}
 
