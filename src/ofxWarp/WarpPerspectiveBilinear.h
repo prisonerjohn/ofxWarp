@@ -20,11 +20,11 @@ namespace ofxWarp
 		virtual void setSize(float width, float height) override;
 
 		//! return the coordinates of the specified control point
-		virtual ofVec2f getControlPoint(size_t index) const override;
+		virtual glm::vec2 getControlPoint(size_t index) const override;
 		//! set the coordinates of the specified control point
-		virtual void setControlPoint(size_t index, const ofVec2f & pos) override;
+		virtual void setControlPoint(size_t index, const glm::vec2 & pos) override;
 		//! move the specified control point
-		virtual void moveControlPoint(size_t index, const ofVec2f & shift) override;
+		virtual void moveControlPoint(size_t index, const glm::vec2 & shift) override;
 		//! select one of the control points
 		virtual void selectControlPoint(size_t index) override;
 		//! deselect the selected control point
@@ -33,8 +33,8 @@ namespace ofxWarp
 		virtual void rotateClockwise() override;
 		virtual void rotateCounterclockwise() override;
 
-		virtual bool handleCursorDown(const ofVec2f & pos) override;
-		virtual bool handleCursorDrag(const ofVec2f & pos) override;
+		virtual bool handleCursorDown(const glm::vec2 & pos) override;
+		virtual bool handleCursorDrag(const glm::vec2 & pos) override;
 
 		virtual bool handleWindowResize(int width, int height) override;
 

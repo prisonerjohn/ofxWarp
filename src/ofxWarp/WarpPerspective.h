@@ -11,8 +11,8 @@ namespace ofxWarp
 		WarpPerspective();
 		virtual ~WarpPerspective();
 
-		const ofMatrix4x4 & getTransform();
-		const ofMatrix4x4 & getTransformInverted();
+		const glm::mat4 & getTransform();
+		const glm::mat4 & getTransformInverted();
 
 		//! reset control points to undistorted image
 		virtual void reset() override;
@@ -33,15 +33,15 @@ namespace ofxWarp
 		//! draw the warp's controls interface
 		virtual void drawControls() override;
 
-		ofMatrix4x4 getPerspectiveTransform(const ofVec2f src[4], const ofVec2f dst[4]) const;
+		glm::mat4 getPerspectiveTransform(const glm::vec2 src[4], const glm::vec2 dst[4]) const;
 		void gaussianElimination(float * input, int n) const;
 
 	protected:
-		ofVec2f srcPoints[4];
-		ofVec2f dstPoints[4];
+		glm::vec2 srcPoints[4];
+		glm::vec2 dstPoints[4];
 
-		ofMatrix4x4 transform;
-		ofMatrix4x4 transformInverted;
+		glm::mat4 transform;
+		glm::mat4 transformInverted;
 
 		ofShader shader;
 		ofVboMesh quadMesh;

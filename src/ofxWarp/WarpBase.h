@@ -41,9 +41,9 @@ namespace ofxWarp
 		//! set the width and height of the content in pixels
 		virtual void setSize(float width, float height);
 		//! set the width and height of the content in pixels
-		virtual void setSize(const ofVec2f & size);
+		virtual void setSize(const glm::vec2 & size);
 		//! get the width and height of the content in pixels
-		ofVec2f getSize() const;
+		glm::vec2 getSize() const;
 		//! get the rectangle of the content in pixels
 		ofRectangle getBounds() const;
 
@@ -57,18 +57,18 @@ namespace ofxWarp
 		//! set the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
 		void setLuminance(float red, float green, float blue);
 		//! set the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
-		void setLuminance(const ofVec3f & rgb);
+		void setLuminance(const glm::vec3 & rgb);
 		//! returns the luminance value for the red, green and blue channels, used for edge blending (0.5 = linear)
-		const ofVec3f & getLuminance() const;
+		const glm::vec3 & getLuminance() const;
 
 		//! set the gamma curve value for all color channels
 		void setGamma(float gamma);
 		//! set the gamma curve value for the red, green and blue channels
 		void setGamma(float red, float green, float blue);
 		//! set the gamma curve value for the red, green and blue channels
-		void setGamma(const ofVec3f & rgb);
+		void setGamma(const glm::vec3 & rgb);
 		//! return the gamma curve value for the red, green and blue channels
-		const ofVec3f & getGamma() const;
+		const glm::vec3 & getGamma() const;
 
 		//! set the edge blending curve exponent  (1.0 = linear, 2.0 = quadratic)
 		void setExponent(float exponent);
@@ -78,9 +78,9 @@ namespace ofxWarp
 		//! set the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
 		void setEdges(float left, float top, float right, float bottom);
 		//! set the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
-		void setEdges(const ofVec4f & edges);
+		void setEdges(const glm::vec4 & edges);
 		//! return the edge blending area for the left, top, right and bottom edges (values between 0 and 1)
-		ofVec4f getEdges() const;
+		glm::vec4 getEdges() const;
 
 		//! reset control points to undistorted image
 		virtual void reset() = 0;
@@ -100,11 +100,11 @@ namespace ofxWarp
 		bool clip(ofRectangle & srcBounds, ofRectangle & dstBounds) const;
 
 		//! return the coordinates of the specified control point
-		virtual ofVec2f getControlPoint(size_t index) const;
+		virtual glm::vec2 getControlPoint(size_t index) const;
 		//! set the coordinates of the specified control point
-		virtual void setControlPoint(size_t index, const ofVec2f & pos);
+		virtual void setControlPoint(size_t index, const glm::vec2 & pos);
 		//! move the specified control point
-		virtual void moveControlPoint(size_t index, const ofVec2f & shift);
+		virtual void moveControlPoint(size_t index, const glm::vec2 & shift);
 		//! get the number of control points
 		virtual size_t getNumControlPoints() const;
 		//! get the index of the currently selected control point
@@ -114,7 +114,7 @@ namespace ofxWarp
 		//! deselect the selected control point
 		virtual void deselectControlPoint();
 		//! return the index of the closest control point, as well as the distance in pixels
-		virtual size_t findClosestControlPoint(const ofVec2f & pos, float * distance) const;
+		virtual size_t findClosestControlPoint(const glm::vec2 & pos, float * distance) const;
 
 		//! return the number of control points columns
 		size_t getNumControlsX() const;
@@ -127,8 +127,8 @@ namespace ofxWarp
 		virtual void flipHorizontal() = 0;
 		virtual void flipVertical() = 0;
 
-		virtual bool handleCursorDown(const ofVec2f & pos);
-		virtual bool handleCursorDrag(const ofVec2f & pos);
+		virtual bool handleCursorDown(const glm::vec2 & pos);
+		virtual bool handleCursorDrag(const glm::vec2 & pos);
 
 		virtual bool handleWindowResize(int width, int height);
 
@@ -141,9 +141,9 @@ namespace ofxWarp
 		virtual void drawControls() = 0;
 		
 		//! draw a control point in the preset color
-		void queueControlPoint(const ofVec2f & pos, bool selected = false, bool attached = false);
+		void queueControlPoint(const glm::vec2 & pos, bool selected = false, bool attached = false);
 		//! draw a control point in the specified color
-		void queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale = 1.0f);
+		void queueControlPoint(const glm::vec2 & pos, const ofFloatColor & color, float scale = 1.0f);
 
 		//! setup the control points instanced vbo
 		void setupControlPoints();
@@ -159,22 +159,22 @@ namespace ofxWarp
 		float width;
 		float height;
 
-		ofVec2f windowSize;
+		glm::vec2 windowSize;
 
 		float brightness;
 
 		size_t numControlsX;
 		size_t numControlsY;
-		std::vector<ofVec2f> controlPoints;
+		std::vector<glm::vec2> controlPoints;
 
 		size_t selectedIndex;
 		float selectedTime;
-		ofVec2f selectedOffset;
+		glm::vec2 selectedOffset;
 
-		ofVec3f luminance;
-		ofVec3f gamma;
+		glm::vec3 luminance;
+		glm::vec3 gamma;
 		float exponent;
-		ofVec4f edges;
+		glm::vec4 edges;
 
 		static const int MAX_NUM_CONTROL_POINTS = 1024;
 
@@ -189,7 +189,7 @@ namespace ofxWarp
 
 		typedef struct ControlData
 		{
-			ofVec2f pos;
+			glm::vec2 pos;
 			float scale;
 			float dummy;
 			ofFloatColor color;
@@ -197,7 +197,7 @@ namespace ofxWarp
 			ControlData() 
 			{}
 
-			ControlData(const ofVec2f & pos, const ofFloatColor & color, float scale)
+			ControlData(const glm::vec2 & pos, const ofFloatColor & color, float scale)
 				: pos(pos)
 				, color(color)
 				, scale(scale)

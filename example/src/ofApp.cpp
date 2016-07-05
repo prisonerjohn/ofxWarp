@@ -27,19 +27,19 @@ void ofApp::setup()
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspective>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(ofVec4f(0.0f, 0.0f, 1.0f, 1.0f));
+		warp->setEdges(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 		
 		warp = this->warpController.buildWarp<ofxWarpBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(ofVec4f(1.0f, 0.0f, 0.0f, 1.0f));
+		warp->setEdges(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(ofVec4f(0.0f, 1.0f, 0.0f, 0.0f));
+		warp->setEdges(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(ofVec4f(0.0f, 1.0f, 1.0f, 0.0f));
+		warp->setEdges(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
 	}
 
 	this->srcAreas.resize(this->warpController.getNumWarps());

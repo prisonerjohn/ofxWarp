@@ -62,7 +62,7 @@ namespace ofxWarp
 
 	protected:
 		//! check all warps and select the closest control point
-		void selectClosestControlPoint(const ofVec2f & pos);
+		void selectClosestControlPoint(const glm::vec2 & pos);
 
 	protected:
 		std::vector<std::shared_ptr<WarpBase>> warps;

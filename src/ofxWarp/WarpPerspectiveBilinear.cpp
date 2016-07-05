@@ -40,7 +40,7 @@ namespace ofxWarp
 		auto i = 0;
 		for (const auto & jsonPoint : json["corners"])
 		{
-			ofVec2f corner;
+			glm::vec2 corner;
 			std::istringstream iss;
 			iss.str(jsonPoint);
 			iss >> corner;
@@ -67,7 +67,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	ofVec2f WarpPerspectiveBilinear::getControlPoint(size_t index) const
+	glm::vec2 WarpPerspectiveBilinear::getControlPoint(size_t index) const
 	{
 		// Depending on index, return perspective or bilinear control point.
 		if (this->isCorner(index)) 
@@ -79,17 +79,17 @@ namespace ofxWarp
 		{
 			// Bilinear: transform control point from warped space to normalized screen space.
 			auto cp = WarpBase::getControlPoint(index) * this->warpPerspective->getSize();
-			auto pt = ofVec4f(cp.x, cp.y, 0.0f, 1.0f) * this->warpPerspective->getTransform();
+			auto pt = this->warpPerspective->getTransform() * glm::vec4(cp.x, cp.y, 0.0f, 1.0f);
 
 			if (pt.w != 0) pt.w = 1.0f / pt.w;
 			pt *= pt.w;
 
-			return ofVec2f(pt.x, pt.y) / this->windowSize;
+			return glm::vec2(pt.x, pt.y) / this->windowSize;
 		}
 	}
 
 	//--------------------------------------------------------------
-	void WarpPerspectiveBilinear::setControlPoint(size_t index, const ofVec2f & pos)
+	void WarpPerspectiveBilinear::setControlPoint(size_t index, const glm::vec2 & pos)
 	{
 		// Depending on index, set perspective or bilinear control point.
 		if (this->isCorner(index)) 
@@ -101,17 +101,17 @@ namespace ofxWarp
 		{
 			// Bilinear:: transform control point from normalized screen space to warped space.
 			auto cp = pos * this->windowSize;
-			auto pt = ofVec4f(cp.x, cp.y, 0, 1) * this->warpPerspective->getTransformInverted();
+			auto pt = this->warpPerspective->getTransformInverted() * glm::vec4(cp.x, cp.y, 0.0f, 1.0f);
 
 			if (pt.w != 0) pt.w = 1.0f / pt.w;
 			pt *= pt.w;
 
-			WarpBase::setControlPoint(index, ofVec2f(pt.x, pt.y) / this->warpPerspective->getSize());
+			WarpBase::setControlPoint(index, glm::vec2(pt.x, pt.y) / this->warpPerspective->getSize());
 		}
 	}
 
 	//--------------------------------------------------------------
-	void WarpPerspectiveBilinear::moveControlPoint(size_t index, const ofVec2f & shift)
+	void WarpPerspectiveBilinear::moveControlPoint(size_t index, const glm::vec2 & shift)
 	{
 		// Depending on index, move perspective or bilinear control point.
 		if (this->isCorner(index)) 
@@ -163,7 +163,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::handleCursorDown(const ofVec2f & pos)
+	bool WarpPerspectiveBilinear::handleCursorDown(const glm::vec2 & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
@@ -176,7 +176,7 @@ namespace ofxWarp
 	}
 			
 	//--------------------------------------------------------------
-	bool WarpPerspectiveBilinear::handleCursorDrag(const ofVec2f & pos)
+	bool WarpPerspectiveBilinear::handleCursorDrag(const glm::vec2 & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 

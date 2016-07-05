@@ -28,7 +28,7 @@ namespace ofxWarp
 		, exponent(2.0f)
 		, edges(0.0f)
 	{
-		this->windowSize = ofVec2f(ofGetWidth(), ofGetHeight());
+		this->windowSize = glm::vec2(ofGetWidth(), ofGetHeight());
 	}
 	
 	//--------------------------------------------------------------
@@ -103,7 +103,7 @@ namespace ofxWarp
 			this->controlPoints.clear();
 			for (const auto & jsonPoint : jsonWarp["control points"])
 			{
-				ofVec2f controlPoint;
+				glm::vec2 controlPoint;
 				std::istringstream iss;
 				iss.str(jsonPoint);
 				iss >> controlPoint;
@@ -182,15 +182,15 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	void WarpBase::setSize(const ofVec2f & size)
+	void WarpBase::setSize(const glm::vec2 & size)
 	{
 		this->setSize(size.x, size.y);
 	}
 	
 	//--------------------------------------------------------------
-	ofVec2f WarpBase::getSize() const
+	glm::vec2 WarpBase::getSize() const
 	{
-		return ofVec2f(this->width, this->height);
+		return glm::vec2(this->width, this->height);
 	}
 
 	//--------------------------------------------------------------
@@ -214,23 +214,23 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBase::setLuminance(float luminance)
 	{
-		this->luminance = ofVec3f(luminance);
+		this->luminance = glm::vec3(luminance);
 	}
 	
 	//--------------------------------------------------------------
 	void WarpBase::setLuminance(float red, float green, float blue)
 	{
-		this->luminance = ofVec3f(red, green, blue);
+		this->luminance = glm::vec3(red, green, blue);
 	}
 
 	//--------------------------------------------------------------
-	void WarpBase::setLuminance(const ofVec3f & rgb)
+	void WarpBase::setLuminance(const glm::vec3 & rgb)
 	{
 		this->luminance = rgb;
 	}
 	
 	//--------------------------------------------------------------
-	const ofVec3f & WarpBase::getLuminance() const
+	const glm::vec3 & WarpBase::getLuminance() const
 	{
 		return this->luminance;
 	}
@@ -238,23 +238,23 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBase::setGamma(float gamma)
 	{
-		this->gamma = ofVec3f(gamma);
+		this->gamma = glm::vec3(gamma);
 	}
 	
 	//--------------------------------------------------------------
 	void WarpBase::setGamma(float red, float green, float blue)
 	{
-		this->gamma = ofVec3f(red, green, blue);
+		this->gamma = glm::vec3(red, green, blue);
 	}
 
 	//--------------------------------------------------------------
-	void WarpBase::setGamma(const ofVec3f & rgb)
+	void WarpBase::setGamma(const glm::vec3 & rgb)
 	{
 		this->gamma = rgb;
 	}
 	
 	//--------------------------------------------------------------
-	const ofVec3f & WarpBase::getGamma() const
+	const glm::vec3 & WarpBase::getGamma() const
 	{
 		return this->gamma;
 	}
@@ -274,11 +274,11 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBase::setEdges(float left, float top, float right, float bottom)
 	{
-		this->setEdges(ofVec4f(left, top, right, bottom));
+		this->setEdges(glm::vec4(left, top, right, bottom));
 	}
 	
 	//--------------------------------------------------------------
-	void WarpBase::setEdges(const ofVec4f & edges)
+	void WarpBase::setEdges(const glm::vec4 & edges)
 	{
 		this->edges.x = ofClamp(edges.x * 0.5f, 0.0f, 1.0f);
 		this->edges.y = ofClamp(edges.y * 0.5f, 0.0f, 1.0f);
@@ -287,7 +287,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	ofVec4f WarpBase::getEdges() const
+	glm::vec4 WarpBase::getEdges() const
 	{
 		return this->edges * 2.0f;
 	}
@@ -316,8 +316,8 @@ namespace ofxWarp
 	{
 		bool clipped = false;
 
-		ofVec4f srcVec = ofVec4f(srcBounds.getMinX(), srcBounds.getMinY(), srcBounds.getMaxX(), srcBounds.getMaxY());
-		ofVec4f dstVec = ofVec4f(dstBounds.getMinX(), dstBounds.getMinY(), dstBounds.getMaxX(), dstBounds.getMaxY());
+		glm::vec4 srcVec = glm::vec4(srcBounds.getMinX(), srcBounds.getMinY(), srcBounds.getMaxX(), srcBounds.getMaxY());
+		glm::vec4 dstVec = glm::vec4(dstBounds.getMinX(), dstBounds.getMinY(), dstBounds.getMaxX(), dstBounds.getMaxY());
 		
 		float x1 = dstVec.x / this->width;
 		float x2 = dstVec.z / this->width;
@@ -380,15 +380,15 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	ofVec2f WarpBase::getControlPoint(size_t index) const
+	glm::vec2 WarpBase::getControlPoint(size_t index) const
 	{
-		if (index >= this->controlPoints.size()) return ofVec2f::zero();
+		if (index >= this->controlPoints.size()) return glm::vec2(0.0f);
 
 		return this->controlPoints[index];
 	}
 
 	//--------------------------------------------------------------
-	void WarpBase::setControlPoint(size_t index, const ofVec2f & pos)
+	void WarpBase::setControlPoint(size_t index, const glm::vec2 & pos)
 	{
 		if (index >= this->controlPoints.size()) return;
 
@@ -397,7 +397,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void WarpBase::moveControlPoint(size_t index, const ofVec2f & shift)
+	void WarpBase::moveControlPoint(size_t index, const glm::vec2 & shift)
 	{
 		if (index >= this->controlPoints.size()) return;
 
@@ -433,14 +433,14 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	size_t WarpBase::findClosestControlPoint(const ofVec2f & pos, float * distance) const
+	size_t WarpBase::findClosestControlPoint(const glm::vec2 & pos, float * distance) const
 	{
 		size_t index;
 		auto minDistance = std::numeric_limits<float>::max();
 
 		for (auto i = 0; i < this->controlPoints.size(); ++i)
 		{
-			auto candidate = pos.distance(this->getControlPoint(i) * this->windowSize);
+			auto candidate = glm::distance(pos, this->getControlPoint(i) * this->windowSize);
 			if (candidate < minDistance)
 			{
 				minDistance = candidate;
@@ -465,7 +465,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void WarpBase::queueControlPoint(const ofVec2f & pos, bool selected, bool attached)
+	void WarpBase::queueControlPoint(const glm::vec2 & pos, bool selected, bool attached)
 	{
 		if (selected && attached) 
 		{
@@ -487,7 +487,7 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	void WarpBase::queueControlPoint(const ofVec2f & pos, const ofFloatColor & color, float scale)
+	void WarpBase::queueControlPoint(const glm::vec2 & pos, const ofFloatColor & color, float scale)
 	{
 		if (this->controlData.size() < MAX_NUM_CONTROL_POINTS)
 		{
@@ -502,19 +502,19 @@ namespace ofxWarp
 		{
 			// Set up the vbo mesh.
 			ofPolyline unitCircle;
-			unitCircle.arc(ofVec3f::zero(), 1.0f, 1.0f, 0.0f, 360.0f, 18);
+			unitCircle.arc(glm::vec3(0.0f), 1.0f, 1.0f, 0.0f, 360.0f, 18);
 			const auto & circlePoints = unitCircle.getVertices();
 			static const auto radius = 15.0f;
-			static const auto halfVec = ofVec2f(0.5f);
+			static const auto halfVec = glm::vec2(0.5f);
 			this->controlMesh.clear();
 			this->controlMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
 			this->controlMesh.setUsage(GL_STATIC_DRAW);
-			this->controlMesh.addVertex(ofVec2f::zero());
+			this->controlMesh.addVertex(glm::vec3(0.0f));
 			this->controlMesh.addTexCoord(halfVec);
 			for (auto & pt : circlePoints)
 			{
 				this->controlMesh.addVertex(pt * radius);
-				this->controlMesh.addTexCoord(pt * 0.5f + halfVec);
+				this->controlMesh.addTexCoord(pt.xy * 0.5f + halfVec);
 			}
 
 			// Set up per-instance data to the vbo.
@@ -560,24 +560,24 @@ namespace ofxWarp
 	}
 	
 	//--------------------------------------------------------------
-	bool WarpBase::handleCursorDown(const ofVec2f & pos)
+	bool WarpBase::handleCursorDown(const glm::vec2 & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
 		// Calculate offset by converting control point from normalized to screen space.
-		ofVec2f screenPoint = (this->getControlPoint(this->selectedIndex) * this->windowSize);
+		glm::vec2 screenPoint = (this->getControlPoint(this->selectedIndex) * this->windowSize);
 		this->selectedOffset = pos - screenPoint;
 
 		return true;
 	}
 	
 	//--------------------------------------------------------------
-	bool WarpBase::handleCursorDrag(const ofVec2f & pos)
+	bool WarpBase::handleCursorDrag(const glm::vec2 & pos)
 	{
 		if (!this->editing || this->selectedIndex >= this->controlPoints.size()) return false;
 
 		// Set control point in normalized space.
-		ofVec2f screenPoint = pos - this->selectedOffset;
+		glm::vec2 screenPoint = pos - this->selectedOffset;
 		this->setControlPoint(this->selectedIndex, screenPoint / this->windowSize);
 
 		this->dirty = true;
@@ -588,7 +588,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	bool WarpBase::handleWindowResize(int width, int height)
 	{
-		this->windowSize = ofVec2f(width, height);
+		this->windowSize = glm::vec2(width, height);
 		this->dirty = true;
 
 		return true;

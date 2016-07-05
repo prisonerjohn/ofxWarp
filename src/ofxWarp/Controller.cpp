@@ -165,7 +165,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void Controller::selectClosestControlPoint(const ofVec2f & pos)
+	void Controller::selectClosestControlPoint(const glm::vec2 & pos)
 	{
 		size_t warpIdx = -1;
 		size_t pointIdx = -1;
@@ -283,7 +283,7 @@ namespace ofxWarp
 			else if (args.key == OF_KEY_UP || args.key == OF_KEY_DOWN || args.key == OF_KEY_LEFT || args.key == OF_KEY_RIGHT)
 			{
 				auto step = ofGetKeyPressed(OF_KEY_SHIFT) ? 10.0f : 0.5f;
-				auto shift = ofVec2f::zero();
+				auto shift = glm::vec2(0.0f);
 				if (args.key == OF_KEY_UP)
 				{
 					shift.y = -step / (float)ofGetHeight();

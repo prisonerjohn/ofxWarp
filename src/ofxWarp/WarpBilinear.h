@@ -70,9 +70,9 @@ namespace ofxWarp
 		//! update the vbo mesh based on the control points
 		void updateMesh();
 		//!	return the specified control point, values for col and row are clamped to prevent errors.
-		ofVec2f getPoint(int col, int row) const;
+		glm::vec2 getPoint(int col, int row) const;
 		//! perform fast Catmull-Rom interpolation, and return the interpolated value at t
-		ofVec2f cubicInterpolate(const std::vector<ofVec2f> & knots, float t) const;
+		glm::vec2 cubicInterpolate(const std::vector<glm::vec2> & knots, float t) const;
 		//!
 		ofRectangle getMeshBounds() const;
 
@@ -88,7 +88,7 @@ namespace ofxWarp
 		bool adaptive;
 
 		//! texture coordinates of corners
-		ofVec4f corners;
+		glm::vec4 corners;
 
 		//! detail of the generated mesh (multiples of 5 seem to work best)
 		int resolution;
@@ -103,9 +103,13 @@ namespace ofxWarp
 		inline int gcd(int a, int b) const
 		{
 			if (b == 0)
+			{
 				return a;
+			}
 			else
+			{
 				return gcd(b, a % b);
+			}
 		};
 	};
 }

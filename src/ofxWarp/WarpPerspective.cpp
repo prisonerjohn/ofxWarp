@@ -6,10 +6,10 @@ namespace ofxWarp
 	WarpPerspective::WarpPerspective()
 		: WarpBase(TYPE_PERSPECTIVE)
 	{
-		this->srcPoints[0] = ofVec2f(0.0f, 0.0f);
-		this->srcPoints[1] = ofVec2f(this->width, 0.0f);
-		this->srcPoints[2] = ofVec2f(this->width, this->height);
-		this->srcPoints[3] = ofVec2f(0.0f, this->height);
+		this->srcPoints[0] = glm::vec2(0.0f, 0.0f);
+		this->srcPoints[1] = glm::vec2(this->width, 0.0f);
+		this->srcPoints[2] = glm::vec2(this->width, this->height);
+		this->srcPoints[3] = glm::vec2(0.0f, this->height);
 
 		this->reset();
 
@@ -21,7 +21,7 @@ namespace ofxWarp
 	{}
 
 	//--------------------------------------------------------------
-	const ofMatrix4x4 & WarpPerspective::getTransform()
+	const glm::mat4 & WarpPerspective::getTransform()
 	{
 		// Calculate warp matrix.
 		if (this->dirty) {
@@ -39,7 +39,7 @@ namespace ofxWarp
 
 			// Calculate warp matrix.
 			this->transform = getPerspectiveTransform(this->srcPoints, this->dstPoints);
-			this->transformInverted = this->transform.getInverse();
+			this->transformInverted = glm::inverse(this->transform);
 
 			this->dirty = false;
 		}
@@ -48,7 +48,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	const ofMatrix4x4 & WarpPerspective::getTransformInverted()
+	const glm::mat4 & WarpPerspective::getTransformInverted()
 	{
 		if (this->dirty)
 		{
@@ -63,10 +63,10 @@ namespace ofxWarp
 	{
 		this->controlPoints.clear();
 
-		this->controlPoints.push_back(ofVec2f(0.0f, 0.0f));
-		this->controlPoints.push_back(ofVec2f(1.0f, 0.0f));
-		this->controlPoints.push_back(ofVec2f(1.0f, 1.0f));
-		this->controlPoints.push_back(ofVec2f(0.0f, 1.0f));
+		this->controlPoints.push_back(glm::vec2(0.0f, 0.0f));
+		this->controlPoints.push_back(glm::vec2(1.0f, 0.0f));
+		this->controlPoints.push_back(glm::vec2(1.0f, 1.0f));
+		this->controlPoints.push_back(glm::vec2(0.0f, 1.0f));
 
 		this->dirty = true;
 	}
@@ -95,14 +95,14 @@ namespace ofxWarp
 		this->clip(srcClip, dstClip);
 
 		// Set corner texture coordinates.
-		ofVec4f corners;
+		glm::vec4 corners;
 		if (texture.getTextureData().textureTarget == GL_TEXTURE_RECTANGLE_ARB)
 		{
-			corners = ofVec4f(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+			corners = glm::vec4(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
 		}
 		else
 		{
-			corners = ofVec4f(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+			corners = glm::vec4(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
 		}
 		
 		ofPushMatrix();
@@ -178,7 +178,7 @@ namespace ofxWarp
 
 	//--------------------------------------------------------------
 	// Adapted from: http://forum.openframeworks.cc/t/quad-warping-homography-without-opencv/3121/19
-	ofMatrix4x4 WarpPerspective::getPerspectiveTransform(const ofVec2f src[4], const ofVec2f dst[4]) const
+	glm::mat4 WarpPerspective::getPerspectiveTransform(const glm::vec2 src[4], const glm::vec2 dst[4]) const
 	{
 		float p[8][9] = 
 		{
@@ -194,10 +194,10 @@ namespace ofxWarp
 
 		this->gaussianElimination(&p[0][0], 9);
 
-		return ofMatrix4x4(p[0][8], p[3][8], 0, p[6][8], 
-						   p[1][8], p[4][8], 0, p[7][8], 
-						   0, 0, 1, 0, 
-						   p[2][8], p[5][8], 0, 1);
+		return glm::mat4(p[0][8], p[3][8], 0, p[6][8], 
+						 p[1][8], p[4][8], 0, p[7][8], 
+						 0, 0, 1, 0, 
+						 p[2][8], p[5][8], 0, 1);
 	}
 	
 	//--------------------------------------------------------------

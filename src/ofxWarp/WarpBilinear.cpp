@@ -116,7 +116,7 @@ namespace ofxWarp
 		{
 			for (auto y = 0; y < this->numControlsY; ++y) 
 			{
-				this->controlPoints.push_back(ofVec2f(x / float(this->numControlsX - 1), y / float(this->numControlsY - 1)));
+				this->controlPoints.push_back(glm::vec2(x / float(this->numControlsX - 1), y / float(this->numControlsY - 1)));
 			}
 		}
 
@@ -179,7 +179,7 @@ namespace ofxWarp
 			this->shader.begin();
 			{
 				this->shader.setUniformTexture("uTexture", texture, 1);
-				this->shader.setUniform4f("uExtends", ofVec4f(this->width, this->height, this->width / float(this->numControlsX - 1), this->height / float(this->numControlsY - 1)));
+				this->shader.setUniform4f("uExtends", glm::vec4(this->width, this->height, this->width / float(this->numControlsX - 1), this->height / float(this->numControlsY - 1)));
 				this->shader.setUniform3f("uLuminance", this->luminance);
 				this->shader.setUniform3f("uGamma", this->gamma);
 				this->shader.setUniform4f("uEdges", this->edges);
@@ -290,7 +290,7 @@ namespace ofxWarp
 		int j = 0;
 
 		std::vector<ofIndexType> indices(numIndices);
-		std::vector<ofVec2f> texCoords(numVertices);
+		std::vector<glm::vec2> texCoords(numVertices);
 
 		for (int x = 0; x < resolutionX; ++x) 
 		{
@@ -311,12 +311,12 @@ namespace ofxWarp
 				// Tex Coord.
 				float tx = ofLerp(this->corners.x, this->corners.z, x / (float)(this->resolutionX - 1));
 				float ty = ofLerp(this->corners.y, this->corners.w, y / (float)(this->resolutionY - 1));
-				texCoords[j++] = ofVec2f(tx, ty);
+				texCoords[j++] = glm::vec2(tx, ty);
 			}
 		}
 
 		// Build placeholder data.
-		std::vector<ofVec3f> positions(this->resolutionX * this->resolutionY);
+		std::vector<glm::vec3> positions(this->resolutionX * this->resolutionY);
 
 		// Build mesh.
 		this->vbo.clear();
@@ -335,17 +335,17 @@ namespace ofxWarp
 	{
 		if (!this->vbo.getIsAllocated() || !this->dirty) return;
 		
-		ofVec2f pt;
+		glm::vec2 pt;
 		float u, v;
 		int col, row;
 
-		std::vector<ofVec2f> cols, rows;
+		std::vector<glm::vec2> cols, rows;
 
 #if USE_MAPPED_BUFFER
 		auto vertexBuffer = this->vbo.getVertexBuffer();
-		auto mappedMesh = (ofVec3f *)vertexBuffer.map(GL_WRITE_ONLY);
+		auto mappedMesh = (glm::vec3 *)vertexBuffer.map(GL_WRITE_ONLY);
 #else
-		std::vector<ofVec3f> positions(this->resolutionX * this->resolutionY);
+		std::vector<glm::vec3> positions(this->resolutionX * this->resolutionY);
 		auto index = 0;
 #endif
 
@@ -388,9 +388,9 @@ namespace ofxWarp
 				}
 
 #if USE_MAPPED_BUFFER
-				*mappedMesh++ = ofVec3f(pt.x, pt.y, 0.0f);
+				*mappedMesh++ = glm::vec3(pt.x, pt.y, 0.0f);
 #else
-				positions[index++] = ofVec3f(pt.x, pt.y, 0.0f);
+				positions[index++] = glm::vec3(pt.x, pt.y, 0.0f);
 #endif
 			}
 		}
@@ -405,7 +405,7 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	ofVec2f WarpBilinear::getPoint(int col, int row) const
+	glm::vec2 WarpBilinear::getPoint(int col, int row) const
 	{
 		auto maxCol = this->numControlsX - 1;
 		auto maxRow = this->numControlsY - 1;
@@ -435,7 +435,7 @@ namespace ofxWarp
 
 	//--------------------------------------------------------------
 	// From http://www.paulinternet.nl/?page=bicubic : fast catmull-rom calculation
-	ofVec2f WarpBilinear::cubicInterpolate(const std::vector<ofVec2f> & knots, float t) const
+	glm::vec2 WarpBilinear::cubicInterpolate(const std::vector<glm::vec2> & knots, float t) const
 	{
 		assert(knots.size() >= 4);
 
@@ -452,17 +452,17 @@ namespace ofxWarp
 		if ((n * this->numControlsY) > MAX_NUM_CONTROL_POINTS) return;
 
 		// Create a list of new points.
-		std::vector<ofVec2f> tempPoints(n * this->numControlsY);
+		std::vector<glm::vec2> tempPoints(n * this->numControlsY);
 
 		// Perform spline fitting.
 		for (auto row = 0; row < this->numControlsY; ++row) {
-			if (this->linear) 
+			if (this->linear)
 			{
 				// Construct piece-wise linear spline.
 				ofPolyline polyline;
 				for (auto col = 0; col < this->numControlsX; ++col)
 				{
-					polyline.lineTo(getPoint(col, row));
+					polyline.lineTo(glm::vec3(this->getPoint(col, row), 0.0f));
 				}
 
 				// Calculate position of new control points.
@@ -470,7 +470,7 @@ namespace ofxWarp
 				for (auto col = 0; col < n; ++col)
 				{
 					auto idx = (col * this->numControlsY) + row;
-					tempPoints[idx] = polyline.getPointAtPercent(col * step);
+					tempPoints[idx] = polyline.getPointAtPercent(col * step).xy;
 				}
 			}
 			else 
@@ -479,10 +479,10 @@ namespace ofxWarp
 				ofPolyline polyline;
 				for (auto col = 0; col < this->numControlsX; ++col)
 				{
-					auto p0 = getPoint(col - 1, row);
-					auto p1 = getPoint(col, row);
-					auto p2 = getPoint(col + 1, row);
-					auto p3 = getPoint(col + 2, row);
+					auto p0 = this->getPoint(col - 1, row);
+					auto p1 = this->getPoint(col, row);
+					auto p2 = this->getPoint(col + 1, row);
+					auto p3 = this->getPoint(col + 2, row);
 
 					// Control points according to an optimized Catmull-Rom implementation
 					auto b1 = p1 + (p2 - p0) / 6.0f;
@@ -490,19 +490,19 @@ namespace ofxWarp
 
 					if (col == 0)
 					{
-						polyline.lineTo(p1);
+						polyline.lineTo(glm::vec3(p1, 0.0f));
 					}
 					
-					polyline.curveTo(p1);
+					polyline.curveTo(glm::vec3(p1, 0.0f));
 
 					if (col < (this->numControlsX - 1)) 
 					{
-						polyline.curveTo(b1); 
-						polyline.curveTo(b2);
+						polyline.curveTo(glm::vec3(b1, 0.0f));
+						polyline.curveTo(glm::vec3(b2, 0.0f));
 					}
 					else
 					{
-						polyline.lineTo(p1);
+						polyline.lineTo(glm::vec3(p1, 0.0f));
 					}
 				}
 
@@ -511,7 +511,7 @@ namespace ofxWarp
 				for (auto col = 0; col < n; ++col)
 				{
 					auto idx = (col * this->numControlsY) + row; 
-					tempPoints[idx] = polyline.getPointAtPercent(col * step);
+					tempPoints[idx] = polyline.getPointAtPercent(col * step).xy;
 				}
 			}
 		}
@@ -522,7 +522,7 @@ namespace ofxWarp
 
 		// Find new closest control point.
 		float distance;
-		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+		this->selectedIndex = this->findClosestControlPoint(glm::vec2(ofGetMouseX(), ofGetMouseY()), &distance);
 
 		this->dirty = true;
 	}
@@ -537,25 +537,26 @@ namespace ofxWarp
 		if ((this->numControlsX * n) > MAX_NUM_CONTROL_POINTS) return;
 
 		// Create a list of new points.
-		std::vector<ofVec2f> tempPoints(this->numControlsX * n);
+		std::vector<glm::vec2> tempPoints(this->numControlsX * n);
 
 		// Perform spline fitting
-		for (auto col = 0; col < this->numControlsX; ++col) {
+		for (auto col = 0; col < this->numControlsX; ++col) 
+		{
 			if (this->linear) 
 			{
 				// Construct piece-wise linear spline.
 				ofPolyline polyline;
 				for (auto row = 0; row < this->numControlsY; ++row)
 				{
-					polyline.lineTo(getPoint(col, row));
+					polyline.lineTo(glm::vec3(this->getPoint(col, row), 0.0f));
 				}
 
 				// Calculate position of new control points.
 				float step = 1.0f / (n - 1);
 				for (auto row = 0; row < n; ++row) 
 				{
-					auto idx = (col * n) + row; 
-					tempPoints[idx] = polyline.getPointAtPercent(row * step);
+					auto idx = (col * n) + row;
+					tempPoints[idx] = polyline.getPointAtPercent(row * step).xy;
 				}
 			}
 			else 
@@ -564,10 +565,10 @@ namespace ofxWarp
 				ofPolyline polyline;
 				for (auto row = 0; row < this->numControlsY; ++row)
 				{
-					auto p0 = getPoint(col, row - 1);
-					auto p1 = getPoint(col, row);
-					auto p2 = getPoint(col, row + 1);
-					auto p3 = getPoint(col, row + 2);
+					auto p0 = this->getPoint(col, row - 1);
+					auto p1 = this->getPoint(col, row);
+					auto p2 = this->getPoint(col, row + 1);
+					auto p3 = this->getPoint(col, row + 2);
 
 					// Control points according to an optimized Catmull-Rom implementation
 					auto b1 = p1 + (p2 - p0) / 6.0f;
@@ -575,19 +576,19 @@ namespace ofxWarp
 
 					if (row == 0)
 					{
-						polyline.lineTo(p1);
+						polyline.lineTo(glm::vec3(p1, 0.0f));
 					}
 
-					polyline.curveTo(p1);
+					polyline.curveTo(glm::vec3(p1, 0.0f));
 
 					if (row < (this->numControlsY - 1)) 
 					{
-						polyline.curveTo(b1);
-						polyline.curveTo(b2);
+						polyline.curveTo(glm::vec3(b1, 0.0f));
+						polyline.curveTo(glm::vec3(b2, 0.0f));
 					}
 					else
 					{
-						polyline.lineTo(p1);
+						polyline.lineTo(glm::vec3(p1, 0.0f));
 					}
 				}
 
@@ -596,7 +597,7 @@ namespace ofxWarp
 				for (auto row = 0; row < n; ++row) 
 				{
 					auto idx = (col * n) + row;
-					tempPoints[idx] = polyline.getPointAtPercent(row * step);
+					tempPoints[idx] = polyline.getPointAtPercent(row * step).xy;
 				}
 			}
 		}
@@ -607,7 +608,7 @@ namespace ofxWarp
 
 		// Find new closest control point.
 		float distance;
-		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+		this->selectedIndex = this->findClosestControlPoint(glm::vec2(ofGetMouseX(), ofGetMouseY()), &distance);
 
 		this->dirty = true;
 	}
@@ -615,8 +616,8 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	ofRectangle WarpBilinear::getMeshBounds() const
 	{
-		auto min = ofVec2f(1.0f);
-		auto max = ofVec2f(0.0f);
+		auto min = glm::vec2(1.0f);
+		auto max = glm::vec2(0.0f);
 
 		for (auto & pt : this->controlPoints) 
 		{
@@ -635,7 +636,7 @@ namespace ofxWarp
 		this->dirty |= (left != this->corners.x || top != this->corners.y || right != this->corners.z || bottom != this->corners.w);
 		if (!this->dirty) return;
 
-		this->corners = ofVec4f(left, top, right, bottom);
+		this->corners = glm::vec4(left, top, right, bottom);
 	}
 
 	//--------------------------------------------------------------
@@ -653,7 +654,7 @@ namespace ofxWarp
 	//--------------------------------------------------------------
 	void WarpBilinear::flipHorizontal()
 	{
-		std::vector<ofVec2f> flippedPoints;
+		std::vector<glm::vec2> flippedPoints;
 		for (int x = this->numControlsX - 1; x >= 0; --x)
 		{
 			for (int y = 0; y < this->numControlsY; ++y)
@@ -667,13 +668,13 @@ namespace ofxWarp
 
 		// Find new closest control point.
 		float distance;
-		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+		this->selectedIndex = this->findClosestControlPoint(glm::vec2(ofGetMouseX(), ofGetMouseY()), &distance);
 	}
 
 	//--------------------------------------------------------------
 	void WarpBilinear::flipVertical()
 	{
-		std::vector<ofVec2f> flippedPoints;
+		std::vector<glm::vec2> flippedPoints;
 		for (int x = 0; x < this->numControlsX; ++x)
 		{
 			for (int y = this->numControlsY - 1; y >= 0; --y)
@@ -687,6 +688,6 @@ namespace ofxWarp
 
 		// Find new closest control point.
 		float distance;
-		this->selectedIndex = this->findClosestControlPoint(ofVec2f(ofGetMouseX(), ofGetMouseY()), &distance);
+		this->selectedIndex = this->findClosestControlPoint(glm::vec2(ofGetMouseX(), ofGetMouseY()), &distance);
 	}
 }
