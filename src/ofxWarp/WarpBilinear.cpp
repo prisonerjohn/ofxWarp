@@ -152,11 +152,25 @@ namespace ofxWarp
 		// Set corner texture coordinates.
 		if (texture.getTextureData().textureTarget == GL_TEXTURE_RECTANGLE_ARB)
 		{
-			this->setCorners(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+			if (texture.getTextureData().bFlipTexture)
+			{
+				this->setCorners(srcClip.getMinX(), srcClip.getMaxY(), srcClip.getMaxX(), srcClip.getMinY());
+			}
+			else
+			{
+				this->setCorners(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+			}
 		}
 		else
 		{
-			this->setCorners(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+			if (texture.getTextureData().bFlipTexture)
+			{
+				this->setCorners(srcClip.getMinX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight());
+			}
+			else
+			{
+				this->setCorners(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+			}
 		}
 
 		this->setupVbo();

@@ -98,11 +98,25 @@ namespace ofxWarp
 		glm::vec4 corners;
 		if (texture.getTextureData().textureTarget == GL_TEXTURE_RECTANGLE_ARB)
 		{
-			corners = glm::vec4(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+			if (texture.getTextureData().bFlipTexture)
+			{
+				corners = glm::vec4(srcClip.getMinX(), srcClip.getMaxY(), srcClip.getMaxX(), srcClip.getMinY());
+			}
+			else
+			{
+				corners = glm::vec4(srcClip.getMinX(), srcClip.getMinY(), srcClip.getMaxX(), srcClip.getMaxY());
+			}
 		}
 		else
 		{
-			corners = glm::vec4(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+			if (texture.getTextureData().bFlipTexture)
+			{
+				corners = glm::vec4(srcClip.getMinX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight());
+			}
+			else
+			{
+				corners = glm::vec4(srcClip.getMinX() / texture.getWidth(), srcClip.getMinY() / texture.getHeight(), srcClip.getMaxX() / texture.getWidth(), srcClip.getMaxY() / texture.getHeight());
+			}
 		}
 		
 		ofPushMatrix();
