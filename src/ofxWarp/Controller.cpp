@@ -44,7 +44,7 @@ namespace ofxWarp
 		this->serialize(json);
 
 		auto file = ofFile(filePath, ofFile::WriteOnly);
-		file << json;
+		file << json.dump(4);
 
 		return true;
 	}
