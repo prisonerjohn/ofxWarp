@@ -117,15 +117,21 @@ namespace ofxWarp
 
 			this->exponent = jsonBlend["exponent"];
 
-			std::istringstream iss;
-			iss.str(jsonBlend["edges"]);
-			iss >> this->edges;
-
-			iss.str(jsonBlend["gamma"]);
-			iss >> this->gamma;
-
-			iss.str(jsonBlend["luminance"]);
-			iss >> this->luminance;
+			{
+				std::istringstream iss;
+				iss.str(jsonBlend["edges"]);
+				iss >> this->edges;
+			}
+			{
+				std::istringstream iss;
+				iss.str(jsonBlend["gamma"]);
+				iss >> this->gamma;
+			}
+			{
+				std::istringstream iss;
+				iss.str(jsonBlend["luminance"]);
+				iss >> this->luminance;
+			}
 		}
 
 		this->dirty = true;
