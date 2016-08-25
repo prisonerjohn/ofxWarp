@@ -484,7 +484,7 @@ namespace ofxWarp
 				for (auto col = 0; col < n; ++col)
 				{
 					auto idx = (col * this->numControlsY) + row;
-					tempPoints[idx] = polyline.getPointAtPercent(col * step).xy;
+                    tempPoints[idx] = polyline.getPointAtPercent(col * step).xy();
 				}
 			}
 			else 
@@ -525,7 +525,7 @@ namespace ofxWarp
 				for (auto col = 0; col < n; ++col)
 				{
 					auto idx = (col * this->numControlsY) + row; 
-					tempPoints[idx] = polyline.getPointAtPercent(col * step).xy;
+                    tempPoints[idx] = polyline.getPointAtPercent(col * step).xy();
 				}
 			}
 		}
@@ -570,7 +570,7 @@ namespace ofxWarp
 				for (auto row = 0; row < n; ++row) 
 				{
 					auto idx = (col * n) + row;
-					tempPoints[idx] = polyline.getPointAtPercent(row * step).xy;
+                    tempPoints[idx] = polyline.getPointAtPercent(row * step).xy();
 				}
 			}
 			else 
@@ -611,7 +611,7 @@ namespace ofxWarp
 				for (auto row = 0; row < n; ++row) 
 				{
 					auto idx = (col * n) + row;
-					tempPoints[idx] = polyline.getPointAtPercent(row * step).xy;
+                    tempPoints[idx] = polyline.getPointAtPercent(row * step).xy();
 				}
 			}
 		}

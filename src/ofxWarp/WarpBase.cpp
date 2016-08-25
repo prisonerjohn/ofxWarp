@@ -514,7 +514,7 @@ namespace ofxWarp
 			for (auto & pt : circlePoints)
 			{
 				this->controlMesh.addVertex(pt * radius);
-				this->controlMesh.addTexCoord(pt.xy * 0.5f + halfVec);
+                this->controlMesh.addTexCoord(pt.xy() * 0.5f + halfVec);
 			}
 
 			// Set up per-instance data to the vbo.
