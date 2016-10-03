@@ -23,7 +23,7 @@ void ofApp::setup()
 	if (this->warpController.getWarps().empty())
 	{
 		// Otherwise create warps from scratch.
-		shared_ptr<ofxWarpBase> warp; 
+		std::shared_ptr<ofxWarpBase> warp; 
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspective>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
@@ -35,7 +35,7 @@ void ofApp::setup()
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
-		warp->setEdges(glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+		warp->setEdges(glm::vec4(1.0f, 1.0f, 0.0f, 0.0f));
 		
 		warp = this->warpController.buildWarp<ofxWarpPerspectiveBilinear>();
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
@@ -76,10 +76,10 @@ void ofApp::draw()
 			if (this->useBeginEnd)
 			{
 				warp->begin();
-
-				auto bounds = warp->getBounds();
-				this->texture.drawSubsection(bounds.x, bounds.y, bounds.width, bounds.height, this->srcAreas[i].x, this->srcAreas[i].y, this->srcAreas[i].width, this->srcAreas[i].height);
-
+				{
+					auto bounds = warp->getBounds();
+					this->texture.drawSubsection(bounds.x, bounds.y, bounds.width, bounds.height, this->srcAreas[i].x, this->srcAreas[i].y, this->srcAreas[i].width, this->srcAreas[i].height);
+				}
 				warp->end();
 			}
 			else
@@ -89,7 +89,7 @@ void ofApp::draw()
 		}
 	}
 
-	ostringstream oss;
+	std::ostringstream oss;
 	oss << ofToString(ofGetFrameRate(), 2) << " fps" << endl;
 	oss << "[a]rea mode: " << areaName << endl;
 	oss << "[d]raw mode: " << (this->useBeginEnd ? "begin()/end()" : "draw()") << endl;
