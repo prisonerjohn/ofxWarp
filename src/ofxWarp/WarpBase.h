@@ -1,6 +1,13 @@
 #pragma once
 
-#include "ofMain.h"
+#include "ofColor.h"
+#include "ofJson.h"
+#include "ofParameter.h"
+#include "ofRectangle.h"
+#include "ofShader.h"
+#include "ofTexture.h"
+#include "ofVboMesh.h"
+#include "ofVectorMath.h"
 
 namespace ofxWarp
 {

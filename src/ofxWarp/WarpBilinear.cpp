@@ -1,5 +1,8 @@
 #include "WarpBilinear.h"
 
+#include "ofGraphics.h"
+#include "ofPolyline.h"
+
 namespace ofxWarp
 {
 	//--------------------------------------------------------------
@@ -268,27 +271,31 @@ namespace ofxWarp
 		++resolutionY;
 
 		// Find a value for resolutionX and resolutionY that can be evenly divided by numControlsX and numControlsY.
-		if (this->numControlsX < resolutionX) {
 			int dx = (resolutionX - 1) % (this->numControlsX - 1);
+		if (this->numControlsX < resolutionX) 
+		{
 			if (dx >= (this->numControlsX / 2))
 			{
 				dx -= (this->numControlsX - 1);
 			}
 			resolutionX -= dx;
 		}
-		else {
+		else 
+		{
 			resolutionX = this->numControlsX;
 		}
 
-		if (this->numControlsY < resolutionY) {
 			int dy = (resolutionY - 1) % (this->numControlsY - 1);
+		if (this->numControlsY < resolutionY) 
+		{
 			if (dy >= (this->numControlsY / 2)) 
 			{
 				dy -= (this->numControlsY - 1);
 			}
 			resolutionY -= dy;
 		}
-		else {
+		else 
+		{
 			resolutionY = this->numControlsY;
 		}
 
@@ -303,8 +310,8 @@ namespace ofxWarp
 		int i = 0;
 		int j = 0;
 
-		std::vector<ofIndexType> indices(numIndices);
-		std::vector<glm::vec2> texCoords(numVertices);
+		auto indices = std::vector<ofIndexType>(numIndices);
+		auto texCoords = std::vector<glm::vec2>(numVertices);
 
 		for (int x = 0; x < resolutionX; ++x) 
 		{

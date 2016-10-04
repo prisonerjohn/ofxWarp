@@ -1,5 +1,7 @@
 #include "WarpPerspectiveBilinear.h"
 
+#include "ofGraphics.h"
+
 namespace ofxWarp
 {
 	//--------------------------------------------------------------

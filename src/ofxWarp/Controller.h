@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofMain.h"
+#include "ofEvents.h"
 #include "WarpBase.h"
 
 namespace ofxWarp

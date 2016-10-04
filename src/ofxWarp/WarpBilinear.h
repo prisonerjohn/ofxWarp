@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ofFbo.h"
+#include "ofVbo.h"
+
 #include "WarpBase.h"
 
 namespace ofxWarp
