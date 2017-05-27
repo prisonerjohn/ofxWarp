@@ -83,7 +83,7 @@ namespace ofxWarp
 		glm::vec4 getEdges() const;
 
 		//! reset control points to undistorted image
-		virtual void reset() = 0;
+		virtual void reset(const glm::vec2 & scale = glm::vec2(1.0f), const glm::vec2 & offset = glm::vec2(0.0f)) = 0;
 		//! setup the warp before drawing its contents
 		virtual void begin() = 0;
 		//! restore the warp after drawing

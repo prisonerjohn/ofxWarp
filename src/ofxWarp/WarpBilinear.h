@@ -36,7 +36,7 @@ namespace ofxWarp
 		int getResolution() const;
 
 		//! reset control points to undistorted image
-		virtual void reset() override;
+		virtual void reset(const glm::vec2 & scale = glm::vec2(1.0f), const glm::vec2 & offset = glm::vec2(0.0f)) override;
 		//! setup the warp before drawing its contents
 		virtual void begin() override;
 		//! restore the warp after drawing

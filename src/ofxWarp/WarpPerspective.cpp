@@ -59,14 +59,14 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void WarpPerspective::reset()
+	void WarpPerspective::reset(const glm::vec2 & scale, const glm::vec2 & offset)
 	{
 		this->controlPoints.clear();
 
-		this->controlPoints.push_back(glm::vec2(0.0f, 0.0f));
-		this->controlPoints.push_back(glm::vec2(1.0f, 0.0f));
-		this->controlPoints.push_back(glm::vec2(1.0f, 1.0f));
-		this->controlPoints.push_back(glm::vec2(0.0f, 1.0f));
+		this->controlPoints.push_back(glm::vec2(0.0f, 0.0f) * scale + offset);
+		this->controlPoints.push_back(glm::vec2(1.0f, 0.0f) * scale + offset);
+		this->controlPoints.push_back(glm::vec2(1.0f, 1.0f) * scale + offset);
+		this->controlPoints.push_back(glm::vec2(0.0f, 1.0f) * scale + offset);
 
 		this->dirty = true;
 	}
