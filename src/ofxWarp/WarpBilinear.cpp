@@ -112,14 +112,14 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
-	void WarpBilinear::reset()
+	void WarpBilinear::reset(const glm::vec2 & scale, const glm::vec2 & offset)
 	{
 		this->controlPoints.clear();
 		for (auto x = 0; x < this->numControlsX; ++x) 
 		{
 			for (auto y = 0; y < this->numControlsY; ++y) 
 			{
-				this->controlPoints.push_back(glm::vec2(x / float(this->numControlsX - 1), y / float(this->numControlsY - 1)));
+				this->controlPoints.push_back(glm::vec2(x / float(this->numControlsX - 1), y / float(this->numControlsY - 1)) * scale + offset);
 			}
 		}
 

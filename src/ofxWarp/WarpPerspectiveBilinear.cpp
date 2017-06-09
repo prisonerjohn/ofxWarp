@@ -69,6 +69,14 @@ namespace ofxWarp
 	}
 
 	//--------------------------------------------------------------
+	void WarpPerspectiveBilinear::reset(const glm::vec2 & scale, const glm::vec2 & offset)
+	{
+		this->warpPerspective->reset(scale, offset);
+
+		WarpBilinear::reset();
+	}
+
+	//--------------------------------------------------------------
 	glm::vec2 WarpPerspectiveBilinear::getControlPoint(size_t index) const
 	{
 		// Depending on index, return perspective or bilinear control point.
