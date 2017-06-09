@@ -19,6 +19,9 @@ namespace ofxWarp
 
 		virtual void setSize(float width, float height) override;
 
+		//! reset control points to undistorted image
+		virtual void reset(const glm::vec2 & scale = glm::vec2(1.0f), const glm::vec2 & offset = glm::vec2(0.0f)) override;
+		
 		//! return the coordinates of the specified control point
 		virtual glm::vec2 getControlPoint(size_t index) const override;
 		//! set the coordinates of the specified control point

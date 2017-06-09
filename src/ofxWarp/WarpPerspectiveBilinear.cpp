@@ -1,5 +1,7 @@
 #include "WarpPerspectiveBilinear.h"
 
+#include "ofGraphics.h"
+
 namespace ofxWarp
 {
 	//--------------------------------------------------------------
@@ -64,6 +66,14 @@ namespace ofxWarp
 		this->warpPerspective->setSize(this->windowSize);
 
 		WarpBilinear::setSize(width, height);
+	}
+
+	//--------------------------------------------------------------
+	void WarpPerspectiveBilinear::reset(const glm::vec2 & scale, const glm::vec2 & offset)
+	{
+		this->warpPerspective->reset(scale, offset);
+
+		WarpBilinear::reset();
 	}
 
 	//--------------------------------------------------------------
