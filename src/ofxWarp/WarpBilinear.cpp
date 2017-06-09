@@ -271,9 +271,9 @@ namespace ofxWarp
 		++resolutionY;
 
 		// Find a value for resolutionX and resolutionY that can be evenly divided by numControlsX and numControlsY.
-			int dx = (resolutionX - 1) % (this->numControlsX - 1);
 		if (this->numControlsX < resolutionX) 
 		{
+			int dx = (resolutionX - 1) % (this->numControlsX - 1);
 			if (dx >= (this->numControlsX / 2))
 			{
 				dx -= (this->numControlsX - 1);
@@ -285,10 +285,10 @@ namespace ofxWarp
 			resolutionX = this->numControlsX;
 		}
 
-			int dy = (resolutionY - 1) % (this->numControlsY - 1);
 		if (this->numControlsY < resolutionY) 
 		{
-			if (dy >= (this->numControlsY / 2)) 
+			int dy = (resolutionY - 1) % (this->numControlsY - 1);
+			if (dy >= (this->numControlsY / 2))
 			{
 				dy -= (this->numControlsY - 1);
 			}
