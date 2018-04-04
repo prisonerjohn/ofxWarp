@@ -4,6 +4,8 @@
 #include "WarpPerspective.h"
 #include "WarpPerspectiveBilinear.h"
 
+#include "GLFW/glfw3.h"
+
 namespace ofxWarp
 {
 	//--------------------------------------------------------------
@@ -280,7 +282,9 @@ namespace ofxWarp
 				}
 				warp->selectControlPoint(nextIndex);
 			}
-			else if (args.key == OF_KEY_UP || args.key == OF_KEY_DOWN || args.key == OF_KEY_LEFT || args.key == OF_KEY_RIGHT)
+			//else if (args.key == OF_KEY_UP || args.key == OF_KEY_DOWN || args.key == OF_KEY_LEFT || args.key == OF_KEY_RIGHT)
+			// Can't use OF_KEY_XX, see https://github.com/openframeworks/openFrameworks/issues/5948
+			else if (args.keycode == GLFW_KEY_UP || args.keycode == GLFW_KEY_DOWN || args.keycode == GLFW_KEY_LEFT || args.keycode == GLFW_KEY_RIGHT)
 			{
 				auto step = ofGetKeyPressed(OF_KEY_SHIFT) ? 10.0f : 0.5f;
 				auto shift = glm::vec2(0.0f);
