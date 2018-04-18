@@ -2,6 +2,9 @@
 An openFrameworks port of the [Cinder-Warping](https://github.com/paulhoux/Cinder-Warping) block by @paulhoux.
 Enables you to easily create editable bi-linear and perspective warps, or a combination of the two.
 
+[![Build status](https://travis-ci.org/prisonerjohn/ofxWarp.svg?branch=master)](https://travis-ci.org/prisonerjohn/ofxWarp)
+[![Build status](https://ci.appveyor.com/api/projects/status/2f3a7456lo33gt9c/branch/master?svg=true)](https://ci.appveyor.com/project/prisonerjohn/ofxwarp/branch/master)
+
 #### From the [Cinder-Warping](https://github.com/paulhoux/Cinder-Warping) README:
 
 Image warping, as used in this addon, is the process of manipulating an image so that it can be projected onto flat or curved surfaces without distortion. There are three types of warps available:
