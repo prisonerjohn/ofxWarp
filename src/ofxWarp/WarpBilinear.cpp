@@ -491,7 +491,7 @@ namespace ofxWarp
 				for (auto col = 0; col < n; ++col)
 				{
 					auto idx = (col * this->numControlsY) + row;
-                    tempPoints[idx] = polyline.getPointAtPercent(col * step).xy();
+					tempPoints[idx] = glm::vec2(polyline.getPointAtPercent(col * step));
 				}
 			}
 			else 
@@ -532,7 +532,7 @@ namespace ofxWarp
 				for (auto col = 0; col < n; ++col)
 				{
 					auto idx = (col * this->numControlsY) + row; 
-                    tempPoints[idx] = polyline.getPointAtPercent(col * step).xy();
+					tempPoints[idx] = glm::vec2(polyline.getPointAtPercent(col * step));
 				}
 			}
 		}
@@ -577,7 +577,7 @@ namespace ofxWarp
 				for (auto row = 0; row < n; ++row) 
 				{
 					auto idx = (col * n) + row;
-                    tempPoints[idx] = polyline.getPointAtPercent(row * step).xy();
+					tempPoints[idx] = glm::vec2(polyline.getPointAtPercent(row * step));
 				}
 			}
 			else 
@@ -618,7 +618,7 @@ namespace ofxWarp
 				for (auto row = 0; row < n; ++row) 
 				{
 					auto idx = (col * n) + row;
-                    tempPoints[idx] = polyline.getPointAtPercent(row * step).xy();
+					tempPoints[idx] = glm::vec2(polyline.getPointAtPercent(row * step));
 				}
 			}
 		}
