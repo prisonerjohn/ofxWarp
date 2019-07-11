@@ -41,6 +41,14 @@ void ofApp::setup()
 		warp->setSize(this->texture.getWidth(), this->texture.getHeight());
 		warp->setEdges(glm::vec4(0.0f, 1.0f, 1.0f, 0.0f));
 	}
+	else
+	{
+		for (auto i = 0; i < this->warpController.getNumWarps(); ++i)
+		{
+			auto warp = this->warpController.getWarp(i);
+			warp->setSize(this->texture.getWidth(), this->texture.getHeight());
+		}
+	}
 
 	this->srcAreas.resize(this->warpController.getNumWarps());
 
